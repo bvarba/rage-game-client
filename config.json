@@ -1,0 +1,23 @@
+{
+	"games": [
+		{
+			"name": "Throw-o-ling",
+			"turns": 10,
+			"minPlayers": 1,
+			"maxPlayers": 1,
+			"clutchScore": 7,
+			"clutchTurns": [5, 10]
+		},
+		{
+			"name": "Tournament"
+		},
+		{
+
+		}
+	],
+	"avatars": [
+		"viking",
+		"apache",
+		""
+	]
+}
