@@ -5,9 +5,11 @@ const choo = require('choo')
 const html = require('choo/html')
 const extend = require('just-extend')
 const insertCSS = require('insert-styles')
-const style = require('./style')
+const config = require('./config')
+const fs = require('fs')
 
-insertCSS(style)
+
+insertCSS(fs.readFileSync(__dirname + '/index.css', 'utf-8'));
 
 
 const app = choo()
@@ -92,7 +94,7 @@ app.model({
 app.model({
 	state: {
 		//app state
-		title: 'Rage game',
+		title: 'Rage Academy',
 		language: 'en',
 		maxPlayers: 3,
 		players: [],
@@ -147,14 +149,15 @@ app.model({
 
 
 app.router(route => [
-	// route('/', require('./views/main')),
-	// route('players', require('./views/players')),
-	route('/', require('./views/game')),
+	route('/', require('./views/main')),
+	route('players', require('./views/players')),
+	route('game', require('./views/game')),
 	route('stats', require('./views/stats'))
 ])
 
-
 const tree = app.start();
+
+document.body.classList.add('game');
 document.body.appendChild(tree);
 
 

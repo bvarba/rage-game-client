@@ -6,8 +6,8 @@ const html = require('choo/html')
 
 module.exports = (state, prev, send) => {
 	return html`
-<section class="page page-game">
-	<h1>${state.game.title}</h1>
+<section class="page page--game">
+	<h1 class="page-title">${state.game.title}</h1>
 
 	<div class="aim">
 		<div class="aim-clutch-1" onclick=${e => send('game:clutch')}></div>
