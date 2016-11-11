@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>rage-game</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta charset=utf-8><meta name="application-name" content="rage-game">
+<meta name="subject" content="Games for rage academy">
+<meta name="abstract" content="Games for rage academy">
+<meta name="twitter:title" content="rage-game">
+<meta name="description" content="Games for rage academy">
+<meta name="twitter:description" content="Games for rage academy">
+<meta name="author" content="&Delta;Y &lt;dfcreative&commat;gmail&period;com&gt;">
+<meta name="twitter:creator" content="&Delta;Y &lt;dfcreative&commat;gmail&period;com&gt;">
+<meta name="twitter:card" content="summary">
+<meta itemprop="title" content="rage-game">
+<meta itemprop="description" content="Games for rage academy">
+<meta property="og:title" content="rage-game">
+<meta property="og:description" content="Games for rage academy">
+<meta property="article:author" content="&Delta;Y &lt;dfcreative&commat;gmail&period;com&gt;">
+</head>
+<body></body>
+<script>
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+
+},{}],2:[function(require,module,exports){
+'use strict';
+module.exports = [
+    './images/a1.png',
+    './images/a2.png',
+    './images/a3.png',
+    './images/a4.png',
+    './images/a5.png'
+];
+},{}],3:[function(require,module,exports){
+module.exports={
+	"games": [
+		{
+			"name": "Throw-o-ling",
+			"turns": 10,
+			"minPlayers": 1,
+			"maxPlayers": 1,
+			"clutchScore": 7,
+			"clutchTurns": [5, 10]
+		},
+		{
+			"name": "Tournament"
+		},
+		{
+
+		}
+	],
+	"avatars": [
+		"avatar-1.png",
+		"avatar-2.png",
+		"avatar-3.png",
+		"avatar-4.png",
+		"avatar-5.png",
+		"avatar-6.png",
+		"avatar-7.png"
+	]
+}
+
+},{}],4:[function(require,module,exports){
+'use strict';
+require('enable-mobile');
+var choo = require('choo');
+var html = require('choo/html');
+var extend = require('just-extend');
+var insertCSS = require('insert-styles');
+var config = require('./config');
+var clone = require('deep-copy');
+insertCSS('@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Raleway-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Raleway-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Raleway-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Raleway-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Raleway-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Raleway-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Raleway-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Roboto-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Roboto-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Roboto-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Roboto-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Roboto-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Roboto-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Roboto-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n[hidden] {\r\n\tdisplay: none!important;\r\n}\r\n\r\n.game {\r\n\t/* .bluehour https://github.com/evankarageorgos/hue/blob/master/hue.css */\r\n\tbackground: -webkit-linear-gradient(left, #7E898F 0%, #636C75 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground: linear-gradient(90deg, #7E898F 0%, #636C75 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground-blend-mode: multiply, screen;\r\n\tbackground-size: cover;\r\n\theight: 100vh;\r\n\twidth: 100vw;\r\n\toverflow: hidden;\r\n\tfont-family: Raleway;\r\n\tfont-weight: 400;\r\n\tcolor: white;\r\n}\r\n\r\n\r\n.page {\r\n\ttext-align: center;\r\n\tpadding-top: 2.4rem;\r\n}\r\n\r\n.page-title {\r\n\tmargin: 0;\r\n}\r\n\r\nh1 {\r\n\tfont-size: 2.4rem;\r\n\tfont-weight: 700;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\nh2 {\r\n\tfont-size: 1.6rem;\r\n\tfont-weight: 600;\r\n\tletter-spacing: .01em;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\n\r\n/** Switch style */\r\n.switch {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\tmargin-left: -1px;\r\n}\r\n.switch-input {\r\n\tdisplay: none;\r\n}\r\n.switch-label {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2.4rem;\r\n\theight: 2.4rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n}\r\n.switch-label:hover {\r\n\tcolor: white;\r\n}\r\n.switch-label:last-child {\r\n\tmargin-right: 0;\r\n}\r\n.switch-input:checked + .switch-label {\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.switch-input:checked + .switch-label:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.button {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\ttext-decoration: none;\r\n\tborder: none;\r\n\toutline: none;\r\n\tpadding: .5rem 2rem;\r\n\tfont-weight: 800;\r\n\tmin-height: 2rem;\r\n\tline-height: 2rem;\r\n\tcolor: #393F44;\r\n\tmin-width: 8rem;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\ttext-transform: uppercase;\r\n\tfont-size: 1.2em;\r\n\tletter-spacing: .1ex;\r\n\tbackground: white;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n\tmargin-bottom: .5rem;\r\n}\r\n.button:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.button:active {\r\n}\r\n\r\n.button-outline {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.text-input {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\t-o-appearance:none;\r\n\tborder: none;\r\n\theight: 2.5rem;\r\n\tline-height: 2.5rem;\r\n\tpadding: 0;\r\n\twidth: 100%;\r\n\tborder-radius: .5rem;\r\n\tpadding-left: .4em;\r\n\tbackground: rgba(29, 33, 37, 0.38);\r\n\tbox-shadow: inset 0 2px 6px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.2);\r\n\tcolor: white;\r\n\ttext-shadow: none;\r\n}\r\n\r\n\r\n.avatar {\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tcursor: pointer;\r\n\toverflow: hidden;\r\n}\r\n.avatar-image {\r\n\tdisplay: block;\r\n\twidth: 5rem;\r\n\theight: 5rem;\r\n}\r\n\r\n\r\n/** main page style */\r\n.main-content {\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tbottom: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\theight: 65vh;\r\n\tmargin: auto;\r\n}\r\n.main-content .switch {\r\n\tfont-size: 1.4rem;\r\n}\r\n.switch--players {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n/* players page custom styles */\r\n.players-list {\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n\tmargin: 0;\r\n}\r\n.player {\r\n\tclear: both;\r\n\tmargin-bottom: 1rem;\r\n}\r\n.player-avatar {\r\n\tmargin-right: .5rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}\r\n.player-credentials {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n\twidth: 15rem;\r\n}\r\n.player-name {\r\n\tborder-bottom-left-radius: 0;\r\n\tborder-bottom-right-radius: 0;\r\n\tmargin-bottom: .15rem;\r\n}\r\n.player-email {\r\n\tborder-top-left-radius: 0;\r\n\tborder-top-right-radius: 0;\r\n}\r\n\r\n\r\n\r\n/* game page custom styles */\r\n.aim {\r\n\tfont-family: Roboto;\r\n\twidth: 100%;\r\n\tposition: absolute;\r\n\ttop: -2rem;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\tmargin:\tauto;\r\n\twidth: 100vmin;\r\n\theight: 100vmin;\r\n\tmax-width: 360px;\r\n\tmax-height: 360px;\r\n}\r\n\r\n.aim-1 {\r\n\tcursor: pointer;\r\n\twidth: 90%;\r\n\theight: 90%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\tbackground: white;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n\tbox-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);\r\n}\r\n.aim-1:after, .aim-1:before {\r\n\tcontent: \'1\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 15%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-1:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n\r\n.aim-2 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\theight: 57%;\r\n\twidth: 57%;\r\n\tborder: 1rem solid #4F16D0;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-2:after, .aim-2:before {\r\n\tcontent: \'2\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 25%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-2:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n.aim-5 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\twidth: 22.5%;\r\n\theight: 22.5%;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\ttop: 0;\r\n\tmargin: auto;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-5:after {\r\n\tcontent: \'5\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n\r\n.aim-clutch {\r\n\tposition: absolute;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n\tbackground: rgb(35,33,33);\r\n\ttop: 0;\r\n\tcursor: pointer;\r\n\tborder-radius: 2rem;\r\n\topacity: .15;\r\n\tbox-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);\r\n}\r\n.aim-clutch--active {\r\n\topacity: 1;\r\n}\r\n.aim-clutch:after {\r\n\tcontent: \'7\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: white;\r\n\tfont-weight: 900;\r\n\tfont-size: 1.6rem;\r\n}\r\n\r\n.aim-clutch--left {\r\n\tleft: 0;\r\n}\r\n.aim-clutch--right {\r\n\tright: 0;\r\n}\r\n\r\n\r\n.game-turn {\r\n\tfont-family: Roboto;\r\n}\r\n.game-undo {\r\n\tmargin-top: 1rem;\r\n\tfont-weight: 200;\r\n\tfont-size: 1.2rem;\r\n\tvertical-align: middle;\r\n\tline-height: 2rem;\r\n\theight: 2rem;\r\n\tcursor: pointer;\r\n}\r\n.game-players {\r\n\tposition: absolute;\r\n\tbottom: 0rem;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n}\r\n.game-player {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tmargin-right: .75rem;\r\n\tcursor: pointer;\r\n}\r\n.game-player-image {\r\n\toverflow: hidden;\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tdisplay: block;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n}\r\n.game-player--active .game-player-image {\r\n\tborder: .5rem solid white;\r\n}\r\n.game-player-name {\r\n\tmargin-top: .5rem;\r\n\tmargin-bottom: 0;\r\n}\r\n.game-player-score {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n\r\n/* stats page */\r\n.stats-table {\r\n\twidth: 100%;\r\n\tmargin-top: 4rem;\r\n\tmargin-bottom: 4rem;\r\n}\r\n');
+var app = choo();
+app.model({
+    namespace: 'game',
+    state: {
+        title: 'Throw-o-ling',
+        players: [],
+        turn: 1,
+        maxTurns: 10,
+        currentPlayerId: 0,
+        isClutch: false,
+        clutchTurns: [
+            5,
+            10
+        ],
+        clutchScore: 7,
+        maxPlayers: 3,
+        isEnded: false,
+        prevState: null
+    },
+    subscriptions: [function (send, done) {
+        }],
+    effects: {
+        clutch: function (score, state, send, done) {
+            if (state.clutchTurns.indexOf(state.turn) >= 0) {
+                send('game:hit', {
+                    score: state.clutchScore,
+                    clutch: true
+                }, done);
+            } else {
+                send('game:hit', 0, done);
+            }
+        },
+        hit: function (data, state, send, done) {
+            send('game:nextTurn', data, function (_, state) {
+                if (state.game.turn > state.game.maxTurns) {
+                    send('location:setLocation', { location: 'stats' }, done);
+                } else {
+                    done();
+                }
+            });
+        },
+        create: function (users, state, send, done) {
+            send('game:clear', null, function () {
+            });
+            if (!Array.isArray(users)) {
+                users = [users];
+            }
+            ;
+            users.forEach(function (user) {
+                send('game:addPlayer', user, function () {
+                });
+            });
+            done();
+        },
+        save: function (data, state, send, done) {
+            console.log('Save game results:', data);
+        }
+    },
+    reducers: {
+        nextTurn: function (data, state) {
+            if (state.isEnded) {
+                return state;
+            }
+            var oldState = state;
+            state = clone(state);
+            state.prevState = oldState;
+            if (typeof data === 'number') {
+                data = { score: data };
+            }
+            data = data || {};
+            data.score = data.score || 0;
+            state.players[state.currentPlayerId].score.push(data.score);
+            if (data.clutch) {
+                state.players[state.currentPlayerId].clutches++;
+            }
+            state.currentPlayerId++;
+            if (state.currentPlayerId >= state.players.length) {
+                state.currentPlayerId = 0;
+                state.turn++;
+            }
+            ;
+            if (state.clutchTurns.indexOf(state.turn) >= 0) {
+                state.isClutch = true;
+            } else {
+                state.isClutch = false;
+            }
+            return state;
+        },
+        undoTurn: function (_, state) {
+            if (!state.prevState) {
+                return state;
+            }
+            return state.prevState;
+        },
+        clear: function (_, state) {
+            state.players.length = 0;
+            state.turn = 1;
+            state.currentPlayerId = 0;
+            state.isClutch = false;
+            state.isEnded = false;
+            state.prevState = null;
+            return state;
+        },
+        addPlayer: function (user, state) {
+            state.players.push({
+                id: state.players.length,
+                user: user,
+                score: [],
+                clutches: 0
+            });
+            return state;
+        }
+    }
+});
+app.model({
+    state: {
+        title: 'Rage Academy',
+        language: 'en',
+        users: Array(3)
+    },
+    reducers: {
+        setLanguage: function (data, state) {
+            state.language = data;
+            return state;
+        },
+        setUsers: function (count, state) {
+            state.users.length = count;
+            return state;
+        },
+        updateUser: function (data, state) {
+            extend(state.users[data.player.id], data.data);
+            return state;
+        },
+        initUsers: function (data, state) {
+            for (var i = 0; i < state.users.length; i++) {
+                state.users[i] = {
+                    id: i,
+                    name: '',
+                    email: '',
+                    avatar: config.avatars[Math.floor(Math.random() * config.avatars.length)]
+                };
+            }
+            return state;
+        },
+        randomizeAvatar: function (player, state) {
+            var avatar = player.avatar;
+            while (avatar == player.avatar) {
+                avatar = config.avatars[Math.floor(Math.random() * config.avatars.length)];
+            }
+            player.avatar = avatar;
+            state.users[player.id] = player;
+            return state;
+        }
+    }
+});
+app.router(function (route) {
+    return [
+        route('/', require('./views/main')),
+        route('players', require('./views/players')),
+        route('game', require('./views/game')),
+        route('stats', require('./views/stats'))
+    ];
+});
+var tree = app.start();
+document.body.classList.add('game');
+document.body.appendChild(tree);
+},{"./config":3,"./views/game":37,"./views/main":38,"./views/players":39,"./views/stats":40,"choo":9,"choo/html":8,"deep-copy":14,"enable-mobile":17,"insert-styles":24,"just-extend":25}],5:[function(require,module,exports){
+module.exports = applyHook;
+function applyHook(arr, arg1, arg2, arg3, arg4, arg5) {
+    arr.forEach(function (fn) {
+        fn(arg1, arg2, arg3, arg4, arg5);
+    });
+}
+},{}],6:[function(require,module,exports){
+var mutate = require('xtend/mutable');
+var xtend = require('xtend');
+var applyHook = require('./apply-hook');
+module.exports = dispatcher;
+function dispatcher(hooks) {
+    hooks = hooks || {};
+    var onStateChangeHooks = [];
+    var onActionHooks = [];
+    var onErrorHooks = [];
+    var subscriptionWraps = [];
+    var initialStateWraps = [];
+    var reducerWraps = [];
+    var effectWraps = [];
+    use(hooks);
+    var reducersCalled = false;
+    var effectsCalled = false;
+    var stateCalled = false;
+    var subsCalled = false;
+    var subscriptions = start._subscriptions = {};
+    var reducers = start._reducers = {};
+    var effects = start._effects = {};
+    var models = start._models = [];
+    var _state = {};
+    start.model = setModel;
+    start.state = getState;
+    start.start = start;
+    start.use = use;
+    return start;
+    function use(hooks) {
+        if (hooks.onStateChange) {
+            onStateChangeHooks.push(hooks.onStateChange);
+        }
+        if (hooks.onError) {
+            onErrorHooks.push(wrapOnError(hooks.onError));
+        }
+        if (hooks.onAction) {
+            onActionHooks.push(hooks.onAction);
+        }
+        if (hooks.wrapSubscriptions) {
+            subscriptionWraps.push(hooks.wrapSubscriptions);
+        }
+        if (hooks.wrapInitialState) {
+            initialStateWraps.push(hooks.wrapInitialState);
+        }
+        if (hooks.wrapReducers) {
+            reducerWraps.push(hooks.wrapReducers);
+        }
+        if (hooks.wrapEffects) {
+            effectWraps.push(hooks.wrapEffects);
+        }
+    }
+    function setModel(model) {
+        models.push(model);
+    }
+    function getState(opts) {
+        opts = opts || {};
+        var state = opts.state;
+        if (!opts.state && opts.freeze === false) {
+            return xtend(_state);
+        } else if (!opts.state) {
+            return Object.freeze(xtend(_state));
+        }
+        var namespaces = [];
+        var newState = {};
+        models.forEach(function (model) {
+            var ns = model.namespace;
+            namespaces.push(ns);
+            var modelState = model.state || {};
+            if (ns) {
+                newState[ns] = newState[ns] || {};
+                apply(ns, modelState, newState);
+                newState[ns] = xtend(newState[ns], state[ns]);
+            } else {
+                mutate(newState, modelState);
+            }
+        });
+        Object.keys(state).forEach(function (key) {
+            if (namespaces.indexOf(key) !== -1) {
+                return;
+            }
+            newState[key] = state[key];
+        });
+        var tmpState = xtend(_state, xtend(state, newState));
+        var wrappedState = wrapHook(tmpState, initialStateWraps);
+        return opts.freeze === false ? wrappedState : Object.freeze(wrappedState);
+    }
+    function start(opts) {
+        opts = opts || {};
+        models.forEach(function (model) {
+            var ns = model.namespace;
+            if (!stateCalled && model.state && opts.state !== false) {
+                var modelState = model.state || {};
+                if (ns) {
+                    _state[ns] = _state[ns] || {};
+                    apply(ns, modelState, _state);
+                } else {
+                    mutate(_state, modelState);
+                }
+            }
+            if (!reducersCalled && model.reducers && opts.reducers !== false) {
+                apply(ns, model.reducers, reducers, function (cb) {
+                    return wrapHook(cb, reducerWraps);
+                });
+            }
+            if (!effectsCalled && model.effects && opts.effects !== false) {
+                apply(ns, model.effects, effects, function (cb) {
+                    return wrapHook(cb, effectWraps);
+                });
+            }
+            if (!subsCalled && model.subscriptions && opts.subscriptions !== false) {
+                apply(ns, model.subscriptions, subscriptions, function (cb, key) {
+                    var send = createSend('subscription: ' + (ns ? ns + ':' + key : key));
+                    cb = wrapHook(cb, subscriptionWraps);
+                    cb(send, function (err) {
+                        applyHook(onErrorHooks, err, _state, createSend);
+                    });
+                    return cb;
+                });
+            }
+        });
+        if (!stateCalled && opts.state !== false) {
+            _state = wrapHook(_state, initialStateWraps);
+        }
+        if (!opts.noSubscriptions) {
+            subsCalled = true;
+        }
+        if (!opts.noReducers) {
+            reducersCalled = true;
+        }
+        if (!opts.noEffects) {
+            effectsCalled = true;
+        }
+        if (!opts.noState) {
+            stateCalled = true;
+        }
+        if (!onErrorHooks.length) {
+            onErrorHooks.push(wrapOnError(defaultOnError));
+        }
+        return createSend;
+        function createSend(selfName, callOnError) {
+            return function send(name, data, cb) {
+                if (!cb && !callOnError) {
+                    cb = data;
+                    data = null;
+                }
+                data = typeof data === 'undefined' ? null : data;
+                var done = callOnError ? onErrorCallback : cb;
+                _send(name, data, selfName, done);
+                function onErrorCallback(err) {
+                    err = err || null;
+                    if (err) {
+                        applyHook(onErrorHooks, err, _state, function createSend(selfName) {
+                            return function send(name, data) {
+                                data = typeof data === 'undefined' ? null : data;
+                                _send(name, data, selfName, done);
+                            };
+                        });
+                    }
+                }
+            };
+        }
+        function _send(name, data, caller, cb) {
+            setTimeout(function () {
+                var reducersCalled = false;
+                var effectsCalled = false;
+                var newState = xtend(_state);
+                if (onActionHooks.length) {
+                    applyHook(onActionHooks, data, _state, name, caller, createSend);
+                }
+                var actionName = name;
+                if (/:/.test(name)) {
+                    var arr = name.split(':');
+                    var ns = arr.shift();
+                    actionName = arr.join(':');
+                }
+                var _reducers = ns ? reducers[ns] : reducers;
+                if (_reducers && _reducers[actionName]) {
+                    if (ns) {
+                        var reducedState = _reducers[actionName](data, _state[ns]);
+                        newState[ns] = xtend(_state[ns], reducedState);
+                    } else {
+                        mutate(newState, reducers[actionName](data, _state));
+                    }
+                    reducersCalled = true;
+                    if (onStateChangeHooks.length) {
+                        applyHook(onStateChangeHooks, data, newState, _state, actionName, createSend);
+                    }
+                    _state = newState;
+                    cb(null, newState);
+                }
+                var _effects = ns ? effects[ns] : effects;
+                if (!reducersCalled && _effects && _effects[actionName]) {
+                    var send = createSend('effect: ' + name);
+                    if (ns) {
+                        _effects[actionName](data, _state[ns], send, cb);
+                    } else {
+                        _effects[actionName](data, _state, send, cb);
+                    }
+                    effectsCalled = true;
+                }
+                if (!reducersCalled && !effectsCalled) {
+                    throw new Error('Could not find action ' + actionName);
+                }
+            }, 0);
+        }
+    }
+}
+function apply(ns, source, target, wrap) {
+    if (ns && !target[ns]) {
+        target[ns] = {};
+    }
+    Object.keys(source).forEach(function (key) {
+        var cb = wrap ? wrap(source[key], key) : source[key];
+        if (ns) {
+            target[ns][key] = cb;
+        } else {
+            target[key] = cb;
+        }
+    });
+}
+function defaultOnError(err) {
+    throw err;
+}
+function wrapOnError(onError) {
+    return function onErrorWrap(err, state, createSend) {
+        if (err) {
+            onError(err, state, createSend);
+        }
+    };
+}
+function wrapHook(value, transforms) {
+    transforms.forEach(function (transform) {
+        value = transform(value);
+    });
+    return value;
+}
+},{"./apply-hook":5,"xtend":33,"xtend/mutable":34}],7:[function(require,module,exports){
+var document = require('global/document');
+var hyperx = require('hyperx');
+var onload = require('on-load');
+var SVGNS = 'http://www.w3.org/2000/svg';
+var XLINKNS = 'http://www.w3.org/1999/xlink';
+var BOOL_PROPS = {
+    autofocus: 1,
+    checked: 1,
+    defaultchecked: 1,
+    disabled: 1,
+    formnovalidate: 1,
+    indeterminate: 1,
+    readonly: 1,
+    required: 1,
+    selected: 1,
+    willvalidate: 1
+};
+var SVG_TAGS = [
+    'svg',
+    'altGlyph',
+    'altGlyphDef',
+    'altGlyphItem',
+    'animate',
+    'animateColor',
+    'animateMotion',
+    'animateTransform',
+    'circle',
+    'clipPath',
+    'color-profile',
+    'cursor',
+    'defs',
+    'desc',
+    'ellipse',
+    'feBlend',
+    'feColorMatrix',
+    'feComponentTransfer',
+    'feComposite',
+    'feConvolveMatrix',
+    'feDiffuseLighting',
+    'feDisplacementMap',
+    'feDistantLight',
+    'feFlood',
+    'feFuncA',
+    'feFuncB',
+    'feFuncG',
+    'feFuncR',
+    'feGaussianBlur',
+    'feImage',
+    'feMerge',
+    'feMergeNode',
+    'feMorphology',
+    'feOffset',
+    'fePointLight',
+    'feSpecularLighting',
+    'feSpotLight',
+    'feTile',
+    'feTurbulence',
+    'filter',
+    'font',
+    'font-face',
+    'font-face-format',
+    'font-face-name',
+    'font-face-src',
+    'font-face-uri',
+    'foreignObject',
+    'g',
+    'glyph',
+    'glyphRef',
+    'hkern',
+    'image',
+    'line',
+    'linearGradient',
+    'marker',
+    'mask',
+    'metadata',
+    'missing-glyph',
+    'mpath',
+    'path',
+    'pattern',
+    'polygon',
+    'polyline',
+    'radialGradient',
+    'rect',
+    'set',
+    'stop',
+    'switch',
+    'symbol',
+    'text',
+    'textPath',
+    'title',
+    'tref',
+    'tspan',
+    'use',
+    'view',
+    'vkern'
+];
+function belCreateElement(tag, props, children) {
+    var el;
+    if (SVG_TAGS.indexOf(tag) !== -1) {
+        props.namespace = SVGNS;
+    }
+    var ns = false;
+    if (props.namespace) {
+        ns = props.namespace;
+        delete props.namespace;
+    }
+    if (ns) {
+        el = document.createElementNS(ns, tag);
+    } else {
+        el = document.createElement(tag);
+    }
+    if (props.onload || props.onunload) {
+        var load = props.onload || function () {
+        };
+        var unload = props.onunload || function () {
+        };
+        onload(el, function belOnload() {
+            load(el);
+        }, function belOnunload() {
+            unload(el);
+        }, belCreateElement.caller.caller.caller);
+        delete props.onload;
+        delete props.onunload;
+    }
+    for (var p in props) {
+        if (props.hasOwnProperty(p)) {
+            var key = p.toLowerCase();
+            var val = props[p];
+            if (key === 'classname') {
+                key = 'class';
+                p = 'class';
+            }
+            if (p === 'htmlFor') {
+                p = 'for';
+            }
+            if (BOOL_PROPS[key]) {
+                if (val === 'true') {
+                    val = key;
+                } else if (val === 'false') {
+                    continue;
+                }
+            }
+            if (key.slice(0, 2) === 'on') {
+                el[p] = val;
+            } else {
+                if (ns) {
+                    if (p === 'xlink:href') {
+                        el.setAttributeNS(XLINKNS, p, val);
+                    } else {
+                        el.setAttributeNS(null, p, val);
+                    }
+                } else {
+                    el.setAttribute(p, val);
+                }
+            }
+        }
+    }
+    function appendChild(childs) {
+        if (!Array.isArray(childs)) {
+            return;
+        }
+        for (var i = 0; i < childs.length; i++) {
+            var node = childs[i];
+            if (Array.isArray(node)) {
+                appendChild(node);
+                continue;
+            }
+            if (typeof node === 'number' || typeof node === 'boolean' || node instanceof Date || node instanceof RegExp) {
+                node = node.toString();
+            }
+            if (typeof node === 'string') {
+                if (el.lastChild && el.lastChild.nodeName === '#text') {
+                    el.lastChild.nodeValue += node;
+                    continue;
+                }
+                node = document.createTextNode(node);
+            }
+            if (node && node.nodeType) {
+                el.appendChild(node);
+            }
+        }
+    }
+    appendChild(children);
+    return el;
+}
+module.exports = hyperx(belCreateElement);
+module.exports.createElement = belCreateElement;
+},{"global/document":19,"hyperx":23,"on-load":28}],8:[function(require,module,exports){
+module.exports = require('yo-yo');
+},{"yo-yo":35}],9:[function(require,module,exports){
+var history = require('sheet-router/history');
+var sheetRouter = require('sheet-router');
+var document = require('global/document');
+var onReady = require('document-ready');
+var href = require('sheet-router/href');
+var hash = require('sheet-router/hash');
+var hashMatch = require('hash-match');
+var barracks = require('barracks');
+var nanoraf = require('nanoraf');
+var xtend = require('xtend');
+var yo = require('yo-yo');
+module.exports = choo;
+function choo(opts) {
+    opts = opts || {};
+    var _store = start._store = barracks();
+    var _router = start._router = null;
+    var _defaultRoute = null;
+    var _rootNode = null;
+    var _routes = null;
+    var _frame = null;
+    _store.use({ onStateChange: render });
+    _store.use(opts);
+    start.toString = toString;
+    start.router = router;
+    start.model = model;
+    start.start = start;
+    start.use = use;
+    return start;
+    function toString(route, serverState) {
+        serverState = serverState || {};
+        _store.start({
+            subscriptions: false,
+            reducers: false,
+            effects: false
+        });
+        var state = _store.state({ state: serverState });
+        var router = createRouter(_defaultRoute, _routes, createSend);
+        var tree = router(route, state);
+        return tree.outerHTML || tree.toString();
+        function createSend() {
+            return function send() {
+            };
+        }
+    }
+    function start(selector, startOpts) {
+        if (!startOpts && typeof selector !== 'string') {
+            startOpts = selector;
+            selector = null;
+        }
+        startOpts = startOpts || {};
+        _store.model(appInit(startOpts));
+        var createSend = _store.start(startOpts);
+        _router = start._router = createRouter(_defaultRoute, _routes, createSend);
+        var state = _store.state({ state: {} });
+        if (!selector) {
+            var tree = _router(state.location.pathname, state);
+            _rootNode = tree;
+            return tree;
+        } else {
+            onReady(function onReady() {
+                var oldTree = document.querySelector(selector);
+                var newTree = _router(state.location.pathname, state);
+                _rootNode = yo.update(oldTree, newTree);
+            });
+        }
+    }
+    function render(data, state, prev, name, createSend) {
+        if (!_frame) {
+            _frame = nanoraf(function (state, prev) {
+                var newTree = _router(state.location.pathname, state, prev);
+                _rootNode = yo.update(_rootNode, newTree);
+            });
+        }
+        _frame(state, prev);
+    }
+    function router(defaultRoute, routes) {
+        _defaultRoute = defaultRoute;
+        _routes = routes;
+    }
+    function model(model) {
+        _store.model(model);
+    }
+    function use(hooks) {
+        _store.use(hooks);
+    }
+    function createRouter(defaultRoute, routes, createSend) {
+        var prev = { params: {} };
+        return sheetRouter(defaultRoute, routes, createRoute);
+        function createRoute(routeFn) {
+            return function (route, inline, child) {
+                if (typeof inline === 'function') {
+                    inline = wrap(inline, route);
+                }
+                return routeFn(route, inline, child);
+            };
+            function wrap(child, route) {
+                var send = createSend('view: ' + route, true);
+                return function chooWrap(params, state) {
+                    var nwPrev = prev;
+                    var nwState = prev = xtend(state, { params: params });
+                    if (opts.freeze !== false) {
+                        Object.freeze(nwState);
+                    }
+                    return child(nwState, nwPrev, send);
+                };
+            }
+        }
+    }
+}
+function appInit(opts) {
+    var loc = document.location;
+    var state = { pathname: opts.hash ? hashMatch(loc.hash) : loc.href };
+    var reducers = {
+        setLocation: function setLocation(data, state) {
+            return { pathname: data.location.replace(/#.*/, '') };
+        }
+    };
+    var subs = {};
+    if (opts.hash === true) {
+        pushLocationSub(function (navigate) {
+            hash(function (fragment) {
+                navigate(hashMatch(fragment));
+            });
+        }, 'handleHash', subs);
+    } else {
+        if (opts.history !== false) {
+            pushLocationSub(history, 'handleHistory', subs);
+        }
+        if (opts.href !== false) {
+            pushLocationSub(href, 'handleHref', subs);
+        }
+    }
+    return {
+        namespace: 'location',
+        subscriptions: subs,
+        reducers: reducers,
+        state: state
+    };
+    function pushLocationSub(cb, key, model) {
+        model[key] = function (send, done) {
+            cb(function navigate(pathname) {
+                send('location:setLocation', { location: pathname }, done);
+            });
+        };
+    }
+}
+},{"barracks":6,"document-ready":15,"global/document":19,"hash-match":21,"nanoraf":27,"sheet-router":13,"sheet-router/hash":10,"sheet-router/history":11,"sheet-router/href":12,"xtend":33,"yo-yo":35}],10:[function(require,module,exports){
+var window = require('global/window');
+module.exports = hash;
+function hash(cb) {
+    window.onhashchange = function (e) {
+        cb(window.location.hash);
+    };
+}
+},{"global/window":20}],11:[function(require,module,exports){
+var document = require('global/document');
+var window = require('global/window');
+module.exports = history;
+function history(cb) {
+    window.onpopstate = function () {
+        cb(document.location.href);
+    };
+}
+},{"global/document":19,"global/window":20}],12:[function(require,module,exports){
+var window = require('global/window');
+module.exports = href;
+function href(cb) {
+    window.onclick = function (e) {
+        var node = function traverse(node) {
+            if (!node) {
+                return;
+            }
+            if (node.localName !== 'a') {
+                return traverse(node.parentNode);
+            }
+            if (node.href === undefined) {
+                return traverse(node.parentNode);
+            }
+            if (window.location.host !== node.host) {
+                return traverse(node.parentNode);
+            }
+            return node;
+        }(e.target);
+        if (!node) {
+            return;
+        }
+        e.preventDefault();
+        var href = node.href.replace(/#$/, '');
+        cb(href);
+        window.history.pushState({}, null, href);
+    };
+}
+},{"global/window":20}],13:[function(require,module,exports){
+var pathname = require('pathname-match');
+var wayfarer = require('wayfarer');
+module.exports = sheetRouter;
+function sheetRouter(dft, createTree, createRoute) {
+    createRoute = createRoute ? createRoute(_createRoute) : _createRoute;
+    if (!createTree) {
+        createTree = dft;
+        dft = '';
+    }
+    var router = wayfarer(dft);
+    var tree = createTree(createRoute);
+    (function walk(tree, route) {
+        if (Array.isArray(tree[0])) {
+            tree.forEach(function (node) {
+                walk(node, route);
+            });
+        } else if (tree[1]) {
+            var innerRoute = tree[0] ? route.concat(tree[0]).join('/') : route.length ? route.join('/') : tree[0];
+            router.on(innerRoute, tree[1]);
+            walk(tree[2], route.concat(tree[0]));
+        } else if (Array.isArray(tree[2])) {
+            walk(tree[2], route.concat(tree[0]));
+        } else {
+            var nwRoute = tree[0] ? route.concat(tree[0]).join('/') : route.length ? route.join('/') : tree[0];
+            router.on(nwRoute, tree[2]);
+        }
+    }(tree, []));
+    return function match(route) {
+        var args = [].slice.call(arguments);
+        args[0] = pathname(args[0]);
+        return router.apply(null, args);
+    };
+}
+function _createRoute(route, inline, child) {
+    if (!child) {
+        child = inline;
+        inline = null;
+    }
+    route = route.replace(/^\//, '');
+    return [
+        route,
+        inline,
+        child
+    ];
+}
+},{"pathname-match":29,"wayfarer":31}],14:[function(require,module,exports){
+;
+(function (name, root, factory) {
+    if (typeof exports === 'object') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && define.amd) {
+        define(factory);
+    } else {
+        root[name] = factory();
+    }
+}('dcopy', this, function () {
+    return function (target) {
+        var copy = target instanceof Array ? [] : {};
+        (function read(target, copy) {
+            for (var key in target) {
+                var obj = target[key];
+                if (obj instanceof Array) {
+                    var value = [];
+                    var last = add(copy, key, value);
+                    read(obj, last);
+                } else if (obj instanceof Object && typeof obj !== 'function') {
+                    var value = {};
+                    var last = add(copy, key, value);
+                    read(obj, last);
+                } else {
+                    var value = obj;
+                    add(copy, key, value);
+                }
+            }
+        }(target, copy));
+        return copy;
+    };
+    function add(copy, key, value) {
+        if (copy instanceof Array) {
+            copy.push(value);
+            return copy[copy.length - 1];
+        } else if (copy instanceof Object) {
+            copy[key] = value;
+            return copy[key];
+        }
+    }
+}));
+},{}],15:[function(require,module,exports){
+'use strict';
+var document = require('global/document');
+module.exports = document.addEventListener ? ready : noop;
+function ready(callback) {
+    var state = document.readyState;
+    if (state === 'complete' || state === 'interactive') {
+        return setTimeout(callback, 0);
+    }
+    document.addEventListener('DOMContentLoaded', function onLoad() {
+        callback();
+    });
+}
+function noop() {
+}
+},{"global/document":19}],16:[function(require,module,exports){
+if (!Array.prototype.fill) {
+    Array.prototype.fill = function (value) {
+        if (this == null) {
+            throw new TypeError('this is null or not defined');
+        }
+        var O = Object(this);
+        var len = O.length >>> 0;
+        var start = arguments[1];
+        var relativeStart = start >> 0;
+        var k = relativeStart < 0 ? Math.max(len + relativeStart, 0) : Math.min(relativeStart, len);
+        var end = arguments[2];
+        var relativeEnd = end === undefined ? len : end >> 0;
+        var final = relativeEnd < 0 ? Math.max(len + relativeEnd, 0) : Math.min(relativeEnd, len);
+        while (k < final) {
+            O[k] = value;
+            k++;
+        }
+        return O;
+    };
+}
+},{}],17:[function(require,module,exports){
+require('./arr-fill');
+require('typedarray-methods');
+require('get-float-time-domain-data');
+var css = require('insert-styles');
+css('/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\n\n/* Document\n   ========================================================================== */\n\nhtml {\n  font-family: sans-serif; /* 1 */\n  line-height: 1.15; /* 2 */\n  -ms-text-size-adjust: 100%; /* 3 */\n  -webkit-text-size-adjust: 100%; /* 3 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Remove the margin in all browsers (opinionated).\n */\n\nbody {\n  margin: 0;\n}\n\n/**\n * Add the correct display in IE 9-.\n */\n\narticle,\naside,\nfooter,\nheader,\nnav,\nsection {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n * 1. Add the correct display in IE.\n */\n\nfigcaption,\nfigure,\nmain { /* 1 */\n  display: block;\n}\n\n/**\n * Add the correct margin in IE 8.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * 1. Remove the gray background on active links in IE 10.\n * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.\n */\n\na {\n  background-color: transparent; /* 1 */\n  -webkit-text-decoration-skip: objects; /* 2 */\n}\n\n/**\n * Remove the outline on focused links when they are also active or hovered\n * in all browsers (opinionated).\n */\n\na:active,\na:hover {\n  outline-width: 0;\n}\n\n/**\n * 1. Remove the bottom border in Firefox 39-.\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Prevent the duplicate application of `bolder` by the next rule in Safari 6.\n */\n\nb,\nstrong {\n  font-weight: inherit;\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font style in Android 4.3-.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Add the correct background and color in IE 9-.\n */\n\nmark {\n  background-color: #ff0;\n  color: #000;\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\naudio,\nvideo {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in iOS 4-7.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Remove the border on images inside links in IE 10-.\n */\n\nimg {\n  border-style: none;\n}\n\n/**\n * Hide the overflow in IE.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * 1. Change the font styles in all browsers (opinionated).\n * 2. Remove the margin in Firefox and Safari.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: sans-serif; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`\n *    controls in Android 4.\n * 2. Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton,\nhtml [type="button"], /* 1 */\n[type="reset"],\n[type="submit"] {\n  -webkit-appearance: button; /* 2 */\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner,\n[type="button"]::-moz-focus-inner,\n[type="reset"]::-moz-focus-inner,\n[type="submit"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring,\n[type="button"]:-moz-focusring,\n[type="reset"]:-moz-focusring,\n[type="submit"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Change the border, margin, and padding in all browsers (opinionated).\n */\n\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * 1. Add the correct display in IE 9-.\n * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Remove the default vertical scrollbar in IE.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10-.\n * 2. Remove the padding in IE 10-.\n */\n\n[type="checkbox"],\n[type="radio"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type="number"]::-webkit-inner-spin-button,\n[type="number"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type="search"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.\n */\n\n[type="search"]::-webkit-search-cancel-button,\n[type="search"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in IE 9-.\n * 1. Add the correct display in Edge, IE, and Firefox.\n */\n\ndetails, /* 1 */\nmenu {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Scripting\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\ncanvas {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in IE.\n */\n\ntemplate {\n  display: none;\n}\n\n/* Hidden\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10-.\n */\n\n[hidden] {\n  display: none;\n}\n');
+addMeta({
+    name: 'viewport',
+    content: 'width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0'
+});
+addMeta({
+    'http-equiv': 'x-ua-compatible',
+    content: 'ie=edge'
+});
+addMeta({ charset: 'utf-8' });
+function addMeta(obj) {
+    var meta = document.createElement('meta');
+    var qs = 'meta';
+    for (var name in obj) {
+        qs += '[' + name + ']';
+        meta.setAttribute(name, obj[name]);
+    }
+    if (!document.querySelector(qs)) {
+        document.head.insertBefore(meta, document.head.firstChild);
+    }
+}
+},{"./arr-fill":16,"get-float-time-domain-data":18,"insert-styles":24,"typedarray-methods":30}],18:[function(require,module,exports){
+(function (global){
+'use strict';
+if (global.AnalyserNode && !global.AnalyserNode.prototype.getFloatTimeDomainData) {
+    var uint8 = new Uint8Array(2048);
+    global.AnalyserNode.prototype.getFloatTimeDomainData = function (array) {
+        this.getByteTimeDomainData(uint8);
+        for (var i = 0, imax = array.length; i < imax; i++) {
+            array[i] = (uint8[i] - 128) * 0.0078125;
+        }
+    };
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],19:[function(require,module,exports){
+(function (global){
+var topLevel = typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : {};
+var minDoc = require('min-document');
+if (typeof document !== 'undefined') {
+    module.exports = document;
+} else {
+    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+    module.exports = doccy;
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"min-document":1}],20:[function(require,module,exports){
+(function (global){
+if (typeof window !== 'undefined') {
+    module.exports = window;
+} else if (typeof global !== 'undefined') {
+    module.exports = global;
+} else if (typeof self !== 'undefined') {
+    module.exports = self;
+} else {
+    module.exports = {};
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],21:[function(require,module,exports){
+module.exports = function hashMatch(hash, prefix) {
+    var pre = prefix || '/';
+    if (hash.length === 0) {
+        return pre;
+    }
+    hash = hash.replace('#', '');
+    hash = hash.replace(/\/$/, '');
+    if (hash.indexOf('/') != 0) {
+        hash = '/' + hash;
+    }
+    if (pre == '/') {
+        return hash;
+    } else {
+        return hash.replace(pre, '');
+    }
+};
+},{}],22:[function(require,module,exports){
+module.exports = attributeToProperty;
+var transform = {
+    'class': 'className',
+    'for': 'htmlFor',
+    'http-equiv': 'httpEquiv'
+};
+function attributeToProperty(h) {
+    return function (tagName, attrs, children) {
+        for (var attr in attrs) {
+            if (attr in transform) {
+                attrs[transform[attr]] = attrs[attr];
+                delete attrs[attr];
+            }
+        }
+        return h(tagName, attrs, children);
+    };
+}
+},{}],23:[function(require,module,exports){
+var attrToProp = require('hyperscript-attribute-to-property');
+var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4;
+var ATTR_KEY = 5, ATTR_KEY_W = 6;
+var ATTR_VALUE_W = 7, ATTR_VALUE = 8;
+var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10;
+var ATTR_EQ = 11, ATTR_BREAK = 12;
+module.exports = function (h, opts) {
+    h = attrToProp(h);
+    if (!opts) {
+        opts = {};
+    }
+    var concat = opts.concat || function (a, b) {
+        return String(a) + String(b);
+    };
+    return function (strings) {
+        var arguments$1 = arguments;
+        var state = TEXT, reg = '';
+        var arglen = arguments.length;
+        var parts = [];
+        for (var i = 0; i < strings.length; i++) {
+            if (i < arglen - 1) {
+                var arg = arguments$1[i + 1];
+                var p = parse(strings[i]);
+                var xstate = state;
+                if (xstate === ATTR_VALUE_DQ) {
+                    xstate = ATTR_VALUE;
+                }
+                if (xstate === ATTR_VALUE_SQ) {
+                    xstate = ATTR_VALUE;
+                }
+                if (xstate === ATTR_VALUE_W) {
+                    xstate = ATTR_VALUE;
+                }
+                if (xstate === ATTR) {
+                    xstate = ATTR_KEY;
+                }
+                p.push([
+                    VAR,
+                    xstate,
+                    arg
+                ]);
+                parts.push.apply(parts, p);
+            } else {
+                parts.push.apply(parts, parse(strings[i]));
+            }
+        }
+        var tree = [
+            null,
+            {},
+            []
+        ];
+        var stack = [[
+                tree,
+                -1
+            ]];
+        for (var i = 0; i < parts.length; i++) {
+            var cur = stack[stack.length - 1][0];
+            var p = parts[i], s = p[0];
+            if (s === OPEN && /^\//.test(p[1])) {
+                var ix = stack[stack.length - 1][1];
+                if (stack.length > 1) {
+                    stack.pop();
+                    stack[stack.length - 1][0][2][ix] = h(cur[0], cur[1], cur[2].length ? cur[2] : undefined);
+                }
+            } else if (s === OPEN) {
+                var c = [
+                    p[1],
+                    {},
+                    []
+                ];
+                cur[2].push(c);
+                stack.push([
+                    c,
+                    cur[2].length - 1
+                ]);
+            } else if (s === ATTR_KEY || s === VAR && p[1] === ATTR_KEY) {
+                var key = '';
+                var copyKey;
+                for (; i < parts.length; i++) {
+                    if (parts[i][0] === ATTR_KEY) {
+                        key = concat(key, parts[i][1]);
+                    } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
+                        if (typeof parts[i][2] === 'object' && !key) {
+                            for (copyKey in parts[i][2]) {
+                                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
+                                    cur[1][copyKey] = parts[i][2][copyKey];
+                                }
+                            }
+                        } else {
+                            key = concat(key, parts[i][2]);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if (parts[i][0] === ATTR_EQ) {
+                    i++;
+                }
+                var j = i;
+                for (; i < parts.length; i++) {
+                    if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
+                        if (!cur[1][key]) {
+                            cur[1][key] = strfn(parts[i][1]);
+                        } else {
+                            cur[1][key] = concat(cur[1][key], parts[i][1]);
+                        }
+                    } else if (parts[i][0] === VAR && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
+                        if (!cur[1][key]) {
+                            cur[1][key] = strfn(parts[i][2]);
+                        } else {
+                            cur[1][key] = concat(cur[1][key], parts[i][2]);
+                        }
+                    } else {
+                        if (key.length && !cur[1][key] && i === j && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
+                            cur[1][key] = key.toLowerCase();
+                        }
+                        break;
+                    }
+                }
+            } else if (s === ATTR_KEY) {
+                cur[1][p[1]] = true;
+            } else if (s === VAR && p[1] === ATTR_KEY) {
+                cur[1][p[2]] = true;
+            } else if (s === CLOSE) {
+                if (selfClosing(cur[0]) && stack.length) {
+                    var ix = stack[stack.length - 1][1];
+                    stack.pop();
+                    stack[stack.length - 1][0][2][ix] = h(cur[0], cur[1], cur[2].length ? cur[2] : undefined);
+                }
+            } else if (s === VAR && p[1] === TEXT) {
+                if (p[2] === undefined || p[2] === null) {
+                    p[2] = '';
+                } else if (!p[2]) {
+                    p[2] = concat('', p[2]);
+                }
+                if (Array.isArray(p[2][0])) {
+                    cur[2].push.apply(cur[2], p[2]);
+                } else {
+                    cur[2].push(p[2]);
+                }
+            } else if (s === TEXT) {
+                cur[2].push(p[1]);
+            } else if (s === ATTR_EQ || s === ATTR_BREAK) {
+            } else {
+                throw new Error('unhandled: ' + s);
+            }
+        }
+        if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
+            tree[2].shift();
+        }
+        if (tree[2].length > 2 || tree[2].length === 2 && /\S/.test(tree[2][1])) {
+            throw new Error('multiple root elements must be wrapped in an enclosing tag');
+        }
+        if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string' && Array.isArray(tree[2][0][2])) {
+            tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2]);
+        }
+        return tree[2][0];
+        function parse(str) {
+            var res = [];
+            if (state === ATTR_VALUE_W) {
+                state = ATTR;
+            }
+            for (var i = 0; i < str.length; i++) {
+                var c = str.charAt(i);
+                if (state === TEXT && c === '<') {
+                    if (reg.length) {
+                        res.push([
+                            TEXT,
+                            reg
+                        ]);
+                    }
+                    reg = '';
+                    state = OPEN;
+                } else if (c === '>' && !quot(state)) {
+                    if (state === OPEN) {
+                        res.push([
+                            OPEN,
+                            reg
+                        ]);
+                    } else if (state === ATTR_KEY) {
+                        res.push([
+                            ATTR_KEY,
+                            reg
+                        ]);
+                    } else if (state === ATTR_VALUE && reg.length) {
+                        res.push([
+                            ATTR_VALUE,
+                            reg
+                        ]);
+                    }
+                    res.push([CLOSE]);
+                    reg = '';
+                    state = TEXT;
+                } else if (state === TEXT) {
+                    reg += c;
+                } else if (state === OPEN && /\s/.test(c)) {
+                    res.push([
+                        OPEN,
+                        reg
+                    ]);
+                    reg = '';
+                    state = ATTR;
+                } else if (state === OPEN) {
+                    reg += c;
+                } else if (state === ATTR && /[\w-]/.test(c)) {
+                    state = ATTR_KEY;
+                    reg = c;
+                } else if (state === ATTR && /\s/.test(c)) {
+                    if (reg.length) {
+                        res.push([
+                            ATTR_KEY,
+                            reg
+                        ]);
+                    }
+                    res.push([ATTR_BREAK]);
+                } else if (state === ATTR_KEY && /\s/.test(c)) {
+                    res.push([
+                        ATTR_KEY,
+                        reg
+                    ]);
+                    reg = '';
+                    state = ATTR_KEY_W;
+                } else if (state === ATTR_KEY && c === '=') {
+                    res.push([
+                        ATTR_KEY,
+                        reg
+                    ], [ATTR_EQ]);
+                    reg = '';
+                    state = ATTR_VALUE_W;
+                } else if (state === ATTR_KEY) {
+                    reg += c;
+                } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
+                    res.push([ATTR_EQ]);
+                    state = ATTR_VALUE_W;
+                } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
+                    res.push([ATTR_BREAK]);
+                    if (/[\w-]/.test(c)) {
+                        reg += c;
+                        state = ATTR_KEY;
+                    } else {
+                        state = ATTR;
+                    }
+                } else if (state === ATTR_VALUE_W && c === '"') {
+                    state = ATTR_VALUE_DQ;
+                } else if (state === ATTR_VALUE_W && c === '\'') {
+                    state = ATTR_VALUE_SQ;
+                } else if (state === ATTR_VALUE_DQ && c === '"') {
+                    res.push([
+                        ATTR_VALUE,
+                        reg
+                    ], [ATTR_BREAK]);
+                    reg = '';
+                    state = ATTR;
+                } else if (state === ATTR_VALUE_SQ && c === '\'') {
+                    res.push([
+                        ATTR_VALUE,
+                        reg
+                    ], [ATTR_BREAK]);
+                    reg = '';
+                    state = ATTR;
+                } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
+                    state = ATTR_VALUE;
+                    i--;
+                } else if (state === ATTR_VALUE && /\s/.test(c)) {
+                    res.push([
+                        ATTR_VALUE,
+                        reg
+                    ], [ATTR_BREAK]);
+                    reg = '';
+                    state = ATTR;
+                } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ) {
+                    reg += c;
+                }
+            }
+            if (state === TEXT && reg.length) {
+                res.push([
+                    TEXT,
+                    reg
+                ]);
+                reg = '';
+            } else if (state === ATTR_VALUE && reg.length) {
+                res.push([
+                    ATTR_VALUE,
+                    reg
+                ]);
+                reg = '';
+            } else if (state === ATTR_VALUE_DQ && reg.length) {
+                res.push([
+                    ATTR_VALUE,
+                    reg
+                ]);
+                reg = '';
+            } else if (state === ATTR_VALUE_SQ && reg.length) {
+                res.push([
+                    ATTR_VALUE,
+                    reg
+                ]);
+                reg = '';
+            } else if (state === ATTR_KEY) {
+                res.push([
+                    ATTR_KEY,
+                    reg
+                ]);
+                reg = '';
+            }
+            return res;
+        }
+    };
+    function strfn(x) {
+        if (typeof x === 'function') {
+            return x;
+        } else if (typeof x === 'string') {
+            return x;
+        } else if (x && typeof x === 'object') {
+            return x;
+        } else {
+            return concat('', x);
+        }
+    }
+};
+function quot(state) {
+    return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ;
+}
+var hasOwn = Object.prototype.hasOwnProperty;
+function has(obj, key) {
+    return hasOwn.call(obj, key);
+}
+var closeRE = RegExp('^(' + [
+    'area',
+    'base',
+    'basefont',
+    'bgsound',
+    'br',
+    'col',
+    'command',
+    'embed',
+    'frame',
+    'hr',
+    'img',
+    'input',
+    'isindex',
+    'keygen',
+    'link',
+    'meta',
+    'param',
+    'source',
+    'track',
+    'wbr',
+    'animate',
+    'animateTransform',
+    'circle',
+    'cursor',
+    'desc',
+    'ellipse',
+    'feBlend',
+    'feColorMatrix',
+    'feComposite',
+    'feConvolveMatrix',
+    'feDiffuseLighting',
+    'feDisplacementMap',
+    'feDistantLight',
+    'feFlood',
+    'feFuncA',
+    'feFuncB',
+    'feFuncG',
+    'feFuncR',
+    'feGaussianBlur',
+    'feImage',
+    'feMergeNode',
+    'feMorphology',
+    'feOffset',
+    'fePointLight',
+    'feSpecularLighting',
+    'feSpotLight',
+    'feTile',
+    'feTurbulence',
+    'font-face-format',
+    'font-face-name',
+    'font-face-uri',
+    'glyph',
+    'glyphRef',
+    'hkern',
+    'image',
+    'line',
+    'missing-glyph',
+    'mpath',
+    'path',
+    'polygon',
+    'polyline',
+    'rect',
+    'set',
+    'stop',
+    'tref',
+    'use',
+    'view',
+    'vkern'
+].join('|') + ')(?:[.#][a-zA-Z0-9\x7F-\uFFFF_:-]+)*$');
+function selfClosing(tag) {
+    return closeRE.test(tag);
+}
+},{"hyperscript-attribute-to-property":22}],24:[function(require,module,exports){
+(function (global){
+'use strict';
+var cache = {};
+function noop() {
+}
+module.exports = !global.document ? noop : insertStyles;
+function insertStyles(styles, options) {
+    var id = options && options.id || styles;
+    var element = cache[id] = cache[id] || createStyle(id);
+    if ('textContent' in element) {
+        element.textContent = styles;
+    } else {
+        element.styleSheet.cssText = styles;
+    }
+}
+function createStyle(id) {
+    var element = document.getElementById(id);
+    if (element) {
+        return element;
+    }
+    element = document.createElement('style');
+    element.setAttribute('type', 'text/css');
+    document.head.appendChild(element);
+    return element;
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],25:[function(require,module,exports){
+module.exports = extend;
+function extend(obj1, obj2) {
+    var args = [].slice.call(arguments);
+    var deep = false;
+    if (typeof args[0] === 'boolean') {
+        deep = args.shift();
+    }
+    var result = args[0];
+    var extenders = args.slice(1);
+    var len = extenders.length;
+    for (var i = 0; i < len; i++) {
+        var extender = extenders[i];
+        for (var key in extender) {
+            var value = extender[key];
+            if (deep && value && typeof value == 'object') {
+                var base = Array.isArray(value) ? [] : {};
+                result[key] = extend(true, result[key] || base, value);
+            } else {
+                result[key] = value;
+            }
+        }
+    }
+    return result;
+}
+},{}],26:[function(require,module,exports){
+'use strict';
+var range;
+var doc = typeof document !== 'undefined' && document;
+var testEl = doc ? doc.body || doc.createElement('div') : {};
+var NS_XHTML = 'http://www.w3.org/1999/xhtml';
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+var COMMENT_NODE = 8;
+var hasAttributeNS;
+if (testEl.hasAttributeNS) {
+    hasAttributeNS = function (el, namespaceURI, name) {
+        return el.hasAttributeNS(namespaceURI, name);
+    };
+} else if (testEl.hasAttribute) {
+    hasAttributeNS = function (el, namespaceURI, name) {
+        return el.hasAttribute(name);
+    };
+} else {
+    hasAttributeNS = function (el, namespaceURI, name) {
+        return !!el.getAttributeNode(name);
+    };
+}
+function toElement(str) {
+    if (!range && doc.createRange) {
+        range = doc.createRange();
+        range.selectNode(doc.body);
+    }
+    var fragment;
+    if (range && range.createContextualFragment) {
+        fragment = range.createContextualFragment(str);
+    } else {
+        fragment = doc.createElement('body');
+        fragment.innerHTML = str;
+    }
+    return fragment.childNodes[0];
+}
+function syncBooleanAttrProp(fromEl, toEl, name) {
+    if (fromEl[name] !== toEl[name]) {
+        fromEl[name] = toEl[name];
+        if (fromEl[name]) {
+            fromEl.setAttribute(name, '');
+        } else {
+            fromEl.removeAttribute(name, '');
+        }
+    }
+}
+var specialElHandlers = {
+    OPTION: function (fromEl, toEl) {
+        syncBooleanAttrProp(fromEl, toEl, 'selected');
+    },
+    INPUT: function (fromEl, toEl) {
+        syncBooleanAttrProp(fromEl, toEl, 'checked');
+        syncBooleanAttrProp(fromEl, toEl, 'disabled');
+        if (fromEl.value !== toEl.value) {
+            fromEl.value = toEl.value;
+        }
+        if (!hasAttributeNS(toEl, null, 'value')) {
+            fromEl.removeAttribute('value');
+        }
+    },
+    TEXTAREA: function (fromEl, toEl) {
+        var newValue = toEl.value;
+        if (fromEl.value !== newValue) {
+            fromEl.value = newValue;
+        }
+        if (fromEl.firstChild) {
+            fromEl.firstChild.nodeValue = newValue;
+        }
+    }
+};
+function noop() {
+}
+function compareNodeNames(fromEl, toEl) {
+    var fromNodeName = fromEl.nodeName;
+    var toNodeName = toEl.nodeName;
+    if (fromNodeName === toNodeName) {
+        return true;
+    }
+    if (toEl.actualize && fromNodeName.charCodeAt(0) < 91 && toNodeName.charCodeAt(0) > 90) {
+        return fromNodeName === toNodeName.toUpperCase();
+    } else {
+        return false;
+    }
+}
+function createElementNS(name, namespaceURI) {
+    return !namespaceURI || namespaceURI === NS_XHTML ? doc.createElement(name) : doc.createElementNS(namespaceURI, name);
+}
+function morphAttrs(fromNode, toNode) {
+    var attrs = toNode.attributes;
+    var i;
+    var attr;
+    var attrName;
+    var attrNamespaceURI;
+    var attrValue;
+    var fromValue;
+    if (toNode.assignAttributes) {
+        toNode.assignAttributes(fromNode);
+    } else {
+        for (i = attrs.length - 1; i >= 0; --i) {
+            attr = attrs[i];
+            attrName = attr.name;
+            attrNamespaceURI = attr.namespaceURI;
+            attrValue = attr.value;
+            if (attrNamespaceURI) {
+                attrName = attr.localName || attrName;
+                fromValue = fromNode.getAttributeNS(attrNamespaceURI, attrName);
+                if (fromValue !== attrValue) {
+                    fromNode.setAttributeNS(attrNamespaceURI, attrName, attrValue);
+                }
+            } else {
+                fromValue = fromNode.getAttribute(attrName);
+                if (fromValue !== attrValue) {
+                    fromNode.setAttribute(attrName, attrValue);
+                }
+            }
+        }
+    }
+    attrs = fromNode.attributes;
+    for (i = attrs.length - 1; i >= 0; --i) {
+        attr = attrs[i];
+        if (attr.specified !== false) {
+            attrName = attr.name;
+            attrNamespaceURI = attr.namespaceURI;
+            if (attrNamespaceURI) {
+                attrName = attr.localName || attrName;
+                if (!hasAttributeNS(toNode, attrNamespaceURI, attrName)) {
+                    fromNode.removeAttributeNS(attrNamespaceURI, attrName);
+                }
+            } else {
+                if (!hasAttributeNS(toNode, null, attrName)) {
+                    fromNode.removeAttribute(attrName);
+                }
+            }
+        }
+    }
+}
+function moveChildren(fromEl, toEl) {
+    var curChild = fromEl.firstChild;
+    while (curChild) {
+        var nextChild = curChild.nextSibling;
+        toEl.appendChild(curChild);
+        curChild = nextChild;
+    }
+    return toEl;
+}
+function defaultGetNodeKey(node) {
+    return node.id;
+}
+function morphdom(fromNode, toNode, options) {
+    if (!options) {
+        options = {};
+    }
+    if (typeof toNode === 'string') {
+        if (fromNode.nodeName === '#document' || fromNode.nodeName === 'HTML') {
+            var toNodeHtml = toNode;
+            toNode = doc.createElement('html');
+            toNode.innerHTML = toNodeHtml;
+        } else {
+            toNode = toElement(toNode);
+        }
+    }
+    var getNodeKey = options.getNodeKey || defaultGetNodeKey;
+    var onBeforeNodeAdded = options.onBeforeNodeAdded || noop;
+    var onNodeAdded = options.onNodeAdded || noop;
+    var onBeforeElUpdated = options.onBeforeElUpdated || noop;
+    var onElUpdated = options.onElUpdated || noop;
+    var onBeforeNodeDiscarded = options.onBeforeNodeDiscarded || noop;
+    var onNodeDiscarded = options.onNodeDiscarded || noop;
+    var onBeforeElChildrenUpdated = options.onBeforeElChildrenUpdated || noop;
+    var childrenOnly = options.childrenOnly === true;
+    var fromNodesLookup = {};
+    var keyedRemovalList;
+    function addKeyedRemoval(key) {
+        if (keyedRemovalList) {
+            keyedRemovalList.push(key);
+        } else {
+            keyedRemovalList = [key];
+        }
+    }
+    function walkDiscardedChildNodes(node, skipKeyedNodes) {
+        if (node.nodeType === ELEMENT_NODE) {
+            var curChild = node.firstChild;
+            while (curChild) {
+                var key = undefined;
+                if (skipKeyedNodes && (key = getNodeKey(curChild))) {
+                    addKeyedRemoval(key);
+                } else {
+                    onNodeDiscarded(curChild);
+                    if (curChild.firstChild) {
+                        walkDiscardedChildNodes(curChild, skipKeyedNodes);
+                    }
+                }
+                curChild = curChild.nextSibling;
+            }
+        }
+    }
+    function removeNode(node, parentNode, skipKeyedNodes) {
+        if (onBeforeNodeDiscarded(node) === false) {
+            return;
+        }
+        if (parentNode) {
+            parentNode.removeChild(node);
+        }
+        onNodeDiscarded(node);
+        walkDiscardedChildNodes(node, skipKeyedNodes);
+    }
+    function indexTree(node) {
+        if (node.nodeType === ELEMENT_NODE) {
+            var curChild = node.firstChild;
+            while (curChild) {
+                var key = getNodeKey(curChild);
+                if (key) {
+                    fromNodesLookup[key] = curChild;
+                }
+                indexTree(curChild);
+                curChild = curChild.nextSibling;
+            }
+        }
+    }
+    indexTree(fromNode);
+    function handleNodeAdded(el) {
+        onNodeAdded(el);
+        var curChild = el.firstChild;
+        while (curChild) {
+            var nextSibling = curChild.nextSibling;
+            var key = getNodeKey(curChild);
+            if (key) {
+                var unmatchedFromEl = fromNodesLookup[key];
+                if (unmatchedFromEl && compareNodeNames(curChild, unmatchedFromEl)) {
+                    curChild.parentNode.replaceChild(unmatchedFromEl, curChild);
+                    morphEl(unmatchedFromEl, curChild);
+                }
+            }
+            handleNodeAdded(curChild);
+            curChild = nextSibling;
+        }
+    }
+    function morphEl(fromEl, toEl, childrenOnly) {
+        var toElKey = getNodeKey(toEl);
+        var curFromNodeKey;
+        if (toElKey) {
+            delete fromNodesLookup[toElKey];
+        }
+        if (toNode.isSameNode && toNode.isSameNode(fromNode)) {
+            return;
+        }
+        if (!childrenOnly) {
+            if (onBeforeElUpdated(fromEl, toEl) === false) {
+                return;
+            }
+            morphAttrs(fromEl, toEl);
+            onElUpdated(fromEl);
+            if (onBeforeElChildrenUpdated(fromEl, toEl) === false) {
+                return;
+            }
+        }
+        if (fromEl.nodeName !== 'TEXTAREA') {
+            var curToNodeChild = toEl.firstChild;
+            var curFromNodeChild = fromEl.firstChild;
+            var curToNodeKey;
+            var fromNextSibling;
+            var toNextSibling;
+            var matchingFromEl;
+            outer:
+                while (curToNodeChild) {
+                    toNextSibling = curToNodeChild.nextSibling;
+                    curToNodeKey = getNodeKey(curToNodeChild);
+                    while (curFromNodeChild) {
+                        fromNextSibling = curFromNodeChild.nextSibling;
+                        if (curToNodeChild.isSameNode && curToNodeChild.isSameNode(curFromNodeChild)) {
+                            curToNodeChild = toNextSibling;
+                            curFromNodeChild = fromNextSibling;
+                            continue outer;
+                        }
+                        curFromNodeKey = getNodeKey(curFromNodeChild);
+                        var curFromNodeType = curFromNodeChild.nodeType;
+                        var isCompatible = undefined;
+                        if (curFromNodeType === curToNodeChild.nodeType) {
+                            if (curFromNodeType === ELEMENT_NODE) {
+                                if (curToNodeKey) {
+                                    if (curToNodeKey !== curFromNodeKey) {
+                                        if (matchingFromEl = fromNodesLookup[curToNodeKey]) {
+                                            if (curFromNodeChild.nextSibling === matchingFromEl) {
+                                                isCompatible = false;
+                                            } else {
+                                                fromEl.insertBefore(matchingFromEl, curFromNodeChild);
+                                                if (curFromNodeKey) {
+                                                    addKeyedRemoval(curFromNodeKey);
+                                                } else {
+                                                    removeNode(curFromNodeChild, fromEl, true);
+                                                }
+                                                fromNextSibling = curFromNodeChild.nextSibling;
+                                                curFromNodeChild = matchingFromEl;
+                                            }
+                                        } else {
+                                            isCompatible = false;
+                                        }
+                                    }
+                                } else if (curFromNodeKey) {
+                                    isCompatible = false;
+                                }
+                                isCompatible = isCompatible !== false && compareNodeNames(curFromNodeChild, curToNodeChild);
+                                if (isCompatible) {
+                                    morphEl(curFromNodeChild, curToNodeChild);
+                                }
+                            } else if (curFromNodeType === TEXT_NODE || curFromNodeType == COMMENT_NODE) {
+                                isCompatible = true;
+                                curFromNodeChild.nodeValue = curToNodeChild.nodeValue;
+                            }
+                        }
+                        if (isCompatible) {
+                            curToNodeChild = toNextSibling;
+                            curFromNodeChild = fromNextSibling;
+                            continue outer;
+                        }
+                        if (curFromNodeKey) {
+                            addKeyedRemoval(curFromNodeKey);
+                        } else {
+                            removeNode(curFromNodeChild, fromEl, true);
+                        }
+                        curFromNodeChild = fromNextSibling;
+                    }
+                    if (curToNodeKey && (matchingFromEl = fromNodesLookup[curToNodeKey]) && compareNodeNames(matchingFromEl, curToNodeChild)) {
+                        fromEl.appendChild(matchingFromEl);
+                        morphEl(matchingFromEl, curToNodeChild);
+                    } else {
+                        var onBeforeNodeAddedResult = onBeforeNodeAdded(curToNodeChild);
+                        if (onBeforeNodeAddedResult !== false) {
+                            if (onBeforeNodeAddedResult) {
+                                curToNodeChild = onBeforeNodeAddedResult;
+                            }
+                            if (curToNodeChild.actualize) {
+                                curToNodeChild = curToNodeChild.actualize(fromEl.ownerDocument || doc);
+                            }
+                            fromEl.appendChild(curToNodeChild);
+                            handleNodeAdded(curToNodeChild);
+                        }
+                    }
+                    curToNodeChild = toNextSibling;
+                    curFromNodeChild = fromNextSibling;
+                }
+            while (curFromNodeChild) {
+                fromNextSibling = curFromNodeChild.nextSibling;
+                if (curFromNodeKey = getNodeKey(curFromNodeChild)) {
+                    addKeyedRemoval(curFromNodeKey);
+                } else {
+                    removeNode(curFromNodeChild, fromEl, true);
+                }
+                curFromNodeChild = fromNextSibling;
+            }
+        }
+        var specialElHandler = specialElHandlers[fromEl.nodeName];
+        if (specialElHandler) {
+            specialElHandler(fromEl, toEl);
+        }
+    }
+    var morphedNode = fromNode;
+    var morphedNodeType = morphedNode.nodeType;
+    var toNodeType = toNode.nodeType;
+    if (!childrenOnly) {
+        if (morphedNodeType === ELEMENT_NODE) {
+            if (toNodeType === ELEMENT_NODE) {
+                if (!compareNodeNames(fromNode, toNode)) {
+                    onNodeDiscarded(fromNode);
+                    morphedNode = moveChildren(fromNode, createElementNS(toNode.nodeName, toNode.namespaceURI));
+                }
+            } else {
+                morphedNode = toNode;
+            }
+        } else if (morphedNodeType === TEXT_NODE || morphedNodeType === COMMENT_NODE) {
+            if (toNodeType === morphedNodeType) {
+                morphedNode.nodeValue = toNode.nodeValue;
+                return morphedNode;
+            } else {
+                morphedNode = toNode;
+            }
+        }
+    }
+    if (morphedNode === toNode) {
+        onNodeDiscarded(fromNode);
+    } else {
+        morphEl(morphedNode, toNode, childrenOnly);
+        if (keyedRemovalList) {
+            for (var i = 0, len = keyedRemovalList.length; i < len; i++) {
+                var elToRemove = fromNodesLookup[keyedRemovalList[i]];
+                if (elToRemove) {
+                    removeNode(elToRemove, elToRemove.parentNode, false);
+                }
+            }
+        }
+    }
+    if (!childrenOnly && morphedNode !== fromNode && fromNode.parentNode) {
+        if (morphedNode.actualize) {
+            morphedNode = morphedNode.actualize(fromNode.ownerDocument || doc);
+        }
+        fromNode.parentNode.replaceChild(morphedNode, fromNode);
+    }
+    return morphedNode;
+}
+module.exports = morphdom;
+},{}],27:[function(require,module,exports){
+var window = require('global/window');
+module.exports = nanoraf;
+function nanoraf(render, raf) {
+    if (!raf) {
+        raf = window.requestAnimationFrame;
+    }
+    var inRenderingTransaction = false;
+    var redrawScheduled = false;
+    var currentState = null;
+    return function frame(state, prev) {
+        if (currentState === null && !redrawScheduled) {
+            redrawScheduled = true;
+            raf(function redraw() {
+                redrawScheduled = false;
+                if (!currentState) {
+                    return;
+                }
+                inRenderingTransaction = true;
+                render(currentState, prev);
+                inRenderingTransaction = false;
+                currentState = null;
+            });
+        }
+        currentState = state;
+    };
+}
+},{"global/window":20}],28:[function(require,module,exports){
+var document = require('global/document');
+var window = require('global/window');
+var watch = Object.create(null);
+var KEY_ID = 'onloadid' + (new Date() % 9000000).toString(36);
+var KEY_ATTR = 'data-' + KEY_ID;
+var INDEX = 0;
+if (window && window.MutationObserver) {
+    var observer = new MutationObserver(function (mutations) {
+        if (Object.keys(watch).length < 1) {
+            return;
+        }
+        for (var i = 0; i < mutations.length; i++) {
+            if (mutations[i].attributeName === KEY_ATTR) {
+                eachAttr(mutations[i], turnon, turnoff);
+                continue;
+            }
+            eachMutation(mutations[i].removedNodes, turnoff);
+            eachMutation(mutations[i].addedNodes, turnon);
+        }
+    });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeOldValue: true,
+        attributeFilter: [KEY_ATTR]
+    });
+}
+module.exports = function onload(el, on, off, caller) {
+    on = on || function () {
+    };
+    off = off || function () {
+    };
+    el.setAttribute(KEY_ATTR, 'o' + INDEX);
+    watch['o' + INDEX] = [
+        on,
+        off,
+        0,
+        caller || onload.caller
+    ];
+    INDEX += 1;
+    return el;
+};
+function turnon(index, el) {
+    if (watch[index][0] && watch[index][2] === 0) {
+        watch[index][0](el);
+        watch[index][2] = 1;
+    }
+}
+function turnoff(index, el) {
+    if (watch[index][1] && watch[index][2] === 1) {
+        watch[index][1](el);
+        watch[index][2] = 0;
+    }
+}
+function eachAttr(mutation, on, off) {
+    var newValue = mutation.target.getAttribute(KEY_ATTR);
+    if (sameOrigin(mutation.oldValue, newValue)) {
+        watch[newValue] = watch[mutation.oldValue];
+        return;
+    }
+    if (watch[mutation.oldValue]) {
+        off(mutation.oldValue, mutation.target);
+    }
+    if (watch[newValue]) {
+        on(newValue, mutation.target);
+    }
+}
+function sameOrigin(oldValue, newValue) {
+    if (!oldValue || !newValue) {
+        return false;
+    }
+    return watch[oldValue][3] === watch[newValue][3];
+}
+function eachMutation(nodes, fn) {
+    var keys = Object.keys(watch);
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i] && nodes[i].getAttribute && nodes[i].getAttribute(KEY_ATTR)) {
+            var onloadid = nodes[i].getAttribute(KEY_ATTR);
+            keys.forEach(function (k) {
+                if (onloadid === k) {
+                    fn(k, nodes[i]);
+                }
+            });
+        }
+        if (nodes[i].childNodes.length > 0) {
+            eachMutation(nodes[i].childNodes, fn);
+        }
+    }
+}
+},{"global/document":19,"global/window":20}],29:[function(require,module,exports){
+module.exports = match;
+function match(route) {
+    return route.trim().replace(/[\?|#].*$/, '').replace(/^(?:https?\:)\/\//, '').replace(/^.*?(\/.*)/, '$1').replace(/\/$/, '');
+}
+},{}],30:[function(require,module,exports){
+var methods = [
+    'values',
+    'sort',
+    'some',
+    'slice',
+    'reverse',
+    'reduceRight',
+    'reduce',
+    'map',
+    'keys',
+    'lastIndexOf',
+    'join',
+    'indexOf',
+    'includes',
+    'forEach',
+    'find',
+    'findIndex',
+    'copyWithin',
+    'filter',
+    'entries',
+    'every',
+    'fill'
+];
+if (typeof Int8Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Int8Array.prototype[method]) {
+            Int8Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Uint8Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Uint8Array.prototype[method]) {
+            Uint8Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Uint8ClampedArray !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Uint8ClampedArray.prototype[method]) {
+            Uint8ClampedArray.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Int16Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Int16Array.prototype[method]) {
+            Int16Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Uint16Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Uint16Array.prototype[method]) {
+            Uint16Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Int32Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Int32Array.prototype[method]) {
+            Int32Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Uint32Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Uint32Array.prototype[method]) {
+            Uint32Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Float32Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Float32Array.prototype[method]) {
+            Float32Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof Float64Array !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!Float64Array.prototype[method]) {
+            Float64Array.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+if (typeof TypedArray !== 'undefined') {
+    for (var i = methods.length; i--;) {
+        var method = methods[i];
+        if (!TypedArray.prototype[method]) {
+            TypedArray.prototype[method] = Array.prototype[method];
+        }
+    }
+}
+},{}],31:[function(require,module,exports){
+var trie = require('./trie');
+module.exports = Wayfarer;
+function Wayfarer(dft) {
+    if (!(this instanceof Wayfarer)) {
+        return new Wayfarer(dft);
+    }
+    var _default = (dft || '').replace(/^\//, '');
+    var _trie = trie();
+    emit._trie = _trie;
+    emit.emit = emit;
+    emit.on = on;
+    emit._wayfarer = true;
+    return emit;
+    function on(route, cb) {
+        route = route || '/';
+        if (cb && cb._wayfarer && cb._trie) {
+            _trie.mount(route, cb._trie.trie);
+        } else {
+            var node = _trie.create(route);
+            node.cb = cb;
+        }
+        return emit;
+    }
+    function emit(route) {
+        var arguments$1 = arguments;
+        var args = new Array(arguments.length);
+        for (var i = 1; i < args.length; i++) {
+            args[i] = arguments$1[i];
+        }
+        var node = _trie.match(route);
+        if (node && node.cb) {
+            args[0] = node.params;
+            return node.cb.apply(null, args);
+        }
+        var dft = _trie.match(_default);
+        if (dft && dft.cb) {
+            args[0] = dft.params;
+            return dft.cb.apply(null, args);
+        }
+        throw new Error('route \'' + route + '\' did not match');
+    }
+}
+},{"./trie":32}],32:[function(require,module,exports){
+var mutate = require('xtend/mutable');
+var xtend = require('xtend');
+module.exports = Trie;
+function Trie() {
+    if (!(this instanceof Trie)) {
+        return new Trie();
+    }
+    this.trie = { nodes: {} };
+}
+Trie.prototype.create = function (route) {
+    var routes = route.replace(/^\//, '').split('/');
+    return function createNode(index, trie, routes) {
+        var route = routes[index];
+        if (route === undefined) {
+            return trie;
+        }
+        var node = null;
+        if (/^:/.test(route)) {
+            if (!trie.nodes['$$']) {
+                node = { nodes: {} };
+                trie.nodes['$$'] = node;
+            } else {
+                node = trie.nodes['$$'];
+            }
+            trie.name = route.replace(/^:/, '');
+        } else if (!trie.nodes[route]) {
+            node = { nodes: {} };
+            trie.nodes[route] = node;
+        } else {
+            node = trie.nodes[route];
+        }
+        return createNode(index + 1, node, routes);
+    }(0, this.trie, routes);
+};
+Trie.prototype.match = function (route) {
+    var routes = route.replace(/^\//, '').split('/');
+    var params = {};
+    var node = function search(index, trie) {
+        if (trie === undefined) {
+            return undefined;
+        }
+        var route = routes[index];
+        if (route === undefined) {
+            return trie;
+        }
+        if (trie.nodes[route]) {
+            return search(index + 1, trie.nodes[route]);
+        } else if (trie.name) {
+            params[trie.name] = route;
+            return search(index + 1, trie.nodes['$$']);
+        } else {
+            return search(index + 1);
+        }
+    }(0, this.trie);
+    if (!node) {
+        return undefined;
+    }
+    node = xtend(node);
+    node.params = params;
+    return node;
+};
+Trie.prototype.mount = function (route, trie) {
+    var split = route.replace(/^\//, '').split('/');
+    var node = null;
+    var key = null;
+    if (split.length === 1) {
+        key = split[0];
+        node = this.create(key);
+    } else {
+        var headArr = split.splice(0, split.length - 1);
+        var head = headArr.join('/');
+        key = split[0];
+        node = this.create(head);
+    }
+    mutate(node.nodes, trie.nodes);
+    if (trie.name) {
+        node.name = trie.name;
+    }
+    if (node.nodes['']) {
+        Object.keys(node.nodes['']).forEach(function (key) {
+            if (key === 'nodes') {
+                return;
+            }
+            node[key] = node.nodes[''][key];
+        });
+        mutate(node.nodes, node.nodes[''].nodes);
+        delete node.nodes[''].nodes;
+    }
+};
+},{"xtend":33,"xtend/mutable":34}],33:[function(require,module,exports){
+module.exports = extend;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function extend() {
+    var arguments$1 = arguments;
+    var target = {};
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments$1[i];
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }
+    return target;
+}
+},{}],34:[function(require,module,exports){
+module.exports = extend;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function extend(target) {
+    var arguments$1 = arguments;
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments$1[i];
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }
+    return target;
+}
+},{}],35:[function(require,module,exports){
+var bel = require('bel');
+var morphdom = require('morphdom');
+var defaultEvents = require('./update-events.js');
+module.exports = bel;
+module.exports.update = function (fromNode, toNode, opts) {
+    if (!opts) {
+        opts = {};
+    }
+    if (opts.events !== false) {
+        if (!opts.onBeforeElUpdated) {
+            opts.onBeforeElUpdated = copier;
+        }
+    }
+    return morphdom(fromNode, toNode, opts);
+    function copier(f, t) {
+        var events = opts.events || defaultEvents;
+        for (var i = 0; i < events.length; i++) {
+            var ev = events[i];
+            if (t[ev]) {
+                f[ev] = t[ev];
+            } else if (f[ev]) {
+                f[ev] = undefined;
+            }
+        }
+        if (f.nodeName === 'INPUT' && f.type !== 'file' || f.nodeName === 'SELECT') {
+            if (t.getAttribute('value') === null) {
+                t.value = f.value;
+            }
+        } else if (f.nodeName === 'TEXTAREA') {
+            if (t.getAttribute('value') === null) {
+                f.value = t.value;
+            }
+        }
+    }
+};
+},{"./update-events.js":36,"bel":7,"morphdom":26}],36:[function(require,module,exports){
+module.exports = [
+    'onclick',
+    'ondblclick',
+    'onmousedown',
+    'onmouseup',
+    'onmouseover',
+    'onmousemove',
+    'onmouseout',
+    'ondragstart',
+    'ondrag',
+    'ondragenter',
+    'ondragleave',
+    'ondragover',
+    'ondrop',
+    'ondragend',
+    'onkeydown',
+    'onkeypress',
+    'onkeyup',
+    'onunload',
+    'onabort',
+    'onerror',
+    'onresize',
+    'onscroll',
+    'onselect',
+    'onchange',
+    'onsubmit',
+    'onreset',
+    'onfocus',
+    'onblur',
+    'oninput',
+    'oncontextmenu',
+    'onfocusin',
+    'onfocusout'
+];
+},{}],37:[function(require,module,exports){
+'use strict';
+var _templateObject = _taggedTemplateLiteral([
+        '\n<section class="page page--game">\n\t<h1 class="page-title">\n\t\t<span class="game-turn">',
+        ' / ',
+        '</span>\n\t</h1>\n\t<span class="game-undo button-outline" title="Undo" ',
+        ' onclick=',
+        '>Undo</span>\n\n\t<div class="aim">\n\t\t<div class="aim-clutch aim-clutch--left ',
+        '" onclick=',
+        '></div>\n\t\t<div class="aim-clutch aim-clutch--right ',
+        '" onclick=',
+        '></div>\n\t\t<div class="aim-1" onclick=',
+        '></div>\n\t\t<div class="aim-2" onclick=',
+        '></div>\n\t\t<div class="aim-5" onclick=',
+        '></div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
+        '\n\t</ul>\n</section>\n'
+    ], [
+        '\n<section class="page page--game">\n\t<h1 class="page-title">\n\t\t<span class="game-turn">',
+        ' / ',
+        '</span>\n\t</h1>\n\t<span class="game-undo button-outline" title="Undo" ',
+        ' onclick=',
+        '>Undo</span>\n\n\t<div class="aim">\n\t\t<div class="aim-clutch aim-clutch--left ',
+        '" onclick=',
+        '></div>\n\t\t<div class="aim-clutch aim-clutch--right ',
+        '" onclick=',
+        '></div>\n\t\t<div class="aim-1" onclick=',
+        '></div>\n\t\t<div class="aim-2" onclick=',
+        '></div>\n\t\t<div class="aim-5" onclick=',
+        '></div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
+        '\n\t</ul>\n</section>\n'
+    ]), _templateObject2 = _taggedTemplateLiteral([
+        '\n\t\t<li class="game-player ',
+        '">\n\t\t\t<img class="game-player-image" src="./images/',
+        '"/>\n\t\t\t<h4 class="game-player-name">',
+        '</h4>\n\t\t\t<span class="game-player-score">',
+        '</span>\n\t\t</li>\n\t\t'
+    ], [
+        '\n\t\t<li class="game-player ',
+        '">\n\t\t\t<img class="game-player-image" src="./images/',
+        '"/>\n\t\t\t<h4 class="game-player-name">',
+        '</h4>\n\t\t\t<span class="game-player-score">',
+        '</span>\n\t\t</li>\n\t\t'
+    ]);
+function _taggedTemplateLiteral(strings, raw) {
+    return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
+}
+var html = require('choo/html');
+module.exports = function (state, prev, send) {
+    return html(_templateObject, state.game.turn, state.game.maxTurns, !state.game.prevState ? 'hidden' : '', function (e) {
+        return send('game:undoTurn');
+    }, state.game.isClutch ? 'aim-clutch--active' : '', function (e) {
+        return state.game.isClutch ? send('game:clutch') : null;
+    }, state.game.isClutch ? 'aim-clutch--active' : '', function (e) {
+        return state.game.isClutch ? send('game:clutch') : null;
+    }, function (e) {
+        return send('game:hit', 1);
+    }, function (e) {
+        return send('game:hit', 2);
+    }, function (e) {
+        return send('game:hit', 5);
+    }, state.game.players.map(playerSpot));
+    function playerSpot(player) {
+        return html(_templateObject2, state.game.currentPlayerId === player.id ? 'game-player--active' : '', player.user.avatar, player.user.name, player.score.reduce(function (c, p) {
+            return c + p;
+        }, 0) || 0);
+    }
+};
+},{"choo/html":8}],38:[function(require,module,exports){
+'use strict';
+var _templateObject = _taggedTemplateLiteral([
+    '\n<section class="page page--main">\n\t<div class="main-content">\n\t<h1 class="page-title">',
+    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>Language</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
+    ' id="lang-1" name="lang" onclick=',
+    '/><label for="lang-1" class="switch-label">English</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="lang-2" name="lang" onclick=',
+    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">Number of players</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-1" name="players" onclick=',
+    '/><label for="players-1" class="switch-label">1</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-2" name="players" onclick=',
+    '/><label for="players-2" class="switch-label">2</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-3" name="players" onclick=',
+    '/><label for="players-3" class="switch-label">3</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<a href="/players" class="button" onclick=',
+    '>Go!</a>\n\n\t</div<\n</section>\n'
+], [
+    '\n<section class="page page--main">\n\t<div class="main-content">\n\t<h1 class="page-title">',
+    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>Language</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
+    ' id="lang-1" name="lang" onclick=',
+    '/><label for="lang-1" class="switch-label">English</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="lang-2" name="lang" onclick=',
+    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">Number of players</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-1" name="players" onclick=',
+    '/><label for="players-1" class="switch-label">1</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-2" name="players" onclick=',
+    '/><label for="players-2" class="switch-label">2</label>\n\t\t<input type="radio" class="switch-input" ',
+    ' id="players-3" name="players" onclick=',
+    '/><label for="players-3" class="switch-label">3</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<a href="/players" class="button" onclick=',
+    '>Go!</a>\n\n\t</div<\n</section>\n'
+]);
+function _taggedTemplateLiteral(strings, raw) {
+    return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
+}
+var html = require('choo/html');
+module.exports = function (state, prev, send) {
+    return html(_templateObject, state.title, state.language === 'en' ? 'checked' : '', function (e) {
+        return send('setLanguage', 'en');
+    }, state.language === 'fr' ? 'checked' : '', function (e) {
+        return send('setLanguage', 'fr');
+    }, state.users.length === 1 ? 'checked' : '', function (e) {
+        return send('setUsers', 1);
+    }, state.users.length === 2 ? 'checked' : '', function (e) {
+        return send('setUsers', 2);
+    }, state.users.length === 3 ? 'checked' : '', function (e) {
+        return send('setUsers', 3);
+    }, function (e) {
+        return send('initUsers');
+    });
+};
+},{"choo/html":8}],39:[function(require,module,exports){
+'use strict';
+var _templateObject = _taggedTemplateLiteral([
+        '\n\t<section class="page page--players">\n\t\t<h1>Players</h1>\n\n\t\t<ul class="players-list">\n\t\t',
+        '\n\t\t</ul>\n\n\t\t<a class="button" href="/game" onclick=',
+        '>Start game!</a>\n\t</section>\n\t'
+    ], [
+        '\n\t<section class="page page--players">\n\t\t<h1>Players</h1>\n\n\t\t<ul class="players-list">\n\t\t',
+        '\n\t\t</ul>\n\n\t\t<a class="button" href="/game" onclick=',
+        '>Start game!</a>\n\t</section>\n\t'
+    ]), _templateObject2 = _taggedTemplateLiteral([
+        '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
+        '><img class="avatar-image" src="./images/',
+        '"/></div>\n\t\t\t<div class="player-credentials">\n\t\t\t\t<input class="text-input player-name" placeholder="Name" type="text" value="',
+        '" oninput=',
+        '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
+        '" oninput=',
+        '/>\n\t\t\t</div>\n\t\t</li>\n\t\t'
+    ], [
+        '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
+        '><img class="avatar-image" src="./images/',
+        '"/></div>\n\t\t\t<div class="player-credentials">\n\t\t\t\t<input class="text-input player-name" placeholder="Name" type="text" value="',
+        '" oninput=',
+        '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
+        '" oninput=',
+        '/>\n\t\t\t</div>\n\t\t</li>\n\t\t'
+    ]);
+function _taggedTemplateLiteral(strings, raw) {
+    return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
+}
+var html = require('choo/html');
+var avatars = require('../avatars');
+module.exports = function (state, prev, send) {
+    return html(_templateObject, state.users.map(playerItem), function (e) {
+        return send('game:create', state.users);
+    });
+    function playerItem(player) {
+        return html(_templateObject2, function (e) {
+            return send('randomizeAvatar', player);
+        }, player.avatar, player.name, function (e) {
+            return send('updateUser', {
+                player: player,
+                data: { name: e.target.value }
+            });
+        }, player.email, function (e) {
+            return send('updateUser', {
+                player: player,
+                data: { email: e.target.value }
+            });
+        });
+    }
+};
+},{"../avatars":2,"choo/html":8}],40:[function(require,module,exports){
+'use strict';
+var _templateObject = _taggedTemplateLiteral([
+        '\n<section class="page page--stats">\n\t<h1 class="page-title">Results</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th></th><th>Score</th><th>Clutches</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
+        '\n\t\t</tbody>\n\t</table>\n\n\t<div class="button stats-save" onclick=',
+        '>Save results</div>\n\t<a href="/players" class="button stats-again" onclick=',
+        '>New game</div>\n\t<a href="/" class="button stats-again">Exit</div>\n</section>\n'
+    ], [
+        '\n<section class="page page--stats">\n\t<h1 class="page-title">Results</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th></th><th>Score</th><th>Clutches</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
+        '\n\t\t</tbody>\n\t</table>\n\n\t<div class="button stats-save" onclick=',
+        '>Save results</div>\n\t<a href="/players" class="button stats-again" onclick=',
+        '>New game</div>\n\t<a href="/" class="button stats-again">Exit</div>\n</section>\n'
+    ]), _templateObject2 = _taggedTemplateLiteral([
+        '\n\t<tr>\n\t\t<td>',
+        '</td>\n\t\t<td>',
+        '</td>\n\t\t<td>',
+        '</td>\n\t</tr>\n\t'
+    ], [
+        '\n\t<tr>\n\t\t<td>',
+        '</td>\n\t\t<td>',
+        '</td>\n\t\t<td>',
+        '</td>\n\t</tr>\n\t'
+    ]);
+function _taggedTemplateLiteral(strings, raw) {
+    return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
+}
+var html = require('choo/html');
+module.exports = function (state, prev, send) {
+    return html(_templateObject, state.game.players.map(playerStats), function (e) {
+        return send('game:save', state);
+    }, function (e) {
+        return send('game:create', state.users);
+    });
+};
+function playerStats(player) {
+    return html(_templateObject2, player.user.name, player.score.reduce(function (c, p) {
+        return c + p;
+    }, 0), player.clutches);
+}
+},{"choo/html":8}]},{},[4]);
+</script>
+</html>
