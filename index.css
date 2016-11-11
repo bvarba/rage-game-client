@@ -91,6 +91,10 @@
   src: url('fonts/Roboto-Thin.ttf')  format('truetype');
 }
 
+[hidden] {
+	display: none!important;
+}
+
 .game {
 	/* .bluehour https://github.com/evankarageorgos/hue/blob/master/hue.css */
 	background: -webkit-linear-gradient(left, #7E898F 0%, #636C75 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);
@@ -173,7 +177,7 @@ h2 {
 	min-height: 2rem;
 	line-height: 2rem;
 	color: #393F44;
-	min-width: 10rem;
+	min-width: 8rem;
 	display: inline-block;
 	border-radius: 2rem;
 	text-transform: uppercase;
@@ -188,6 +192,19 @@ h2 {
 }
 .button:active {
 	color: white;
+}
+
+.button-outline {
+	cursor: pointer;
+	min-height: 2rem;
+	padding: 0 1rem;
+	margin: 0 2px 2px 0;
+	line-height: 2rem;
+	color: white;
+	display: inline-block;
+	border-radius: 2rem;
+	color: white;
+	box-shadow: 0 0 0 2px white;
 }
 
 .text-input {
@@ -259,13 +276,15 @@ h2 {
 	font-family: Roboto;
 	width: 100%;
 	position: absolute;
-	top: 0;
+	top: -2rem;
 	left: 0;
 	bottom: 0;
 	right: 0;
 	margin:	auto;
 	width: 100vmin;
 	height: 100vmin;
+	max-width: 360px;
+	max-height: 360px;
 }
 
 .aim-1 {
@@ -404,6 +423,15 @@ h2 {
 
 .game-turn {
 	font-family: Roboto;
+}
+.game-undo {
+	margin-top: 1rem;
+	font-weight: 200;
+	font-size: 1.2rem;
+	vertical-align: middle;
+	line-height: 2rem;
+	height: 2rem;
+	cursor: pointer;
 }
 .game-players {
 	position: absolute;

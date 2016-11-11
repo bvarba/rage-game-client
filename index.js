@@ -7,6 +7,7 @@ const extend = require('just-extend')
 const insertCSS = require('insert-styles')
 const config = require('./config')
 const fs = require('fs')
+const clone = require('deep-copy')
 
 
 insertCSS(fs.readFileSync(__dirname + '/index.css', 'utf-8'));
@@ -25,10 +26,11 @@ app.model({
 		maxTurns: 10,
 		currentPlayerId: 0,
 		isClutch: false,
-		clutchTurns: new Set([5, 10]),
+		clutchTurns: [5, 10],
 		clutchScore: 7,
 		maxPlayers: 3,
-		isEnded: false
+		isEnded: false,
+		prevState: null
 	},
 	subscriptions: [
 		(send, done) => {
@@ -40,7 +42,7 @@ app.model({
 	],
 	effects: {
 		clutch: (score, state, send, done) => {
-			if (state.clutchTurns.has(state.turn)) {
+			if (state.clutchTurns.indexOf(state.turn) >= 0) {
 				send('game:hit', {
 					score: state.clutchScore,
 					clutch: true
@@ -68,6 +70,11 @@ app.model({
 		nextTurn: (data, state) => {
 			if (state.isEnded) return state;
 
+			let oldState = state;
+			state = clone(state);
+
+			state.prevState = oldState;
+
 			if (typeof data === 'number') data = {score: data};
 
 			data = data || {};
@@ -84,7 +91,7 @@ app.model({
 				state.turn++;
 			};
 
-			if (state.clutchTurns.has(state.turn)) {
+			if (state.clutchTurns.indexOf(state.turn) >= 0) {
 				state.isClutch = true;
 			}
 			else {
@@ -94,7 +101,8 @@ app.model({
 			return state;
 		},
 		undoTurn: (_, state) => {
-
+			if (!state.prevState) return state;
+			return state.prevState;
 		},
 		end: (_, state) => {
 			state.isEnded = true;

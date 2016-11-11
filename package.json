@@ -8,7 +8,9 @@
     "build": "browserify index.js -g es2020 -g bubleify -g unassertify | indexhtmlify | metadataify > demo/index.html"
   },
   "browserify": {
-    "transform": ["brfs"]
+    "transform": [
+      "brfs"
+    ]
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   "homepage": "https://github.com/amazemontreal/rage-game#readme",
   "dependencies": {
     "choo": "^3.3.0",
+    "deep-copy": "^1.1.2",
     "enable-mobile": "^1.0.6",
     "insert-styles": "^1.2.1",
     "just-extend": "^1.1.22",

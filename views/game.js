@@ -7,7 +7,10 @@ const html = require('choo/html')
 module.exports = (state, prev, send) => {
 	return html`
 <section class="page page--game">
-	<h1 class="page-title">${state.game.title}</h1>
+	<h1 class="page-title">
+		<span class="game-turn">${state.game.turn} / ${state.game.maxTurns}</span>
+	</h1>
+	<span class="game-undo button-outline" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>Undo</span>
 
 	<div class="aim">
 		<div class="aim-clutch aim-clutch--left ${state.game.isClutch ? 'aim-clutch--active' : ''}" onclick=${e => state.game.isClutch ? send('game:clutch') : null}></div>
@@ -16,10 +19,6 @@ module.exports = (state, prev, send) => {
 		<div class="aim-2" onclick=${e => send('game:hit', 2)}></div>
 		<div class="aim-5" onclick=${e => send('game:hit', 5)}></div>
 	</div>
-
-	<h3 class="game-turn">
-		Turn ${state.game.turn} / ${state.game.maxTurns}
-	</h3>
 
 	<ul class="game-players">
 	${state.game.players.map(playerSpot)}
