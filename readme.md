@@ -2,7 +2,20 @@
 
 Made with [choo](https://github.com/yoshuawuyts/choo)
 
-## Models
+## Installing
 
-There are 3 models: _User_, _Game_ and generic.
-_Game_ includes all the info regarding current game state: players, scores, current turn etc.
+```
+git clone git@github.com:amazemontreal/rage-game-client.git
+cd rage-game-client
+npm install
+```
+
+## Running
+
+Make sure [budo](https://npmjs.org/package/budo) is installed `npm install -g budo`
+
+Then just
+
+```
+npm test
+```
