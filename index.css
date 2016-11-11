@@ -125,7 +125,7 @@ h1 {
 	text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 h2 {
-	font-size: 1.4rem;
+	font-size: 1.6rem;
 	font-weight: 600;
 	letter-spacing: .01em;
 	text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -146,7 +146,8 @@ h2 {
 	min-height: 2rem;
 	padding: 0 1rem;
 	margin: 0 2px 2px 0;
-	line-height: 2rem;
+	line-height: 2.4rem;
+	height: 2.4rem;
 	color: white;
 	display: inline-block;
 	border-radius: 2rem;
@@ -172,7 +173,7 @@ h2 {
 	text-decoration: none;
 	border: none;
 	outline: none;
-	padding: .5rem;
+	padding: .5rem 2rem;
 	font-weight: 800;
 	min-height: 2rem;
 	line-height: 2rem;
@@ -181,17 +182,16 @@ h2 {
 	display: inline-block;
 	border-radius: 2rem;
 	text-transform: uppercase;
-	font-size: .95em;
+	font-size: 1.2em;
 	letter-spacing: .1ex;
 	background: white;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	margin-bottom: .5rem;
 }
 .button:hover {
-	color: white;
 	box-shadow: 0 0 0 2px white;
 }
 .button:active {
-	color: white;
 }
 
 .button-outline {
@@ -237,6 +237,23 @@ h2 {
 	height: 5rem;
 }
 
+
+/** main page style */
+.main-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 65vh;
+	margin: auto;
+}
+.main-content .switch {
+	font-size: 1.4rem;
+}
+.switch--players {
+	font-family: Roboto;
+}
 
 
 /* players page custom styles */
@@ -464,4 +481,13 @@ h2 {
 }
 .game-player-score {
 	font-family: Roboto;
+}
+
+
+
+/* stats page */
+.stats-table {
+	width: 100%;
+	margin-top: 4rem;
+	margin-bottom: 4rem;
 }

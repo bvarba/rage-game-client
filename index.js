@@ -35,9 +35,10 @@ app.model({
 	subscriptions: [
 		(send, done) => {
 			//fake init players
-			send('game:addPlayer', {name: 'Alex', avatar: config.avatars[0]}, done);
-			send('game:addPlayer', {name: 'Yummi', avatar: config.avatars[1]}, done);
-			// send('game:addPlayer', {name: 'Leo'}, done);
+			// send('game:create', [
+			// 	{name: 'Alex', avatar: config.avatars[0]},
+			// 	{name: 'Yummi', avatar: config.avatars[1]}
+			// ], done);
 		}
 	],
 	effects: {
@@ -53,17 +54,30 @@ app.model({
 			}
 		},
 		hit: (data, state, send, done) => {
-			if (state.turn >= state.maxTurns) {
-				send('game:end', null, () => {});
-				send('location:setLocation', {location: 'stats'}, done);
-			}
-			else {
-				send('game:nextTurn', data, done);
-			}
+			send('game:nextTurn', data, (_, state) => {
+				if (state.game.turn > state.game.maxTurns) {
+					//end game
+					send('location:setLocation', {location: 'stats'}, done);
+				}
+				else {
+					done();
+				}
+			});
+		},
+		//create new game with users
+		create: (users, state, send, done) => {
+			send('game:clear', null, () => {});
+			if (!Array.isArray(users)) {
+				users = [users];
+			};
+			users.forEach(user => {
+				send('game:addPlayer', user, () => {});
+			});
+			done();
 		},
 		//send stats to server
-		save: () => {
-
+		save: (data, state, send, done) => {
+			console.log('Save game results:', data);
 		}
 	},
 	reducers: {
@@ -104,8 +118,14 @@ app.model({
 			if (!state.prevState) return state;
 			return state.prevState;
 		},
-		end: (_, state) => {
-			state.isEnded = true;
+		clear: (_, state) => {
+			state.players.length = 0;
+			state.turn = 1;
+			state.currentPlayerId = 0;
+			state.isClutch = false;
+			state.isEnded = false;
+			state.prevState = null;
+
 			return state;
 		},
 		addPlayer: (user, state) => {
@@ -126,7 +146,7 @@ app.model({
 	state: {
 		title: 'Rage Academy',
 		language: 'en',
-		users: []
+		users: Array(3)
 	},
 	reducers: {
 		setLanguage: (data, state) => {
@@ -134,7 +154,7 @@ app.model({
 			return state;
 		},
 		setUsers: (count, state) => {
-			state.users.length = 3;
+			state.users.length = count;
 			return state;
 		},
 		updateUser: (data, state) => {
@@ -142,7 +162,7 @@ app.model({
 			return state;
 		},
 		//create empty users list
-		initPlayers: (data, state) => {
+		initUsers: (data, state) => {
 			for (let i = 0; i < state.users.length; i++) {
 				state.users[i] = {
 					id: i,
@@ -174,10 +194,10 @@ app.model({
 
 
 app.router(route => [
-	// route('/', require('./views/main')),
-	// route('players', require('./views/players')),
-	route('/', require('./views/game')),
-	// route('stats', require('./views/stats'))
+	route('/', require('./views/main')),
+	route('players', require('./views/players')),
+	route('game', require('./views/game')),
+	route('stats', require('./views/stats'))
 ])
 
 const tree = app.start();

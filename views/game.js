@@ -26,7 +26,6 @@ module.exports = (state, prev, send) => {
 </section>
 `
 
-//TODO: reflect turns in URL
 	function playerSpot (player) {
 		return html`
 		<li class="game-player ${state.game.currentPlayerId === player.id ? 'game-player--active' : ''}">
