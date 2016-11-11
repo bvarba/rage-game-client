@@ -29,7 +29,7 @@ module.exports = (state, prev, send) => {
 	function playerSpot (player) {
 		return html`
 		<li class="game-player ${state.game.currentPlayerId === player.id ? 'game-player--active' : ''}">
-			<img class="game-player-image" src="./images/${player.user.avatar}"/>
+			<img class="game-player-image" src="${state.baseUrl}/images/${player.user.avatar}"/>
 			<h4 class="game-player-name">${player.user.name}</h4>
 			<span class="game-player-score">${player.score.reduce((c,p) => c+p, 0) || 0}</span>
 		</li>

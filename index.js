@@ -146,7 +146,9 @@ app.model({
 	state: {
 		title: 'Rage Academy',
 		language: 'en',
-		users: Array(3)
+		users: Array(3),
+		baseUrl: 'https://amazemontreal.github.io/rage-game-client'
+		// baseUrl: '.'
 	},
 	reducers: {
 		setLanguage: (data, state) => {

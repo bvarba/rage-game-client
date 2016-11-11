@@ -21,7 +21,7 @@ module.exports = (state, prev, send) => {
 	function playerItem (player) {
 		return html`
 		<li class="player">
-			<div class="player-avatar avatar" onclick=${e => send('randomizeAvatar', player)}><img class="avatar-image" src="./images/${player.avatar}"/></div>
+			<div class="player-avatar avatar" onclick=${e => send('randomizeAvatar', player)}><img class="avatar-image" src="${state.baseUrl}/images/${player.avatar}"/></div>
 			<div class="player-credentials">
 				<input class="text-input player-name" placeholder="Name" type="text" value="${player.name}" oninput=${e => send('updateUser', {player:player, data: {name: e.target.value} })}/>
 				<input class="text-input player-email" placeholder="Email" type="email" value="${player.email}" oninput=${e => send('updateUser', {player:player, data: {email: e.target.value} })}/>
