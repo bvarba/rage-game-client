@@ -188,7 +188,8 @@ app.model({
     state: {
         title: 'Rage Academy',
         language: 'en',
-        users: Array(3)
+        users: Array(3),
+        baseUrl: 'https://amazemontreal.github.io/rage-game-client'
     },
     reducers: {
         setLanguage: function (data, state) {
@@ -2435,13 +2436,15 @@ var _templateObject = _taggedTemplateLiteral([
         '\n\t</ul>\n</section>\n'
     ]), _templateObject2 = _taggedTemplateLiteral([
         '\n\t\t<li class="game-player ',
-        '">\n\t\t\t<img class="game-player-image" src="./images/',
+        '">\n\t\t\t<img class="game-player-image" src="',
+        '/images/',
         '"/>\n\t\t\t<h4 class="game-player-name">',
         '</h4>\n\t\t\t<span class="game-player-score">',
         '</span>\n\t\t</li>\n\t\t'
     ], [
         '\n\t\t<li class="game-player ',
-        '">\n\t\t\t<img class="game-player-image" src="./images/',
+        '">\n\t\t\t<img class="game-player-image" src="',
+        '/images/',
         '"/>\n\t\t\t<h4 class="game-player-name">',
         '</h4>\n\t\t\t<span class="game-player-score">',
         '</span>\n\t\t</li>\n\t\t'
@@ -2465,7 +2468,7 @@ module.exports = function (state, prev, send) {
         return send('game:hit', 5);
     }, state.game.players.map(playerSpot));
     function playerSpot(player) {
-        return html(_templateObject2, state.game.currentPlayerId === player.id ? 'game-player--active' : '', player.user.avatar, player.user.name, player.score.reduce(function (c, p) {
+        return html(_templateObject2, state.game.currentPlayerId === player.id ? 'game-player--active' : '', state.baseUrl, player.user.avatar, player.user.name, player.score.reduce(function (c, p) {
             return c + p;
         }, 0) || 0);
     }
@@ -2532,7 +2535,8 @@ var _templateObject = _taggedTemplateLiteral([
         '>Start game!</a>\n\t</section>\n\t'
     ]), _templateObject2 = _taggedTemplateLiteral([
         '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
-        '><img class="avatar-image" src="./images/',
+        '><img class="avatar-image" src="',
+        '/images/',
         '"/></div>\n\t\t\t<div class="player-credentials">\n\t\t\t\t<input class="text-input player-name" placeholder="Name" type="text" value="',
         '" oninput=',
         '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
@@ -2540,7 +2544,8 @@ var _templateObject = _taggedTemplateLiteral([
         '/>\n\t\t\t</div>\n\t\t</li>\n\t\t'
     ], [
         '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
-        '><img class="avatar-image" src="./images/',
+        '><img class="avatar-image" src="',
+        '/images/',
         '"/></div>\n\t\t\t<div class="player-credentials">\n\t\t\t\t<input class="text-input player-name" placeholder="Name" type="text" value="',
         '" oninput=',
         '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
@@ -2559,7 +2564,7 @@ module.exports = function (state, prev, send) {
     function playerItem(player) {
         return html(_templateObject2, function (e) {
             return send('randomizeAvatar', player);
-        }, player.avatar, player.name, function (e) {
+        }, state.baseUrl, player.avatar, player.name, function (e) {
             return send('updateUser', {
                 player: player,
                 data: { name: e.target.value }
