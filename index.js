@@ -32,9 +32,9 @@ app.model({
 	},
 	subscriptions: [
 		(send, done) => {
-			//init players
-			send('game:addPlayer', {name: 'Alex'}, done);
-			send('game:addPlayer', {name: 'Yummi'}, done);
+			//fake init players
+			send('game:addPlayer', {name: 'Alex', avatar: config.avatars[0]}, done);
+			send('game:addPlayer', {name: 'Yummi', avatar: config.avatars[1]}, done);
 			// send('game:addPlayer', {name: 'Leo'}, done);
 		}
 	],
