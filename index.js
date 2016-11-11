@@ -15,6 +15,7 @@ insertCSS(fs.readFileSync(__dirname + '/index.css', 'utf-8'));
 const app = choo()
 
 
+//current game model
 app.model({
 	namespace: 'game',
 	state: {
@@ -22,10 +23,11 @@ app.model({
 		players: [],
 		turn: 1,
 		maxTurns: 10,
-		currentPlayer: 0,
+		currentPlayerId: 0,
 		isClutch: false,
 		clutchTurns: new Set([5, 10]),
-		clutchHit: 7,
+		clutchScore: 7,
+		maxPlayers: 3,
 		isEnded: false
 	},
 	subscriptions: [
@@ -39,19 +41,22 @@ app.model({
 	effects: {
 		clutch: (score, state, send, done) => {
 			if (state.clutchTurns.has(state.turn)) {
-				send('game:hit', state.clutchHit, done);
+				send('game:hit', {
+					score: state.clutchScore,
+					clutch: true
+				}, done);
 			}
 			else {
 				send('game:hit', 0, done);
 			}
 		},
-		hit: (score, state, send, done) => {
+		hit: (data, state, send, done) => {
 			if (state.turn >= state.maxTurns) {
 				send('game:end', null, () => {});
 				send('location:setLocation', {location: 'stats'}, done);
 			}
 			else {
-				send('game:nextTurn', score, done);
+				send('game:nextTurn', data, done);
 			}
 		},
 		//send stats to server
@@ -60,16 +65,32 @@ app.model({
 		}
 	},
 	reducers: {
-		nextTurn: (score, state) => {
+		nextTurn: (data, state) => {
 			if (state.isEnded) return state;
 
-			score = score || 0;
-			state.players[state.currentPlayer].score.push(score);
-			state.currentPlayer ++;
-			if (state.currentPlayer >= state.players.length) {
-				state.currentPlayer = 0;
+			if (typeof data === 'number') data = {score: data};
+
+			data = data || {};
+			data.score = data.score || 0;
+			state.players[state.currentPlayerId].score.push(data.score);
+
+			if (data.clutch) {
+				state.players[state.currentPlayerId].clutches++;
+			}
+
+			state.currentPlayerId++;
+			if (state.currentPlayerId >= state.players.length) {
+				state.currentPlayerId = 0;
 				state.turn++;
 			};
+
+			if (state.clutchTurns.has(state.turn)) {
+				state.isClutch = true;
+			}
+			else {
+				state.isClutch = false;
+			}
+
 			return state;
 		},
 		undoTurn: (_, state) => {
@@ -84,6 +105,7 @@ app.model({
 				id: state.players.length,
 				user: user,
 				score: [],
+				clutches: 0
 			});
 			return state;
 		}
@@ -91,41 +113,30 @@ app.model({
 })
 
 
+//session model
 app.model({
 	state: {
-		//app state
 		title: 'Rage Academy',
 		language: 'en',
-		maxPlayers: 3,
-		players: [],
-
-		//UI state
-		currentPlayer: null
+		users: []
 	},
 	reducers: {
-		// addPlayer: (data, state) => {
-		// 	if (state.players.length >= state.maxPlayers) return state;
-
-		// 	state.players.push(data);
-		// 	return state;
-		// },
 		setLanguage: (data, state) => {
 			state.language = data;
 			return state;
 		},
-		setPlayers: (count, state) => {
-			state.maxPlayers = count;
-			state.players.length = count;
+		setUsers: (count, state) => {
+			state.users.length = 3;
 			return state;
 		},
-		updatePlayer: (data, state) => {
-			extend(state.players[data.player.id], data.data)
+		updateUser: (data, state) => {
+			extend(state.users[data.player.id], data.data)
 			return state;
 		},
-		//create empty players list
+		//create empty users list
 		initPlayers: (data, state) => {
-			for (let i = 0; i < state.maxPlayers; i++) {
-				state.players[i] = {
+			for (let i = 0; i < state.users.length; i++) {
+				state.users[i] = {
 					id: i,
 					name: '',
 					email: '',
@@ -143,7 +154,7 @@ app.model({
 			}
 
 			player.avatar = avatar;
-			state.players[player.id] = player;
+			state.users[player.id] = player;
 
 			return state;
 		}

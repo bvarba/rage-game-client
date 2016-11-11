@@ -11,7 +11,7 @@ module.exports = (state, prev, send) => {
 		<h1>Players</h1>
 
 		<ul class="players-list">
-		${ state.players.map(playerItem) }
+		${ state.users.map(playerItem) }
 		</ul>
 
 		<a class="button" href="/game">Start game!</a>
