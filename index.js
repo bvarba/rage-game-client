@@ -100,7 +100,6 @@ app.model({
 		players: [],
 
 		//UI state
-		pickingAvatar: false,
 		currentPlayer: null
 	},
 	reducers: {
@@ -130,15 +129,22 @@ app.model({
 					id: i,
 					name: '',
 					email: '',
-					avatar: 0
+					avatar: config.avatars[Math.floor(Math.random() * config.avatars.length)]
 				}
 			}
 
 			return state;
 		},
-		showPopup: (data, state) => {
-			state.pickingAvatar = true;
-			state.currentPlayer = data;
+		randomizeAvatar: (player, state) => {
+			let avatar = player.avatar;
+
+			while (avatar == player.avatar) {
+				avatar = config.avatars[Math.floor(Math.random() * config.avatars.length)];
+			}
+
+			player.avatar = avatar;
+			state.players[player.id] = player;
+
 			return state;
 		}
 	}
@@ -149,10 +155,10 @@ app.model({
 
 
 app.router(route => [
-	route('/', require('./views/main')),
-	route('players', require('./views/players')),
-	route('game', require('./views/game')),
-	route('stats', require('./views/stats'))
+	// route('/', require('./views/main')),
+	// route('players', require('./views/players')),
+	route('/', require('./views/game')),
+	// route('stats', require('./views/stats'))
 ])
 
 const tree = app.start();

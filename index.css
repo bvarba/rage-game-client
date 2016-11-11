@@ -143,16 +143,15 @@ h2 {
 
 
 .avatar {
-	padding: .5rem;
-	background: white;
 	border-radius: .5rem;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);
 	cursor: pointer;
+	overflow: hidden;
 }
 .avatar-image {
 	display: block;
-	width: 4rem;
-	height: 4rem;
+	width: 5rem;
+	height: 5rem;
 }
 
 
@@ -191,6 +190,8 @@ h2 {
 
 /* game page custom styles */
 .aim {
+	width: 100vw;
+	height: 100vw;
 }
 
 .aim-1 {
