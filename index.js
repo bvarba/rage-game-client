@@ -160,7 +160,6 @@ app.model({
 //session model
 app.model({
 	state: {
-		title: 'Rage Academy',
 		lang: 'fr',
 		users: Array(3),
 		baseUrl: 'https://amazemontreal.github.io/rage-game-client'

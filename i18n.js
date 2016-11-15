@@ -7,7 +7,12 @@ const locale = {
 		"New game": "Jouer à nouveau",
 		"Exit": "Sortie",
 		"Score": "Score",
-		"Clutches": "Prise"
+		"Clutches": "Prise",
+		"Language": "Langue",
+		"Number of players": "Nombre de joueurs",
+		"Go!": "Aller!",
+		"Players": "Joueurs",
+		"Start game!": "Commencer le jeu!"
 	}
 }
 

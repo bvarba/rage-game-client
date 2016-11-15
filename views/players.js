@@ -8,13 +8,13 @@ const avatars = require('../avatars')
 module.exports = (state, prev, send) => {
 	return html`
 	<section class="page page--players">
-		<h1>Players</h1>
+		<h1>${ t('Players', state.lang)}</h1>
 
 		<ul class="players-list">
 		${ state.users.map(playerItem) }
 		</ul>
 
-		<a class="button" href="/game" onclick=${e => send('game:create', state.users)}>Start game!</a>
+		<a class="button" href="/game" onclick=${e => send('game:create', state.users)}>${ t('Start game!', state.lang)}</a>
 	</section>
 	`;
 
