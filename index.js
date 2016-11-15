@@ -8,6 +8,7 @@ const insertCSS = require('insert-styles')
 const config = require('./config')
 const fs = require('fs')
 const clone = require('deep-copy')
+const http = require('choo/http')
 
 
 insertCSS(fs.readFileSync(__dirname + '/index.css', 'utf-8'));
@@ -35,10 +36,10 @@ app.model({
 	subscriptions: [
 		(send, done) => {
 			//fake init players
-			// send('game:create', [
-			// 	{name: 'Alex', avatar: config.avatars[0]},
-			// 	{name: 'Yummi', avatar: config.avatars[1]}
-			// ], done);
+			send('game:create', [
+				{name: 'Alex', avatar: config.avatars[0]},
+				{name: 'Yummi', avatar: config.avatars[1]}
+			], done);
 		}
 	],
 	effects: {
@@ -78,6 +79,21 @@ app.model({
 		//send stats to server
 		save: (data, state, send, done) => {
 			console.log('Save game results:', data);
+
+			http({
+				url: config.url + '/api/games/',
+				body: JSON.stringify({
+					"type": 1,
+					"ts": Date.now(),
+					"scores": [
+						{"username": 123, "score": 20, "clutches": 1}
+					]
+				})
+			}, (err, res, body) => {
+				console.log(err, res, body)
+				done()
+				// send('todos:receive', body, done)
+			})
 		}
 	},
 	reducers: {
@@ -145,14 +161,14 @@ app.model({
 app.model({
 	state: {
 		title: 'Rage Academy',
-		language: 'en',
+		lang: 'fr',
 		users: Array(3),
 		baseUrl: 'https://amazemontreal.github.io/rage-game-client'
 		// baseUrl: '.'
 	},
 	reducers: {
 		setLanguage: (data, state) => {
-			state.language = data;
+			state.lang = data;
 			return state;
 		},
 		setUsers: (count, state) => {
@@ -196,10 +212,10 @@ app.model({
 
 
 app.router(route => [
-	route('/', require('./views/main')),
-	route('players', require('./views/players')),
-	route('game', require('./views/game')),
-	route('stats', require('./views/stats'))
+	// route('/', require('./views/main')),
+	// route('players', require('./views/players')),
+	// route('game', require('./views/game')),
+	route('/', require('./views/stats'))
 ])
 
 const tree = app.start();

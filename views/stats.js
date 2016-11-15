@@ -2,24 +2,24 @@
 
 
 const html = require('choo/html')
-
+const t = require('../i18n')
 
 module.exports = (state, prev, send) => html`
 <section class="page page--stats">
-	<h1 class="page-title">Results</h1>
+	<h1 class="page-title">${t('Results', state.lang)}</h1>
 
 	<table class="stats-table">
 		<thead>
-			<tr><th></th><th>Score</th><th>Clutches</th></tr>
+			<tr><th></th><th>${t('Score', state.lang)}</th><th>${t('Clutches', state.lang)}</th></tr>
 		</thead>
 		<tbody>
 			${state.game.players.map(playerStats)}
 		</tbody>
 	</table>
 
-	<div class="button stats-save" onclick=${e => send('game:save', state)}>Save results</div>
-	<a href="/players" class="button stats-again" onclick=${e => send('game:create', state.users)}>New game</div>
-	<a href="/" class="button stats-again">Exit</div>
+	<button class="button stats-save" onclick=${e => send('game:save', state)}>${t('Save', state.lang)}</button>
+	<a href="/players" class="button stats-again" onclick=${e => send('game:create', state.users)}>${t('New game', state.lang)}</div>
+	<a href="/" class="button stats-again">${t('Exit', state.lang)}</div>
 </section>
 `;
 

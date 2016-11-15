@@ -1,10 +1,11 @@
 {
+	"url": "http://192.168.99.1:50524",
 	"games": [
 		{
 			"name": "Throw-o-ling",
 			"turns": 10,
 			"minPlayers": 1,
-			"maxPlayers": 1,
+			"maxPlayers": 3,
 			"clutchScore": 7,
 			"clutchTurns": [5, 10]
 		},
