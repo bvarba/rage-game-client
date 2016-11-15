@@ -14,17 +14,34 @@ module.exports = (state, prev, send) => {
 		${ state.users.map(playerItem) }
 		</ul>
 
+		<p>
+			${t('Enter unique user name and email to create a profile at rage.')}<br>
+			${t('After your session you will get an email with your score and improvements.')}
+		</p>
+
 		<a class="button" href="/game" onclick=${e => send('game:create', state.users)}>${ t('Start game!', state.lang)}</a>
+		<a class="button" href="/">${ t('Back', state.lang)}</a>
+
+
+		<div class="popup-avatars popup" ${state.selectAvatar ? '' : 'hidden' }>
+			${ state.avatars.map(avatarItem) }
+		</div>
 	</section>
 	`;
+
+	function avatarItem (avatar) {
+		return html`
+			<div class="popup-item avatar" onclick=${e => send('setAvatar', avatar)}><img class="avatar-image" src="${state.baseUrl}/images/${avatar}"/></div>
+		`;
+	}
 
 	function playerItem (player) {
 		return html`
 		<li class="player">
 			<div class="player-avatar avatar" onclick=${e => send('randomizeAvatar', player)}><img class="avatar-image" src="${state.baseUrl}/images/${player.avatar}"/></div>
 			<div class="player-credentials">
-				<input class="text-input player-name" placeholder="Name" type="text" value="${player.name}" oninput=${e => send('updateUser', {player:player, data: {name: e.target.value} })}/>
-				<input class="text-input player-email" placeholder="Email" type="email" value="${player.email}" oninput=${e => send('updateUser', {player:player, data: {email: e.target.value} })}/>
+				<input class="text-input player-name" placeholder="Name" type="text" value="${player.name}" oninput=${e => send('updateUser', {player:player, data: {name: e.target.value} })} onblur=${e => send('saveUser', player)}/>
+				<input class="text-input player-email" placeholder="Email" type="email" value="${player.email}" oninput=${e => send('updateUser', {player:player, data: {email: e.target.value} })} onblur=${e => send('saveUser', player)}/>
 			</div>
 		</li>
 		`;

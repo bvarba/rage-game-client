@@ -130,6 +130,9 @@ h2 {
 	letter-spacing: .01em;
 	text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+p {
+	padding: 1.5rem 0;
+}
 
 /** Switch style */
 .switch {
@@ -293,22 +296,69 @@ h2 {
 	border-top-right-radius: 0;
 }
 
+.avatars-popup {
+
+}
+
 
 
 /* game page custom styles */
-.aim {
-	font-family: Roboto;
-	width: 100%;
+.aim-container {
 	position: absolute;
+	margin:	auto;
+	font-family: Roboto;
+	width: 100vmin;
+	height: 100vmin;
 	top: -2rem;
 	left: 0;
 	bottom: 0;
 	right: 0;
+}
+.aim {
+	position: absolute;
 	margin:	auto;
-	width: 100vmin;
-	height: 100vmin;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 82%;
+	height: 82%;
 	max-width: 360px;
 	max-height: 360px;
+	border-radius: 100%;
+}
+
+.aim-0 {
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background: white;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.aim-0:after, .aim-0:before {
+	content: '0';
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 10%;
+	text-align: center;
+	line-height: 4rem;
+	height: 4rem;
+	margin: auto;
+	color: rgb(35,33,33);
+	font-weight: 900;
+	font-size: 2rem;
+}
+.aim-0:before {
+	left: auto;
+	right: 0;
 }
 
 .aim-1 {
@@ -324,7 +374,6 @@ h2 {
 	background: white;
 	border: 1rem solid #B02925;
 	border-radius: 100%;
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .aim-1:after, .aim-1:before {
 	content: '1';
@@ -356,7 +405,7 @@ h2 {
 	margin: auto;
 	height: 57%;
 	width: 57%;
-	border: 1rem solid #4F16D0;
+	border: 1rem solid rgb(35,33,33);
 	border-radius: 100%;
 }
 .aim-2:after, .aim-2:before {
@@ -412,11 +461,11 @@ h2 {
 	width: 4rem;
 	height: 4rem;
 	background: rgb(35,33,33);
-	top: 0;
+	top: 1rem;
 	cursor: pointer;
 	border-radius: 2rem;
 	opacity: .15;
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	/*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
 }
 .aim-clutch--active {
 	opacity: 1;
@@ -438,10 +487,10 @@ h2 {
 }
 
 .aim-clutch--left {
-	left: 0;
+	left: 1rem;
 }
 .aim-clutch--right {
-	right: 0;
+	right: 1rem;
 }
 
 

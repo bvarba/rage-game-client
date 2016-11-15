@@ -12,12 +12,15 @@ module.exports = (state, prev, send) => {
 	</h1>
 	<span class="game-undo button-outline" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>Undo</span>
 
-	<div class="aim">
+	<div class="aim-container">
+		<div class="aim-0" onclick=${e => send('game:hit', 0)}></div>
 		<div class="aim-clutch aim-clutch--left ${state.game.isClutch ? 'aim-clutch--active' : ''}" onclick=${e => state.game.isClutch ? send('game:clutch') : null}></div>
 		<div class="aim-clutch aim-clutch--right ${state.game.isClutch ? 'aim-clutch--active' : ''}" onclick=${e => state.game.isClutch ? send('game:clutch') : null}></div>
-		<div class="aim-1" onclick=${e => send('game:hit', 1)}></div>
-		<div class="aim-2" onclick=${e => send('game:hit', 2)}></div>
-		<div class="aim-5" onclick=${e => send('game:hit', 5)}></div>
+		<div class="aim">
+			<div class="aim-1" onclick=${e => send('game:hit', 1)}></div>
+			<div class="aim-2" onclick=${e => send('game:hit', 2)}></div>
+			<div class="aim-5" onclick=${e => send('game:hit', 5)}></div>
+		</div>
 	</div>
 
 	<ul class="game-players">

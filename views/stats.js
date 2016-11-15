@@ -10,7 +10,7 @@ module.exports = (state, prev, send) => html`
 
 	<table class="stats-table">
 		<thead>
-			<tr><th></th><th>${t('Score', state.lang)}</th><th>${t('Clutches', state.lang)}</th></tr>
+			<tr><th>${t('Player', state.lang)}</th><th>${t('Score', state.lang)}</th><th>${t('Clutches', state.lang)}</th></tr>
 		</thead>
 		<tbody>
 			${state.game.players.map(playerStats)}

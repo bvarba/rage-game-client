@@ -184,8 +184,42 @@ app.model({
 		// baseUrl: 'https://amazemontreal.github.io/rage-game-client'
 		baseUrl: config.url,
 		saved: false,
-		ts: null
+		ts: null,
+		avatars: config.avatars
 		// baseUrl: '.'
+	},
+	effects: {
+		//save user to server
+		saveUser: (user, state, send, done) => {
+			http({
+				url: config.url + '/api/users',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+				body: JSON.stringify({
+					"username": user.name,
+					"email": user.email,
+					"avatar": config.avatars.indexOf(user.avatar)
+				})
+			}, (err, res, body) => {
+				if (err) {
+					alert('Whoa, some error happened, please show that to administrator');
+					console.error(err);
+					return done();
+				}
+
+				console.log('Saved as', res)
+
+				done();
+			})
+		},
+
+		//check whether user/email combination is allowable
+		// validateUser: (user, state, send, done) => {
+
+		// }
 	},
 	reducers: {
 		setLanguage: (data, state) => {
@@ -235,8 +269,8 @@ app.model({
 app.router(route => [
 	// route('/', require('./views/main')),
 	// route('players', require('./views/players')),
-	// route('game', require('./views/game')),
-	route('/', require('./views/stats'))
+	route('/', require('./views/game')),
+	// route('stats', require('./views/stats'))
 ])
 
 const tree = app.start();

@@ -13,7 +13,8 @@ const locale = {
 		"Number of players": "Nombre de joueurs",
 		"Go!": "Aller!",
 		"Players": "Joueurs",
-		"Start game!": "Commencer le jeu!"
+		"Start game!": "Commencer le jeu!",
+		"Back": "Arrière"
 	}
 }
 
