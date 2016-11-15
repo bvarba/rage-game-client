@@ -13,8 +13,8 @@ module.exports = (state, prev, send) => html`
 	<br>
 	<h2>${ t('Language', state.lang)}</h2>
 	<div class="switch switch--lang">
-		<input type="radio" class="switch-input" ${ state.language === 'en' ? 'checked' : '' } id="lang-1" name="lang" onclick=${e => send('setLanguage', 'en')}/><label for="lang-1" class="switch-label">English</label>
-		<input type="radio" class="switch-input" ${ state.language === 'fr' ? 'checked' : '' } id="lang-2" name="lang" onclick=${e => send('setLanguage', 'fr')}/><label for="lang-2" class="switch-label">Français</label>
+		<input type="radio" class="switch-input" ${ state.lang === 'en' ? 'checked' : '' } id="lang-1" name="lang" onclick=${e => send('setLanguage', 'en')}/><label for="lang-1" class="switch-label">English</label>
+		<input type="radio" class="switch-input" ${ state.lang === 'fr' ? 'checked' : '' } id="lang-2" name="lang" onclick=${e => send('setLanguage', 'fr')}/><label for="lang-2" class="switch-label">Français</label>
 	</div>
 
 	<br>

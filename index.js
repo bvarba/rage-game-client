@@ -21,7 +21,7 @@ const app = choo()
 app.model({
 	namespace: 'game',
 	state: {
-		title: 'Throw-o-ling',
+		type: 1,
 		players: [],
 		turn: 1,
 		maxTurns: 10,
@@ -74,25 +74,38 @@ app.model({
 			users.forEach(user => {
 				send('game:addPlayer', user, () => {});
 			});
-			done();
+			send('game:update', {ts: Math.floor(Date.now()/1000)}, () => {done()});
+
 		},
 		//send stats to server
 		save: (data, state, send, done) => {
 			console.log('Save game results:', data);
 
 			http({
-				url: config.url + '/api/games/',
+				url: config.url + '/api/games',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
 				body: JSON.stringify({
-					"type": 1,
-					"ts": Date.now(),
-					"scores": [
-						{"username": 123, "score": 20, "clutches": 1}
-					]
+					"type": data.game.type,
+					"ts": data.game.ts,
+					"scores": data.game.players.map(player => {
+						return {
+							username: player.user.name,
+							score: player.score.reduce((prev, curr) => prev + curr, 0),
+							clutches: player.clutches
+						}
+					})
 				})
 			}, (err, res, body) => {
-				console.log(err, res, body)
-				done()
-				// send('todos:receive', body, done)
+				if (err) return alert('Whoa, some error happened, please show that to administrator');
+				console.log('Saved as', body)
+
+				send('game:update', {saved: true}, () => {
+					done()
+				});
 			})
 		}
 	},
@@ -141,8 +154,13 @@ app.model({
 			state.isClutch = false;
 			state.isEnded = false;
 			state.prevState = null;
+			state.saved = false;
+			state.ts = null;
 
 			return state;
+		},
+		update: (obj, state) => {
+			return extend(state, obj);
 		},
 		addPlayer: (user, state) => {
 			state.players.push({
@@ -160,9 +178,13 @@ app.model({
 //session model
 app.model({
 	state: {
+		type: config.games[0].type,
 		lang: 'fr',
 		users: Array(3),
-		baseUrl: 'https://amazemontreal.github.io/rage-game-client'
+		// baseUrl: 'https://amazemontreal.github.io/rage-game-client'
+		baseUrl: config.url,
+		saved: false,
+		ts: null
 		// baseUrl: '.'
 	},
 	reducers: {

@@ -17,7 +17,7 @@ module.exports = (state, prev, send) => html`
 		</tbody>
 	</table>
 
-	<button class="button stats-save" onclick=${e => send('game:save', state)}>${t('Save', state.lang)}</button>
+	<button class="button stats-save" ${state.game.saved ? 'disabled' : ''} onclick=${e => send('game:save', state)}>${t(state.game.saved ? 'Saved' : 'Save', state.lang)}</button>
 	<a href="/players" class="button stats-again" onclick=${e => send('game:create', state.users)}>${t('New game', state.lang)}</div>
 	<a href="/" class="button stats-again">${t('Exit', state.lang)}</div>
 </section>

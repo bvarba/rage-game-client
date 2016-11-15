@@ -4,6 +4,7 @@ const locale = {
 	"fr": {
 		"Results": "Résultats",
 		"Save": "Enregistrer",
+		"Saved": "Enregistré",
 		"New game": "Jouer à nouveau",
 		"Exit": "Sortie",
 		"Score": "Score",

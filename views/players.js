@@ -3,7 +3,7 @@
 
 const html = require('choo/html')
 const avatars = require('../avatars')
-
+const t = require('../i18n')
 
 module.exports = (state, prev, send) => {
 	return html`
