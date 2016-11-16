@@ -267,10 +267,10 @@ app.model({
 
 
 app.router(route => [
-	// route('/', require('./views/main')),
-	// route('players', require('./views/players')),
-	route('/', require('./views/game')),
-	// route('stats', require('./views/stats'))
+	route('/', require('./views/main')),
+	route('players', require('./views/players')),
+	route('game', require('./views/game')),
+	route('stats', require('./views/stats'))
 ])
 
 const tree = app.start();

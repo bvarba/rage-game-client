@@ -131,7 +131,7 @@ h2 {
 	text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 p {
-	padding: 1.5rem 0;
+	padding: 1.5rem 1rem;
 }
 
 /** Switch style */
@@ -194,9 +194,7 @@ p {
 	cursor: pointer;
 }
 .button[disabled] {
-	color: white;
-	box-shadow: none;
-	background: none;
+	opacity: .25;
 }
 .button:hover {
 	box-shadow: 0 0 0 2px white;
