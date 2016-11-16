@@ -33,20 +33,20 @@ module.exports = [
 ];
 },{}],3:[function(require,module,exports){
 module.exports={
+	"url": "http://192.222.162.86:50524/",
 	"games": [
 		{
+			"type": 1,
 			"name": "Throw-o-ling",
 			"turns": 10,
 			"minPlayers": 1,
-			"maxPlayers": 1,
+			"maxPlayers": 3,
 			"clutchScore": 7,
 			"clutchTurns": [5, 10]
 		},
 		{
+			"type": 2,
 			"name": "Tournament"
-		},
-		{
-
 		}
 	],
 	"avatars": [
@@ -61,6 +61,31 @@ module.exports={
 }
 
 },{}],4:[function(require,module,exports){
+module.exports = t;
+var locale = {
+    'fr': {
+        'Results': 'Résultats',
+        'Save': 'Enregistrer',
+        'Saved': 'Enregistré',
+        'New game': 'Jouer à nouveau',
+        'Exit': 'Sortie',
+        'Score': 'Score',
+        'Clutches': 'Prise',
+        'Language': 'Langue',
+        'Number of players': 'Nombre de joueurs',
+        'Go!': 'Aller!',
+        'Players': 'Joueurs',
+        'Start game!': 'Commencer le jeu!',
+        'Back': 'Arrière'
+    }
+};
+function t(key, lang) {
+    if (!locale[lang]) {
+        return key;
+    }
+    return locale[lang][key] || key;
+}
+},{}],5:[function(require,module,exports){
 'use strict';
 require('enable-mobile');
 var choo = require('choo');
@@ -69,12 +94,13 @@ var extend = require('just-extend');
 var insertCSS = require('insert-styles');
 var config = require('./config');
 var clone = require('deep-copy');
-insertCSS('@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Raleway-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Raleway-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Raleway-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Raleway-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Raleway-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Raleway-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Raleway-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Roboto-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Roboto-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Roboto-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Roboto-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Roboto-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Roboto-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Roboto-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n[hidden] {\r\n\tdisplay: none!important;\r\n}\r\n\r\n.game {\r\n\t/* .bluehour https://github.com/evankarageorgos/hue/blob/master/hue.css */\r\n\tbackground: -webkit-linear-gradient(left, #7E898F 0%, #636C75 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground: linear-gradient(90deg, #7E898F 0%, #636C75 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground-blend-mode: multiply, screen;\r\n\tbackground-size: cover;\r\n\theight: 100vh;\r\n\twidth: 100vw;\r\n\toverflow: hidden;\r\n\tfont-family: Raleway;\r\n\tfont-weight: 400;\r\n\tcolor: white;\r\n}\r\n\r\n\r\n.page {\r\n\ttext-align: center;\r\n\tpadding-top: 2.4rem;\r\n}\r\n\r\n.page-title {\r\n\tmargin: 0;\r\n}\r\n\r\nh1 {\r\n\tfont-size: 2.4rem;\r\n\tfont-weight: 700;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\nh2 {\r\n\tfont-size: 1.6rem;\r\n\tfont-weight: 600;\r\n\tletter-spacing: .01em;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\n\r\n/** Switch style */\r\n.switch {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\tmargin-left: -1px;\r\n}\r\n.switch-input {\r\n\tdisplay: none;\r\n}\r\n.switch-label {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2.4rem;\r\n\theight: 2.4rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n}\r\n.switch-label:hover {\r\n\tcolor: white;\r\n}\r\n.switch-label:last-child {\r\n\tmargin-right: 0;\r\n}\r\n.switch-input:checked + .switch-label {\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.switch-input:checked + .switch-label:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.button {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\ttext-decoration: none;\r\n\tborder: none;\r\n\toutline: none;\r\n\tpadding: .5rem 2rem;\r\n\tfont-weight: 800;\r\n\tmin-height: 2rem;\r\n\tline-height: 2rem;\r\n\tcolor: #393F44;\r\n\tmin-width: 8rem;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\ttext-transform: uppercase;\r\n\tfont-size: 1.2em;\r\n\tletter-spacing: .1ex;\r\n\tbackground: white;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n\tmargin-bottom: .5rem;\r\n}\r\n.button:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.button:active {\r\n}\r\n\r\n.button-outline {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.text-input {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\t-o-appearance:none;\r\n\tborder: none;\r\n\theight: 2.5rem;\r\n\tline-height: 2.5rem;\r\n\tpadding: 0;\r\n\twidth: 100%;\r\n\tborder-radius: .5rem;\r\n\tpadding-left: .4em;\r\n\tbackground: rgba(29, 33, 37, 0.38);\r\n\tbox-shadow: inset 0 2px 6px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.2);\r\n\tcolor: white;\r\n\ttext-shadow: none;\r\n}\r\n\r\n\r\n.avatar {\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tcursor: pointer;\r\n\toverflow: hidden;\r\n}\r\n.avatar-image {\r\n\tdisplay: block;\r\n\twidth: 5rem;\r\n\theight: 5rem;\r\n}\r\n\r\n\r\n/** main page style */\r\n.main-content {\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tbottom: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\theight: 65vh;\r\n\tmargin: auto;\r\n}\r\n.main-content .switch {\r\n\tfont-size: 1.4rem;\r\n}\r\n.switch--players {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n/* players page custom styles */\r\n.players-list {\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n\tmargin: 0;\r\n}\r\n.player {\r\n\tclear: both;\r\n\tmargin-bottom: 1rem;\r\n}\r\n.player-avatar {\r\n\tmargin-right: .5rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}\r\n.player-credentials {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n\twidth: 15rem;\r\n}\r\n.player-name {\r\n\tborder-bottom-left-radius: 0;\r\n\tborder-bottom-right-radius: 0;\r\n\tmargin-bottom: .15rem;\r\n}\r\n.player-email {\r\n\tborder-top-left-radius: 0;\r\n\tborder-top-right-radius: 0;\r\n}\r\n\r\n\r\n\r\n/* game page custom styles */\r\n.aim {\r\n\tfont-family: Roboto;\r\n\twidth: 100%;\r\n\tposition: absolute;\r\n\ttop: -2rem;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\tmargin:\tauto;\r\n\twidth: 100vmin;\r\n\theight: 100vmin;\r\n\tmax-width: 360px;\r\n\tmax-height: 360px;\r\n}\r\n\r\n.aim-1 {\r\n\tcursor: pointer;\r\n\twidth: 90%;\r\n\theight: 90%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\tbackground: white;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n\tbox-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);\r\n}\r\n.aim-1:after, .aim-1:before {\r\n\tcontent: \'1\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 15%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-1:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n\r\n.aim-2 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\theight: 57%;\r\n\twidth: 57%;\r\n\tborder: 1rem solid #4F16D0;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-2:after, .aim-2:before {\r\n\tcontent: \'2\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 25%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-2:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n.aim-5 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\twidth: 22.5%;\r\n\theight: 22.5%;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\ttop: 0;\r\n\tmargin: auto;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-5:after {\r\n\tcontent: \'5\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n\r\n.aim-clutch {\r\n\tposition: absolute;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n\tbackground: rgb(35,33,33);\r\n\ttop: 0;\r\n\tcursor: pointer;\r\n\tborder-radius: 2rem;\r\n\topacity: .15;\r\n\tbox-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);\r\n}\r\n.aim-clutch--active {\r\n\topacity: 1;\r\n}\r\n.aim-clutch:after {\r\n\tcontent: \'7\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: white;\r\n\tfont-weight: 900;\r\n\tfont-size: 1.6rem;\r\n}\r\n\r\n.aim-clutch--left {\r\n\tleft: 0;\r\n}\r\n.aim-clutch--right {\r\n\tright: 0;\r\n}\r\n\r\n\r\n.game-turn {\r\n\tfont-family: Roboto;\r\n}\r\n.game-undo {\r\n\tmargin-top: 1rem;\r\n\tfont-weight: 200;\r\n\tfont-size: 1.2rem;\r\n\tvertical-align: middle;\r\n\tline-height: 2rem;\r\n\theight: 2rem;\r\n\tcursor: pointer;\r\n}\r\n.game-players {\r\n\tposition: absolute;\r\n\tbottom: 0rem;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n}\r\n.game-player {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tmargin-right: .75rem;\r\n\tcursor: pointer;\r\n}\r\n.game-player-image {\r\n\toverflow: hidden;\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tdisplay: block;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n}\r\n.game-player--active .game-player-image {\r\n\tborder: .5rem solid white;\r\n}\r\n.game-player-name {\r\n\tmargin-top: .5rem;\r\n\tmargin-bottom: 0;\r\n}\r\n.game-player-score {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n\r\n/* stats page */\r\n.stats-table {\r\n\twidth: 100%;\r\n\tmargin-top: 4rem;\r\n\tmargin-bottom: 4rem;\r\n}\r\n');
+var http = require('choo/http');
+insertCSS('@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Raleway-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Raleway-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Raleway-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Raleway-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Raleway-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Raleway-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Raleway-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Raleway\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Raleway-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 900;\r\n  src: url(\'fonts/Roboto-Black.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 800;\r\n  src: url(\'fonts/Roboto-ExtraBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 700;\r\n  src: url(\'fonts/Roboto-Bold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 600;\r\n  src: url(\'fonts/Roboto-SemiBold.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 500;\r\n  src: url(\'fonts/Roboto-Medium.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 400;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 300;\r\n  src: url(\'fonts/Roboto-Regular.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 200;\r\n  src: url(\'fonts/Roboto-ExtraLight.ttf\')  format(\'truetype\');\r\n}\r\n@font-face {\r\n  font-family: \'Roboto\';\r\n  font-weight: 100;\r\n  src: url(\'fonts/Roboto-Thin.ttf\')  format(\'truetype\');\r\n}\r\n\r\n[hidden] {\r\n\tdisplay: none!important;\r\n}\r\n\r\n.game {\r\n\t/* .bluehour https://github.com/evankarageorgos/hue/blob/master/hue.css */\r\n\tbackground: -webkit-linear-gradient(left, #7E898F 0%, #636C75 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), -webkit-radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground: linear-gradient(90deg, #7E898F 0%, #636C75 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.55) 100%), radial-gradient(at top, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.08) 63%);\r\n\tbackground-blend-mode: multiply, screen;\r\n\tbackground-size: cover;\r\n\theight: 100vh;\r\n\twidth: 100vw;\r\n\toverflow: hidden;\r\n\tfont-family: Raleway;\r\n\tfont-weight: 400;\r\n\tcolor: white;\r\n}\r\n\r\n\r\n.page {\r\n\ttext-align: center;\r\n\tpadding-top: 2.4rem;\r\n}\r\n\r\n.page-title {\r\n\tmargin: 0;\r\n}\r\n\r\nh1 {\r\n\tfont-size: 2.4rem;\r\n\tfont-weight: 700;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\nh2 {\r\n\tfont-size: 1.6rem;\r\n\tfont-weight: 600;\r\n\tletter-spacing: .01em;\r\n\ttext-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\np {\r\n\tpadding: 1.5rem 1rem;\r\n}\r\n\r\n/** Switch style */\r\n.switch {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\tmargin-left: -1px;\r\n}\r\n.switch-input {\r\n\tdisplay: none;\r\n}\r\n.switch-label {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2.4rem;\r\n\theight: 2.4rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n}\r\n.switch-label:hover {\r\n\tcolor: white;\r\n}\r\n.switch-label:last-child {\r\n\tmargin-right: 0;\r\n}\r\n.switch-input:checked + .switch-label {\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.switch-input:checked + .switch-label:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.button {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\tappearance: none;\r\n\ttext-decoration: none;\r\n\tborder: none;\r\n\toutline: none;\r\n\tpadding: .5rem 2rem;\r\n\tfont-weight: 800;\r\n\tmin-height: 2rem;\r\n\tline-height: 2rem;\r\n\tcolor: #393F44;\r\n\tmin-width: 8rem;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\ttext-transform: uppercase;\r\n\tfont-size: 1.2em;\r\n\tletter-spacing: .1ex;\r\n\tbackground: white;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n\tmargin-bottom: .5rem;\r\n\tfont-family: Raleway;\r\n\tcursor: pointer;\r\n}\r\n.button[disabled] {\r\n\topacity: .25;\r\n}\r\n.button:hover {\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n.button:active {\r\n}\r\n\r\n.button-outline {\r\n\tcursor: pointer;\r\n\tmin-height: 2rem;\r\n\tpadding: 0 1rem;\r\n\tmargin: 0 2px 2px 0;\r\n\tline-height: 2rem;\r\n\tcolor: white;\r\n\tdisplay: inline-block;\r\n\tborder-radius: 2rem;\r\n\tcolor: white;\r\n\tbox-shadow: 0 0 0 2px white;\r\n}\r\n\r\n.text-input {\r\n\t-webkit-appearance: none;\r\n\t-moz-appearance: none;\r\n\t-o-appearance:none;\r\n\tborder: none;\r\n\theight: 2.5rem;\r\n\tline-height: 2.5rem;\r\n\tpadding: 0;\r\n\twidth: 100%;\r\n\tborder-radius: .5rem;\r\n\tpadding-left: .4em;\r\n\tbackground: rgba(29, 33, 37, 0.38);\r\n\tbox-shadow: inset 0 2px 6px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.2);\r\n\tcolor: white;\r\n\ttext-shadow: none;\r\n}\r\n\r\n\r\n.avatar {\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tcursor: pointer;\r\n\toverflow: hidden;\r\n}\r\n.avatar-image {\r\n\tdisplay: block;\r\n\twidth: 5rem;\r\n\theight: 5rem;\r\n}\r\n\r\n\r\n/** main page style */\r\n.main-content {\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tbottom: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\theight: 65vh;\r\n\tmargin: auto;\r\n}\r\n.main-content .switch {\r\n\tfont-size: 1.4rem;\r\n}\r\n.switch--players {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n/* players page custom styles */\r\n.players-list {\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n\tmargin: 0;\r\n}\r\n.player {\r\n\tclear: both;\r\n\tmargin-bottom: 1rem;\r\n}\r\n.player-avatar {\r\n\tmargin-right: .5rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}\r\n.player-credentials {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n\twidth: 15rem;\r\n}\r\n.player-name {\r\n\tborder-bottom-left-radius: 0;\r\n\tborder-bottom-right-radius: 0;\r\n\tmargin-bottom: .15rem;\r\n}\r\n.player-email {\r\n\tborder-top-left-radius: 0;\r\n\tborder-top-right-radius: 0;\r\n}\r\n\r\n.avatars-popup {\r\n\r\n}\r\n\r\n\r\n\r\n/* game page custom styles */\r\n.aim-container {\r\n\tposition: absolute;\r\n\tmargin:\tauto;\r\n\tfont-family: Roboto;\r\n\twidth: 100vmin;\r\n\theight: 100vmin;\r\n\ttop: -2rem;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n}\r\n.aim {\r\n\tposition: absolute;\r\n\tmargin:\tauto;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\twidth: 82%;\r\n\theight: 82%;\r\n\tmax-width: 360px;\r\n\tmax-height: 360px;\r\n\tborder-radius: 100%;\r\n}\r\n\r\n.aim-0 {\r\n\tcursor: pointer;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\tbackground: white;\r\n\tbox-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);\r\n}\r\n.aim-0:after, .aim-0:before {\r\n\tcontent: \'0\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 10%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-0:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n\r\n.aim-1 {\r\n\tcursor: pointer;\r\n\twidth: 90%;\r\n\theight: 90%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\tbackground: white;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-1:after, .aim-1:before {\r\n\tcontent: \'1\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 15%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-1:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n\r\n.aim-2 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tmargin: auto;\r\n\theight: 57%;\r\n\twidth: 57%;\r\n\tborder: 1rem solid rgb(35,33,33);\r\n\tborder-radius: 100%;\r\n}\r\n.aim-2:after, .aim-2:before {\r\n\tcontent: \'2\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\twidth: 25%;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n.aim-2:before {\r\n\tleft: auto;\r\n\tright: 0;\r\n}\r\n.aim-5 {\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\twidth: 22.5%;\r\n\theight: 22.5%;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\ttop: 0;\r\n\tmargin: auto;\r\n\tborder: 1rem solid #B02925;\r\n\tborder-radius: 100%;\r\n}\r\n.aim-5:after {\r\n\tcontent: \'5\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: rgb(35,33,33);\r\n\tfont-weight: 900;\r\n\tfont-size: 2rem;\r\n}\r\n\r\n.aim-clutch {\r\n\tposition: absolute;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n\tbackground: rgb(35,33,33);\r\n\ttop: 1rem;\r\n\tcursor: pointer;\r\n\tborder-radius: 2rem;\r\n\topacity: .15;\r\n\t/*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/\r\n}\r\n.aim-clutch--active {\r\n\topacity: 1;\r\n}\r\n.aim-clutch:after {\r\n\tcontent: \'7\';\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tbottom: 0;\r\n\tright: 0;\r\n\ttext-align: center;\r\n\tline-height: 4rem;\r\n\theight: 4rem;\r\n\tmargin: auto;\r\n\tcolor: white;\r\n\tfont-weight: 900;\r\n\tfont-size: 1.6rem;\r\n}\r\n\r\n.aim-clutch--left {\r\n\tleft: 1rem;\r\n}\r\n.aim-clutch--right {\r\n\tright: 1rem;\r\n}\r\n\r\n\r\n.game-turn {\r\n\tfont-family: Roboto;\r\n}\r\n.game-undo {\r\n\tmargin-top: 1rem;\r\n\tfont-weight: 200;\r\n\tfont-size: 1.2rem;\r\n\tvertical-align: middle;\r\n\tline-height: 2rem;\r\n\theight: 2rem;\r\n\tcursor: pointer;\r\n}\r\n.game-players {\r\n\tposition: absolute;\r\n\tbottom: 0rem;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tlist-style: none;\r\n\tpadding: 0;\r\n}\r\n.game-player {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tmargin-right: .75rem;\r\n\tcursor: pointer;\r\n}\r\n.game-player-image {\r\n\toverflow: hidden;\r\n\tborder-radius: .5rem;\r\n\tbox-shadow: 0 3px 6px rgba(0,0,0,0.26), 0 3px 6px rgba(0,0,0,0.23);\r\n\tdisplay: block;\r\n\twidth: 4rem;\r\n\theight: 4rem;\r\n}\r\n.game-player--active .game-player-image {\r\n\tborder: .5rem solid white;\r\n}\r\n.game-player-name {\r\n\tmargin-top: .5rem;\r\n\tmargin-bottom: 0;\r\n}\r\n.game-player-score {\r\n\tfont-family: Roboto;\r\n}\r\n\r\n\r\n\r\n/* stats page */\r\n.stats-table {\r\n\twidth: 100%;\r\n    margin: 4rem auto;\r\n    max-width: 30rem;\r\n}\r\n');
 var app = choo();
 app.model({
     namespace: 'game',
     state: {
-        title: 'Throw-o-ling',
+        type: 1,
         players: [],
         turn: 1,
         maxTurns: 10,
@@ -90,6 +116,16 @@ app.model({
         prevState: null
     },
     subscriptions: [function (send, done) {
+            send('game:create', [
+                {
+                    name: 'Alex',
+                    avatar: config.avatars[0]
+                },
+                {
+                    name: 'Yummi',
+                    avatar: config.avatars[1]
+                }
+            ], done);
         }],
     effects: {
         clutch: function (score, state, send, done) {
@@ -122,10 +158,41 @@ app.model({
                 send('game:addPlayer', user, function () {
                 });
             });
-            done();
+            send('game:update', { ts: Math.floor(Date.now() / 1000) }, function () {
+                done();
+            });
         },
         save: function (data, state, send, done) {
             console.log('Save game results:', data);
+            http({
+                url: config.url + '/api/games',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    'type': data.game.type,
+                    'ts': data.game.ts,
+                    'scores': data.game.players.map(function (player) {
+                        return {
+                            username: player.user.name,
+                            score: player.score.reduce(function (prev, curr) {
+                                return prev + curr;
+                            }, 0),
+                            clutches: player.clutches
+                        };
+                    })
+                })
+            }, function (err, res, body) {
+                if (err) {
+                    return alert('Whoa, some error happened, please show that to administrator');
+                }
+                console.log('Saved as', body);
+                send('game:update', { saved: true }, function () {
+                    done();
+                });
+            });
         }
     },
     reducers: {
@@ -171,7 +238,12 @@ app.model({
             state.isClutch = false;
             state.isEnded = false;
             state.prevState = null;
+            state.saved = false;
+            state.ts = null;
             return state;
+        },
+        update: function (obj, state) {
+            return extend(state, obj);
         },
         addPlayer: function (user, state) {
             state.players.push({
@@ -186,14 +258,42 @@ app.model({
 });
 app.model({
     state: {
-        title: 'Rage Academy',
-        language: 'en',
+        type: config.games[0].type,
+        lang: 'fr',
         users: Array(3),
-        baseUrl: 'https://amazemontreal.github.io/rage-game-client'
+        baseUrl: config.url,
+        saved: false,
+        ts: null,
+        avatars: config.avatars
+    },
+    effects: {
+        saveUser: function (user, state, send, done) {
+            http({
+                url: config.url + '/api/users',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    'username': user.name,
+                    'email': user.email,
+                    'avatar': config.avatars.indexOf(user.avatar)
+                })
+            }, function (err, res, body) {
+                if (err) {
+                    alert('Whoa, some error happened, please show that to administrator');
+                    console.error(err);
+                    return done();
+                }
+                console.log('Saved as', res);
+                done();
+            });
+        }
     },
     reducers: {
         setLanguage: function (data, state) {
-            state.language = data;
+            state.lang = data;
             return state;
         },
         setUsers: function (count, state) {
@@ -237,14 +337,14 @@ app.router(function (route) {
 var tree = app.start();
 document.body.classList.add('game');
 document.body.appendChild(tree);
-},{"./config":3,"./views/game":37,"./views/main":38,"./views/players":39,"./views/stats":40,"choo":9,"choo/html":8,"deep-copy":14,"enable-mobile":17,"insert-styles":24,"just-extend":25}],5:[function(require,module,exports){
+},{"./config":3,"./views/game":44,"./views/main":45,"./views/players":46,"./views/stats":47,"choo":11,"choo/html":9,"choo/http":10,"deep-copy":16,"enable-mobile":19,"insert-styles":27,"just-extend":29}],6:[function(require,module,exports){
 module.exports = applyHook;
 function applyHook(arr, arg1, arg2, arg3, arg4, arg5) {
     arr.forEach(function (fn) {
         fn(arg1, arg2, arg3, arg4, arg5);
     });
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var mutate = require('xtend/mutable');
 var xtend = require('xtend');
 var applyHook = require('./apply-hook');
@@ -481,7 +581,7 @@ function wrapHook(value, transforms) {
     });
     return value;
 }
-},{"./apply-hook":5,"xtend":33,"xtend/mutable":34}],7:[function(require,module,exports){
+},{"./apply-hook":6,"xtend":40,"xtend/mutable":41}],8:[function(require,module,exports){
 var document = require('global/document');
 var hyperx = require('hyperx');
 var onload = require('on-load');
@@ -669,9 +769,11 @@ function belCreateElement(tag, props, children) {
 }
 module.exports = hyperx(belCreateElement);
 module.exports.createElement = belCreateElement;
-},{"global/document":19,"hyperx":23,"on-load":28}],8:[function(require,module,exports){
+},{"global/document":22,"hyperx":26,"on-load":32}],9:[function(require,module,exports){
 module.exports = require('yo-yo');
-},{"yo-yo":35}],9:[function(require,module,exports){
+},{"yo-yo":42}],10:[function(require,module,exports){
+module.exports = require('xhr');
+},{"xhr":39}],11:[function(require,module,exports){
 var history = require('sheet-router/history');
 var sheetRouter = require('sheet-router');
 var document = require('global/document');
@@ -818,7 +920,7 @@ function appInit(opts) {
         };
     }
 }
-},{"barracks":6,"document-ready":15,"global/document":19,"hash-match":21,"nanoraf":27,"sheet-router":13,"sheet-router/hash":10,"sheet-router/history":11,"sheet-router/href":12,"xtend":33,"yo-yo":35}],10:[function(require,module,exports){
+},{"barracks":7,"document-ready":17,"global/document":22,"hash-match":24,"nanoraf":31,"sheet-router":15,"sheet-router/hash":12,"sheet-router/history":13,"sheet-router/href":14,"xtend":40,"yo-yo":42}],12:[function(require,module,exports){
 var window = require('global/window');
 module.exports = hash;
 function hash(cb) {
@@ -826,7 +928,7 @@ function hash(cb) {
         cb(window.location.hash);
     };
 }
-},{"global/window":20}],11:[function(require,module,exports){
+},{"global/window":23}],13:[function(require,module,exports){
 var document = require('global/document');
 var window = require('global/window');
 module.exports = history;
@@ -835,7 +937,7 @@ function history(cb) {
         cb(document.location.href);
     };
 }
-},{"global/document":19,"global/window":20}],12:[function(require,module,exports){
+},{"global/document":22,"global/window":23}],14:[function(require,module,exports){
 var window = require('global/window');
 module.exports = href;
 function href(cb) {
@@ -864,7 +966,7 @@ function href(cb) {
         window.history.pushState({}, null, href);
     };
 }
-},{"global/window":20}],13:[function(require,module,exports){
+},{"global/window":23}],15:[function(require,module,exports){
 var pathname = require('pathname-match');
 var wayfarer = require('wayfarer');
 module.exports = sheetRouter;
@@ -910,7 +1012,7 @@ function _createRoute(route, inline, child) {
         child
     ];
 }
-},{"pathname-match":29,"wayfarer":31}],14:[function(require,module,exports){
+},{"pathname-match":34,"wayfarer":37}],16:[function(require,module,exports){
 ;
 (function (name, root, factory) {
     if (typeof exports === 'object') {
@@ -952,7 +1054,7 @@ function _createRoute(route, inline, child) {
         }
     }
 }));
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 var document = require('global/document');
 module.exports = document.addEventListener ? ready : noop;
@@ -967,7 +1069,7 @@ function ready(callback) {
 }
 function noop() {
 }
-},{"global/document":19}],16:[function(require,module,exports){
+},{"global/document":22}],18:[function(require,module,exports){
 if (!Array.prototype.fill) {
     Array.prototype.fill = function (value) {
         if (this == null) {
@@ -988,7 +1090,7 @@ if (!Array.prototype.fill) {
         return O;
     };
 }
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./arr-fill');
 require('typedarray-methods');
 require('get-float-time-domain-data');
@@ -1014,7 +1116,46 @@ function addMeta(obj) {
         document.head.insertBefore(meta, document.head.firstChild);
     }
 }
-},{"./arr-fill":16,"get-float-time-domain-data":18,"insert-styles":24,"typedarray-methods":30}],18:[function(require,module,exports){
+},{"./arr-fill":18,"get-float-time-domain-data":21,"insert-styles":27,"typedarray-methods":36}],20:[function(require,module,exports){
+var isFunction = require('is-function');
+module.exports = forEach;
+var toString = Object.prototype.toString;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function forEach(list, iterator, context) {
+    if (!isFunction(iterator)) {
+        throw new TypeError('iterator must be a function');
+    }
+    if (arguments.length < 3) {
+        context = this;
+    }
+    if (toString.call(list) === '[object Array]') {
+        forEachArray(list, iterator, context);
+    } else if (typeof list === 'string') {
+        forEachString(list, iterator, context);
+    } else {
+        forEachObject(list, iterator, context);
+    }
+}
+function forEachArray(array, iterator, context) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (hasOwnProperty.call(array, i)) {
+            iterator.call(context, array[i], i, array);
+        }
+    }
+}
+function forEachString(string, iterator, context) {
+    for (var i = 0, len = string.length; i < len; i++) {
+        iterator.call(context, string.charAt(i), i, string);
+    }
+}
+function forEachObject(object, iterator, context) {
+    for (var k in object) {
+        if (hasOwnProperty.call(object, k)) {
+            iterator.call(context, object[k], k, object);
+        }
+    }
+}
+},{"is-function":28}],21:[function(require,module,exports){
 (function (global){
 'use strict';
 if (global.AnalyserNode && !global.AnalyserNode.prototype.getFloatTimeDomainData) {
@@ -1027,7 +1168,7 @@ if (global.AnalyserNode && !global.AnalyserNode.prototype.getFloatTimeDomainData
     };
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],19:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : {};
 var minDoc = require('min-document');
@@ -1041,7 +1182,7 @@ if (typeof document !== 'undefined') {
     module.exports = doccy;
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":1}],20:[function(require,module,exports){
+},{"min-document":1}],23:[function(require,module,exports){
 (function (global){
 if (typeof window !== 'undefined') {
     module.exports = window;
@@ -1053,7 +1194,7 @@ if (typeof window !== 'undefined') {
     module.exports = {};
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = function hashMatch(hash, prefix) {
     var pre = prefix || '/';
     if (hash.length === 0) {
@@ -1070,7 +1211,7 @@ module.exports = function hashMatch(hash, prefix) {
         return hash.replace(pre, '');
     }
 };
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = attributeToProperty;
 var transform = {
     'class': 'className',
@@ -1088,7 +1229,7 @@ function attributeToProperty(h) {
         return h(tagName, attrs, children);
     };
 }
-},{}],23:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var attrToProp = require('hyperscript-attribute-to-property');
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4;
 var ATTR_KEY = 5, ATTR_KEY_W = 6;
@@ -1489,7 +1630,7 @@ var closeRE = RegExp('^(' + [
 function selfClosing(tag) {
     return closeRE.test(tag);
 }
-},{"hyperscript-attribute-to-property":22}],24:[function(require,module,exports){
+},{"hyperscript-attribute-to-property":25}],27:[function(require,module,exports){
 (function (global){
 'use strict';
 var cache = {};
@@ -1516,7 +1657,15 @@ function createStyle(id) {
     return element;
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],25:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
+module.exports = isFunction;
+var toString = Object.prototype.toString;
+function isFunction(fn) {
+    var string = toString.call(fn);
+    return string === '[object Function]' || typeof fn === 'function' && string !== '[object RegExp]' || typeof window !== 'undefined' && (fn === window.setTimeout || fn === window.alert || fn === window.confirm || fn === window.prompt);
+}
+;
+},{}],29:[function(require,module,exports){
 module.exports = extend;
 function extend(obj1, obj2) {
     var args = [].slice.call(arguments);
@@ -1541,7 +1690,7 @@ function extend(obj1, obj2) {
     }
     return result;
 }
-},{}],26:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 var range;
 var doc = typeof document !== 'undefined' && document;
@@ -1942,7 +2091,7 @@ function morphdom(fromNode, toNode, options) {
     return morphedNode;
 }
 module.exports = morphdom;
-},{}],27:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var window = require('global/window');
 module.exports = nanoraf;
 function nanoraf(render, raf) {
@@ -1969,7 +2118,7 @@ function nanoraf(render, raf) {
         currentState = state;
     };
 }
-},{"global/window":20}],28:[function(require,module,exports){
+},{"global/window":23}],32:[function(require,module,exports){
 var document = require('global/document');
 var window = require('global/window');
 var watch = Object.create(null);
@@ -2060,12 +2209,47 @@ function eachMutation(nodes, fn) {
         }
     }
 }
-},{"global/document":19,"global/window":20}],29:[function(require,module,exports){
+},{"global/document":22,"global/window":23}],33:[function(require,module,exports){
+var trim = require('trim'), forEach = require('for-each'), isArray = function (arg) {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+module.exports = function (headers) {
+    if (!headers) {
+        return {};
+    }
+    var result = {};
+    forEach(trim(headers).split('\n'), function (row) {
+        var index = row.indexOf(':'), key = trim(row.slice(0, index)).toLowerCase(), value = trim(row.slice(index + 1));
+        if (typeof result[key] === 'undefined') {
+            result[key] = value;
+        } else if (isArray(result[key])) {
+            result[key].push(value);
+        } else {
+            result[key] = [
+                result[key],
+                value
+            ];
+        }
+    });
+    return result;
+};
+},{"for-each":20,"trim":35}],34:[function(require,module,exports){
 module.exports = match;
 function match(route) {
     return route.trim().replace(/[\?|#].*$/, '').replace(/^(?:https?\:)\/\//, '').replace(/^.*?(\/.*)/, '$1').replace(/\/$/, '');
 }
-},{}],30:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
+exports = module.exports = trim;
+function trim(str) {
+    return str.replace(/^\s*|\s*$/g, '');
+}
+exports.left = function (str) {
+    return str.replace(/^\s*/, '');
+};
+exports.right = function (str) {
+    return str.replace(/\s*$/, '');
+};
+},{}],36:[function(require,module,exports){
 var methods = [
     'values',
     'sort',
@@ -2169,7 +2353,7 @@ if (typeof TypedArray !== 'undefined') {
         }
     }
 }
-},{}],31:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 var trie = require('./trie');
 module.exports = Wayfarer;
 function Wayfarer(dft) {
@@ -2212,7 +2396,7 @@ function Wayfarer(dft) {
         throw new Error('route \'' + route + '\' did not match');
     }
 }
-},{"./trie":32}],32:[function(require,module,exports){
+},{"./trie":38}],38:[function(require,module,exports){
 var mutate = require('xtend/mutable');
 var xtend = require('xtend');
 module.exports = Trie;
@@ -2302,7 +2486,211 @@ Trie.prototype.mount = function (route, trie) {
         delete node.nodes[''].nodes;
     }
 };
-},{"xtend":33,"xtend/mutable":34}],33:[function(require,module,exports){
+},{"xtend":40,"xtend/mutable":41}],39:[function(require,module,exports){
+'use strict';
+var window = require('global/window');
+var isFunction = require('is-function');
+var parseHeaders = require('parse-headers');
+var xtend = require('xtend');
+module.exports = createXHR;
+createXHR.XMLHttpRequest = window.XMLHttpRequest || noop;
+createXHR.XDomainRequest = 'withCredentials' in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window.XDomainRequest;
+forEachArray([
+    'get',
+    'put',
+    'post',
+    'patch',
+    'head',
+    'delete'
+], function (method) {
+    createXHR[method === 'delete' ? 'del' : method] = function (uri, options, callback) {
+        options = initParams(uri, options, callback);
+        options.method = method.toUpperCase();
+        return _createXHR(options);
+    };
+});
+function forEachArray(array, iterator) {
+    for (var i = 0; i < array.length; i++) {
+        iterator(array[i]);
+    }
+}
+function isEmpty(obj) {
+    for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+function initParams(uri, options, callback) {
+    var params = uri;
+    if (isFunction(options)) {
+        callback = options;
+        if (typeof uri === 'string') {
+            params = { uri: uri };
+        }
+    } else {
+        params = xtend(options, { uri: uri });
+    }
+    params.callback = callback;
+    return params;
+}
+function createXHR(uri, options, callback) {
+    options = initParams(uri, options, callback);
+    return _createXHR(options);
+}
+function _createXHR(options) {
+    if (typeof options.callback === 'undefined') {
+        throw new Error('callback argument missing');
+    }
+    var called = false;
+    var callback = function cbOnce(err, response, body) {
+        if (!called) {
+            called = true;
+            options.callback(err, response, body);
+        }
+    };
+    function readystatechange() {
+        if (xhr.readyState === 4) {
+            loadFunc();
+        }
+    }
+    function getBody() {
+        var body = undefined;
+        if (xhr.response) {
+            body = xhr.response;
+        } else {
+            body = xhr.responseText || getXml(xhr);
+        }
+        if (isJson) {
+            try {
+                body = JSON.parse(body);
+            } catch (e) {
+            }
+        }
+        return body;
+    }
+    var failureResponse = {
+        body: undefined,
+        headers: {},
+        statusCode: 0,
+        method: method,
+        url: uri,
+        rawRequest: xhr
+    };
+    function errorFunc(evt) {
+        clearTimeout(timeoutTimer);
+        if (!(evt instanceof Error)) {
+            evt = new Error('' + (evt || 'Unknown XMLHttpRequest Error'));
+        }
+        evt.statusCode = 0;
+        return callback(evt, failureResponse);
+    }
+    function loadFunc() {
+        if (aborted) {
+            return;
+        }
+        var status;
+        clearTimeout(timeoutTimer);
+        if (options.useXDR && xhr.status === undefined) {
+            status = 200;
+        } else {
+            status = xhr.status === 1223 ? 204 : xhr.status;
+        }
+        var response = failureResponse;
+        var err = null;
+        if (status !== 0) {
+            response = {
+                body: getBody(),
+                statusCode: status,
+                method: method,
+                headers: {},
+                url: uri,
+                rawRequest: xhr
+            };
+            if (xhr.getAllResponseHeaders) {
+                response.headers = parseHeaders(xhr.getAllResponseHeaders());
+            }
+        } else {
+            err = new Error('Internal XMLHttpRequest Error');
+        }
+        return callback(err, response, response.body);
+    }
+    var xhr = options.xhr || null;
+    if (!xhr) {
+        if (options.cors || options.useXDR) {
+            xhr = new createXHR.XDomainRequest();
+        } else {
+            xhr = new createXHR.XMLHttpRequest();
+        }
+    }
+    var key;
+    var aborted;
+    var uri = xhr.url = options.uri || options.url;
+    var method = xhr.method = options.method || 'GET';
+    var body = options.body || options.data || null;
+    var headers = xhr.headers = options.headers || {};
+    var sync = !!options.sync;
+    var isJson = false;
+    var timeoutTimer;
+    if ('json' in options) {
+        isJson = true;
+        headers['accept'] || headers['Accept'] || (headers['Accept'] = 'application/json');
+        if (method !== 'GET' && method !== 'HEAD') {
+            headers['content-type'] || headers['Content-Type'] || (headers['Content-Type'] = 'application/json');
+            body = JSON.stringify(options.json);
+        }
+    }
+    xhr.onreadystatechange = readystatechange;
+    xhr.onload = loadFunc;
+    xhr.onerror = errorFunc;
+    xhr.onprogress = function () {
+    };
+    xhr.ontimeout = errorFunc;
+    xhr.open(method, uri, !sync, options.username, options.password);
+    if (!sync) {
+        xhr.withCredentials = !!options.withCredentials;
+    }
+    if (!sync && options.timeout > 0) {
+        timeoutTimer = setTimeout(function () {
+            aborted = true;
+            xhr.abort('timeout');
+            var e = new Error('XMLHttpRequest timeout');
+            e.code = 'ETIMEDOUT';
+            errorFunc(e);
+        }, options.timeout);
+    }
+    if (xhr.setRequestHeader) {
+        for (key in headers) {
+            if (headers.hasOwnProperty(key)) {
+                xhr.setRequestHeader(key, headers[key]);
+            }
+        }
+    } else if (options.headers && !isEmpty(options.headers)) {
+        throw new Error('Headers cannot be set on an XDomainRequest object');
+    }
+    if ('responseType' in options) {
+        xhr.responseType = options.responseType;
+    }
+    if ('beforeSend' in options && typeof options.beforeSend === 'function') {
+        options.beforeSend(xhr);
+    }
+    xhr.send(body);
+    return xhr;
+}
+function getXml(xhr) {
+    if (xhr.responseType === 'document') {
+        return xhr.responseXML;
+    }
+    var firefoxBugTakenEffect = xhr.status === 204 && xhr.responseXML && xhr.responseXML.documentElement.nodeName === 'parsererror';
+    if (xhr.responseType === '' && !firefoxBugTakenEffect) {
+        return xhr.responseXML;
+    }
+    return null;
+}
+function noop() {
+}
+},{"global/window":23,"is-function":28,"parse-headers":33,"xtend":40}],40:[function(require,module,exports){
 module.exports = extend;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function extend() {
@@ -2318,7 +2706,7 @@ function extend() {
     }
     return target;
 }
-},{}],34:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = extend;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function extend(target) {
@@ -2333,7 +2721,7 @@ function extend(target) {
     }
     return target;
 }
-},{}],35:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var bel = require('bel');
 var morphdom = require('morphdom');
 var defaultEvents = require('./update-events.js');
@@ -2369,7 +2757,7 @@ module.exports.update = function (fromNode, toNode, opts) {
         }
     }
 };
-},{"./update-events.js":36,"bel":7,"morphdom":26}],36:[function(require,module,exports){
+},{"./update-events.js":43,"bel":8,"morphdom":30}],43:[function(require,module,exports){
 module.exports = [
     'onclick',
     'ondblclick',
@@ -2404,35 +2792,37 @@ module.exports = [
     'onfocusin',
     'onfocusout'
 ];
-},{}],37:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 var _templateObject = _taggedTemplateLiteral([
         '\n<section class="page page--game">\n\t<h1 class="page-title">\n\t\t<span class="game-turn">',
         ' / ',
         '</span>\n\t</h1>\n\t<span class="game-undo button-outline" title="Undo" ',
         ' onclick=',
-        '>Undo</span>\n\n\t<div class="aim">\n\t\t<div class="aim-clutch aim-clutch--left ',
+        '>Undo</span>\n\n\t<div class="aim-container">\n\t\t<div class="aim-0" onclick=',
+        '></div>\n\t\t<div class="aim-clutch aim-clutch--left ',
         '" onclick=',
         '></div>\n\t\t<div class="aim-clutch aim-clutch--right ',
         '" onclick=',
-        '></div>\n\t\t<div class="aim-1" onclick=',
-        '></div>\n\t\t<div class="aim-2" onclick=',
-        '></div>\n\t\t<div class="aim-5" onclick=',
-        '></div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
+        '></div>\n\t\t<div class="aim">\n\t\t\t<div class="aim-1" onclick=',
+        '></div>\n\t\t\t<div class="aim-2" onclick=',
+        '></div>\n\t\t\t<div class="aim-5" onclick=',
+        '></div>\n\t\t</div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
         '\n\t</ul>\n</section>\n'
     ], [
         '\n<section class="page page--game">\n\t<h1 class="page-title">\n\t\t<span class="game-turn">',
         ' / ',
         '</span>\n\t</h1>\n\t<span class="game-undo button-outline" title="Undo" ',
         ' onclick=',
-        '>Undo</span>\n\n\t<div class="aim">\n\t\t<div class="aim-clutch aim-clutch--left ',
+        '>Undo</span>\n\n\t<div class="aim-container">\n\t\t<div class="aim-0" onclick=',
+        '></div>\n\t\t<div class="aim-clutch aim-clutch--left ',
         '" onclick=',
         '></div>\n\t\t<div class="aim-clutch aim-clutch--right ',
         '" onclick=',
-        '></div>\n\t\t<div class="aim-1" onclick=',
-        '></div>\n\t\t<div class="aim-2" onclick=',
-        '></div>\n\t\t<div class="aim-5" onclick=',
-        '></div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
+        '></div>\n\t\t<div class="aim">\n\t\t\t<div class="aim-1" onclick=',
+        '></div>\n\t\t\t<div class="aim-2" onclick=',
+        '></div>\n\t\t\t<div class="aim-5" onclick=',
+        '></div>\n\t\t</div>\n\t</div>\n\n\t<ul class="game-players">\n\t',
         '\n\t</ul>\n</section>\n'
     ]), _templateObject2 = _taggedTemplateLiteral([
         '\n\t\t<li class="game-player ',
@@ -2456,6 +2846,8 @@ var html = require('choo/html');
 module.exports = function (state, prev, send) {
     return html(_templateObject, state.game.turn, state.game.maxTurns, !state.game.prevState ? 'hidden' : '', function (e) {
         return send('game:undoTurn');
+    }, function (e) {
+        return send('game:hit', 0);
     }, state.game.isClutch ? 'aim-clutch--active' : '', function (e) {
         return state.game.isClutch ? send('game:clutch') : null;
     }, state.game.isClutch ? 'aim-clutch--active' : '', function (e) {
@@ -2473,47 +2865,54 @@ module.exports = function (state, prev, send) {
         }, 0) || 0);
     }
 };
-},{"choo/html":8}],38:[function(require,module,exports){
+},{"choo/html":9}],45:[function(require,module,exports){
 'use strict';
 var _templateObject = _taggedTemplateLiteral([
     '\n<section class="page page--main">\n\t<div class="main-content">\n\t<h1 class="page-title">',
-    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>Language</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
+    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>',
+    '</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
     ' id="lang-1" name="lang" onclick=',
     '/><label for="lang-1" class="switch-label">English</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="lang-2" name="lang" onclick=',
-    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">Number of players</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
+    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">',
+    '</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-1" name="players" onclick=',
     '/><label for="players-1" class="switch-label">1</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-2" name="players" onclick=',
     '/><label for="players-2" class="switch-label">2</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-3" name="players" onclick=',
     '/><label for="players-3" class="switch-label">3</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<a href="/players" class="button" onclick=',
-    '>Go!</a>\n\n\t</div<\n</section>\n'
+    '>',
+    '</a>\n\n\t</div<\n</section>\n'
 ], [
     '\n<section class="page page--main">\n\t<div class="main-content">\n\t<h1 class="page-title">',
-    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>Language</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
+    '</h1>\n\n\t<br>\n\t<br>\n\t<h2>',
+    '</h2>\n\t<div class="switch switch--lang">\n\t\t<input type="radio" class="switch-input" ',
     ' id="lang-1" name="lang" onclick=',
     '/><label for="lang-1" class="switch-label">English</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="lang-2" name="lang" onclick=',
-    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">Number of players</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
+    '/><label for="lang-2" class="switch-label">Français</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<h2 class="title">',
+    '</h2>\n\t<div class="switch switch--players">\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-1" name="players" onclick=',
     '/><label for="players-1" class="switch-label">1</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-2" name="players" onclick=',
     '/><label for="players-2" class="switch-label">2</label>\n\t\t<input type="radio" class="switch-input" ',
     ' id="players-3" name="players" onclick=',
     '/><label for="players-3" class="switch-label">3</label>\n\t</div>\n\n\t<br>\n\t<br>\n\n\t<a href="/players" class="button" onclick=',
-    '>Go!</a>\n\n\t</div<\n</section>\n'
+    '>',
+    '</a>\n\n\t</div<\n</section>\n'
 ]);
 function _taggedTemplateLiteral(strings, raw) {
     return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
 var html = require('choo/html');
+var t = require('../i18n');
 module.exports = function (state, prev, send) {
-    return html(_templateObject, state.title, state.language === 'en' ? 'checked' : '', function (e) {
+    return html(_templateObject, t('Rage Academy', state.lang), t('Language', state.lang), state.lang === 'en' ? 'checked' : '', function (e) {
         return send('setLanguage', 'en');
-    }, state.language === 'fr' ? 'checked' : '', function (e) {
+    }, state.lang === 'fr' ? 'checked' : '', function (e) {
         return send('setLanguage', 'fr');
-    }, state.users.length === 1 ? 'checked' : '', function (e) {
+    }, t('Number of players', state.lang), state.users.length === 1 ? 'checked' : '', function (e) {
         return send('setUsers', 1);
     }, state.users.length === 2 ? 'checked' : '', function (e) {
         return send('setUsers', 2);
@@ -2521,19 +2920,43 @@ module.exports = function (state, prev, send) {
         return send('setUsers', 3);
     }, function (e) {
         return send('initUsers');
-    });
+    }, t('Go!', state.lang));
 };
-},{"choo/html":8}],39:[function(require,module,exports){
+},{"../i18n":4,"choo/html":9}],46:[function(require,module,exports){
 'use strict';
 var _templateObject = _taggedTemplateLiteral([
-        '\n\t<section class="page page--players">\n\t\t<h1>Players</h1>\n\n\t\t<ul class="players-list">\n\t\t',
-        '\n\t\t</ul>\n\n\t\t<a class="button" href="/game" onclick=',
-        '>Start game!</a>\n\t</section>\n\t'
+        '\n\t<section class="page page--players">\n\t\t<h1>',
+        '</h1>\n\n\t\t<ul class="players-list">\n\t\t',
+        '\n\t\t</ul>\n\n\t\t<p>\n\t\t\t',
+        '<br>\n\t\t\t',
+        '\n\t\t</p>\n\n\t\t<a class="button" href="/game" onclick=',
+        '>',
+        '</a>\n\t\t<a class="button" href="/">',
+        '</a>\n\n\n\t\t<div class="popup-avatars popup" ',
+        '>\n\t\t\t',
+        '\n\t\t</div>\n\t</section>\n\t'
     ], [
-        '\n\t<section class="page page--players">\n\t\t<h1>Players</h1>\n\n\t\t<ul class="players-list">\n\t\t',
-        '\n\t\t</ul>\n\n\t\t<a class="button" href="/game" onclick=',
-        '>Start game!</a>\n\t</section>\n\t'
+        '\n\t<section class="page page--players">\n\t\t<h1>',
+        '</h1>\n\n\t\t<ul class="players-list">\n\t\t',
+        '\n\t\t</ul>\n\n\t\t<p>\n\t\t\t',
+        '<br>\n\t\t\t',
+        '\n\t\t</p>\n\n\t\t<a class="button" href="/game" onclick=',
+        '>',
+        '</a>\n\t\t<a class="button" href="/">',
+        '</a>\n\n\n\t\t<div class="popup-avatars popup" ',
+        '>\n\t\t\t',
+        '\n\t\t</div>\n\t</section>\n\t'
     ]), _templateObject2 = _taggedTemplateLiteral([
+        '\n\t\t\t<div class="popup-item avatar" onclick=',
+        '><img class="avatar-image" src="',
+        '/images/',
+        '"/></div>\n\t\t'
+    ], [
+        '\n\t\t\t<div class="popup-item avatar" onclick=',
+        '><img class="avatar-image" src="',
+        '/images/',
+        '"/></div>\n\t\t'
+    ]), _templateObject3 = _taggedTemplateLiteral([
         '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
         '><img class="avatar-image" src="',
         '/images/',
@@ -2541,6 +2964,7 @@ var _templateObject = _taggedTemplateLiteral([
         '" oninput=',
         '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
         '" oninput=',
+        ' onblur=',
         '/>\n\t\t\t</div>\n\t\t</li>\n\t\t'
     ], [
         '\n\t\t<li class="player">\n\t\t\t<div class="player-avatar avatar" onclick=',
@@ -2550,6 +2974,7 @@ var _templateObject = _taggedTemplateLiteral([
         '" oninput=',
         '/>\n\t\t\t\t<input class="text-input player-email" placeholder="Email" type="email" value="',
         '" oninput=',
+        ' onblur=',
         '/>\n\t\t\t</div>\n\t\t</li>\n\t\t'
     ]);
 function _taggedTemplateLiteral(strings, raw) {
@@ -2557,12 +2982,18 @@ function _taggedTemplateLiteral(strings, raw) {
 }
 var html = require('choo/html');
 var avatars = require('../avatars');
+var t = require('../i18n');
 module.exports = function (state, prev, send) {
-    return html(_templateObject, state.users.map(playerItem), function (e) {
+    return html(_templateObject, t('Players', state.lang), state.users.map(playerItem), t('Enter unique user name and email to create a profile at rage.'), t('After your session you will get an email with your score and improvements.'), function (e) {
         return send('game:create', state.users);
-    });
-    function playerItem(player) {
+    }, t('Start game!', state.lang), t('Back', state.lang), state.selectAvatar ? '' : 'hidden', state.avatars.map(avatarItem));
+    function avatarItem(avatar) {
         return html(_templateObject2, function (e) {
+            return send('setAvatar', avatar);
+        }, state.baseUrl, avatar);
+    }
+    function playerItem(player) {
+        return html(_templateObject3, function (e) {
             return send('randomizeAvatar', player);
         }, state.baseUrl, player.avatar, player.name, function (e) {
             return send('updateUser', {
@@ -2574,21 +3005,39 @@ module.exports = function (state, prev, send) {
                 player: player,
                 data: { email: e.target.value }
             });
+        }, function (e) {
+            return send('saveUser', player);
         });
     }
 };
-},{"../avatars":2,"choo/html":8}],40:[function(require,module,exports){
+},{"../avatars":2,"../i18n":4,"choo/html":9}],47:[function(require,module,exports){
 'use strict';
 var _templateObject = _taggedTemplateLiteral([
-        '\n<section class="page page--stats">\n\t<h1 class="page-title">Results</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th></th><th>Score</th><th>Clutches</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
-        '\n\t\t</tbody>\n\t</table>\n\n\t<div class="button stats-save" onclick=',
-        '>Save results</div>\n\t<a href="/players" class="button stats-again" onclick=',
-        '>New game</div>\n\t<a href="/" class="button stats-again">Exit</div>\n</section>\n'
+        '\n<section class="page page--stats">\n\t<h1 class="page-title">',
+        '</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th>',
+        '</th><th>',
+        '</th><th>',
+        '</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
+        '\n\t\t</tbody>\n\t</table>\n\n\t<button class="button stats-save" ',
+        ' onclick=',
+        '>',
+        '</button>\n\t<a href="/players" class="button stats-again" onclick=',
+        '>',
+        '</div>\n\t<a href="/" class="button stats-again">',
+        '</div>\n</section>\n'
     ], [
-        '\n<section class="page page--stats">\n\t<h1 class="page-title">Results</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th></th><th>Score</th><th>Clutches</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
-        '\n\t\t</tbody>\n\t</table>\n\n\t<div class="button stats-save" onclick=',
-        '>Save results</div>\n\t<a href="/players" class="button stats-again" onclick=',
-        '>New game</div>\n\t<a href="/" class="button stats-again">Exit</div>\n</section>\n'
+        '\n<section class="page page--stats">\n\t<h1 class="page-title">',
+        '</h1>\n\n\t<table class="stats-table">\n\t\t<thead>\n\t\t\t<tr><th>',
+        '</th><th>',
+        '</th><th>',
+        '</th></tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t',
+        '\n\t\t</tbody>\n\t</table>\n\n\t<button class="button stats-save" ',
+        ' onclick=',
+        '>',
+        '</button>\n\t<a href="/players" class="button stats-again" onclick=',
+        '>',
+        '</div>\n\t<a href="/" class="button stats-again">',
+        '</div>\n</section>\n'
     ]), _templateObject2 = _taggedTemplateLiteral([
         '\n\t<tr>\n\t\t<td>',
         '</td>\n\t\t<td>',
@@ -2604,18 +3053,19 @@ function _taggedTemplateLiteral(strings, raw) {
     return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
 var html = require('choo/html');
+var t = require('../i18n');
 module.exports = function (state, prev, send) {
-    return html(_templateObject, state.game.players.map(playerStats), function (e) {
+    return html(_templateObject, t('Results', state.lang), t('Player', state.lang), t('Score', state.lang), t('Clutches', state.lang), state.game.players.map(playerStats), state.game.saved ? 'disabled' : '', function (e) {
         return send('game:save', state);
-    }, function (e) {
+    }, t(state.game.saved ? 'Saved' : 'Save', state.lang), function (e) {
         return send('game:create', state.users);
-    });
+    }, t('New game', state.lang), t('Exit', state.lang));
 };
 function playerStats(player) {
     return html(_templateObject2, player.user.name, player.score.reduce(function (c, p) {
         return c + p;
     }, 0), player.clutches);
 }
-},{"choo/html":8}]},{},[4]);
+},{"../i18n":4,"choo/html":9}]},{},[5]);
 </script>
 </html>
