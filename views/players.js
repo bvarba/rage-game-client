@@ -19,8 +19,8 @@ module.exports = (state, prev, send) => {
 			${t('After your session you will get an email with your score and improvements.')}
 		</p>
 
+		<a class="button" href="/">${ t('Exit', state.lang)}</a>
 		<a class="button" href="/game" onclick=${e => send('game:create', state.users)}>${ t('Start game!', state.lang)}</a>
-		<a class="button" href="/">${ t('Back', state.lang)}</a>
 
 
 		<div class="popup-avatars popup" ${state.selectAvatar ? '' : 'hidden' }>

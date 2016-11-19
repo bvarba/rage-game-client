@@ -72,10 +72,18 @@ app.model({
 			if (!Array.isArray(users)) {
 				users = [users];
 			};
-			users.forEach(user => {
-				send('game:addPlayer', user, () => {});
+			let players = users.map(user => {
+				return {
+					id: user.id,
+					user: user,
+					score: [],
+					clutches: 0
+				};
 			});
-			send('game:update', {ts: Math.floor(Date.now()/1000)}, () => {done()});
+			send('game:update', {
+				ts: Math.floor(Date.now()/1000),
+				players: players
+			}, () => {done()});
 
 		},
 		//send stats to server
@@ -149,7 +157,6 @@ app.model({
 			return state.prevState;
 		},
 		clear: (_, state) => {
-			state.players.length = 0;
 			state.turn = 1;
 			state.currentPlayerId = 0;
 			state.isClutch = false;
@@ -162,15 +169,6 @@ app.model({
 		},
 		update: (obj, state) => {
 			return extend(state, obj);
-		},
-		addPlayer: (user, state) => {
-			state.players.push({
-				id: state.players.length,
-				user: user,
-				score: [],
-				clutches: 0
-			});
-			return state;
 		}
 	}
 })
@@ -180,7 +178,7 @@ app.model({
 app.model({
 	state: {
 		type: config.games[0].type,
-		lang: 'fr',
+		lang: config.language,
 		users: Array(3),
 		// baseUrl: 'https://amazemontreal.github.io/rage-game-client'
 		baseUrl: config.url,

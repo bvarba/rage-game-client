@@ -2,7 +2,7 @@
 
 
 const html = require('choo/html')
-
+const t = require('../i18n')
 
 module.exports = (state, prev, send) => {
 	return html`
@@ -10,7 +10,8 @@ module.exports = (state, prev, send) => {
 	<h1 class="page-title">
 		<span class="game-turn">${state.game.turn} / ${state.game.maxTurns}</span>
 	</h1>
-	<span class="game-undo button-outline" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>Undo</span>
+	<span class="game-undo button-outline" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>${t('Undo', state.lang)}</span>
+	<a class="button" href="/">${ t('Exit', state.lang)}</a>
 
 	<div class="aim-container">
 		<div class="aim-0" onclick=${e => send('game:hit', 0)}></div>
