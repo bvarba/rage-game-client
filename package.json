@@ -32,6 +32,7 @@
     "enable-mobile": "^1.0.6",
     "insert-styles": "^1.2.1",
     "just-extend": "^1.1.22",
+    "screenfull": "^3.0.2",
     "sheet-router": "^4.1.1"
   },
   "devDependencies": {

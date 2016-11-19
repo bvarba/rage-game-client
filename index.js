@@ -9,6 +9,7 @@ const config = require('./config')
 const fs = require('fs')
 const clone = require('deep-copy')
 const http = require('choo/http')
+const fullscreen = require('screenfull')
 
 
 insertCSS(fs.readFileSync(__dirname + '/index.css', 'utf-8'));
@@ -216,6 +217,15 @@ app.model({
 			})
 		},
 
+		//go fullscreen
+		fullscreen: () => {
+			if (fullscreen.enabled) {
+				fullscreen.request();
+			} else {
+				// Ignore or do something else
+			}
+		}
+
 		//check whether user/email combination is allowable
 		// validateUser: (user, state, send, done) => {
 
@@ -264,8 +274,6 @@ app.model({
 
 
 
-
-
 app.router(route => [
 	route('/', require('./views/main')),
 	route('players', require('./views/players')),
@@ -273,9 +281,13 @@ app.router(route => [
 	route('stats', require('./views/stats'))
 ])
 
+
+
+
+
+//init app
 const tree = app.start();
 
 document.body.classList.add('game');
 document.body.appendChild(tree);
-
 

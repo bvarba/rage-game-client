@@ -30,7 +30,9 @@ module.exports = (state, prev, send) => html`
 	<br>
 	<br>
 
-	<a href="/players" class="button" onclick=${e => send('initUsers')}>${ t('Go!', state.lang)}</a>
+	<a href="/players" class="button" onclick=${e => {
+		send('initUsers'), send('fullscreen')
+	}}>${ t('Go!', state.lang)}</a>
 
 	</div<
 </section>
