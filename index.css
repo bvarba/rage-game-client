@@ -91,6 +91,45 @@
   src: url('fonts/Roboto-Thin.ttf')  format('truetype');
 }
 
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url('fonts/MaterialIcons-Regular.woff2') format('woff2'),
+       url('fonts/MaterialIcons-Regular.woff') format('woff'),
+       url('fonts/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+
 [hidden] {
 	display: none!important;
 }
@@ -117,6 +156,22 @@
 
 .page-title {
 	margin: 0;
+}
+
+.page-footer {
+	position: absolute;
+	bottom: 2rem;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+
+.page-main {
+    position: absolute;
+    width: 100vw;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    left: 50%;
 }
 
 h1 {
@@ -293,6 +348,7 @@ p {
 	display: inline-block;
 	vertical-align: top;
 	width: 15rem;
+	position: relative;
 }
 .player-name {
 	border-bottom-left-radius: 0;
@@ -303,6 +359,17 @@ p {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+.player-status {
+    position: absolute;
+    top: .5rem;
+    right: .25rem;
+}
+.player-status-error {
+    color: rgb(218, 93, 63);
+}
+.player-status-success {
+    color: rgb(130, 226, 130);
+}
 
 .avatars-popup {
 
@@ -312,17 +379,17 @@ p {
 
 /* game page custom styles */
 .aim-container {
-	position: absolute;
+	position: relative;
 	margin:	auto;
 	font-family: Roboto;
 	width: 100vmin;
 	height: 100vmin;
-	max-width: 400px;
-	max-height: 400px;
-	top: -2rem;
-	left: 0;
-	bottom: 0;
-	right: 0;
+	max-width: 460px;
+	max-height: 460px;
+	/*top: -2rem;*/
+	/*left: 0;*/
+	/*bottom: 0;*/
+	/*right: 0;*/
 }
 .aim {
 	position: absolute;
@@ -500,12 +567,12 @@ p {
 	transition: 2s ease-in background;
 	/*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
 }
-.aim-clutch:active {
-	transition: 0s ease-in background;
-	background: yellow;
-}
 .aim-clutch--active {
 	opacity: 1;
+}
+.aim-clutch--active:active {
+	transition: 0s ease-in background;
+	background: yellow;
 }
 .aim-clutch:after {
 	content: '7';
@@ -535,17 +602,17 @@ p {
 	font-family: Roboto;
 }
 .game-undo {
-	margin-top: 1rem;
+	/*margin-top: 1rem;
 	font-weight: 200;
 	font-size: 1.2rem;
 	vertical-align: middle;
 	line-height: 2rem;
 	height: 2rem;
-	cursor: pointer;
+	cursor: pointer;*/
 }
 .game-players {
 	position: absolute;
-	bottom: 0rem;
+	top: -9rem;
 	left: 0;
 	right: 0;
 	list-style: none;
@@ -581,6 +648,6 @@ p {
 /* stats page */
 .stats-table {
 	width: 100%;
-    margin: 4rem auto;
+	min-width: 80vmin;
     max-width: 30rem;
 }

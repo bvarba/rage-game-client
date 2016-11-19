@@ -8,24 +8,34 @@ const t = require('../i18n')
 module.exports = (state, prev, send) => {
 	return html`
 	<section class="page page--players">
-		<h1>${ t('Players', state.lang)}</h1>
+		<h1 class="page-title">${ t('Players', state.lang)}</h1>
 
-		<ul class="players-list">
-		${ state.users.map(playerItem) }
-		</ul>
+		<main class="page-main">
+			<ul class="players-list">
+			${ state.users.map(playerItem) }
+			</ul>
 
-		<p>
-			${t('Enter unique user name and email to create a profile at rage.')}<br>
-			${t('After your session you will get an email with your score and improvements.')}
-		</p>
+			<p>
+				${t('Enter unique user name and email to create a profile at rage.')}<br>
+				${t('After your session you will get an email with your score and improvements.')}
+			</p>
 
-		<a class="button" href="/">${ t('Exit', state.lang)}</a>
-		<a class="button" href="/game" onclick=${e => send('game:create', state.users)}>${ t('Start game!', state.lang)}</a>
+			<div class="popup-avatars popup" ${state.selectAvatar ? '' : 'hidden' }>
+				${ state.avatars.map(avatarItem) }
+			</div>
+		</main>
 
-
-		<div class="popup-avatars popup" ${state.selectAvatar ? '' : 'hidden' }>
-			${ state.avatars.map(avatarItem) }
-		</div>
+		<footer class="page-footer">
+			<a class="button" href="/">${ t('Exit', state.lang)}</a>
+			<button class="button" ${ state.users.every(user => user.signedIn) ? '' : 'disabled'} onclick=${e => {
+				if (state.users.every(user => user.signedIn)) {
+					send('game:create', state.users)
+					send('location:setLocation', { location: '/game' })
+				} else {
+					e.preventDefault()
+				}
+			}}>${ t('Start game!', state.lang)}</button>
+		</footer>
 	</section>
 	`;
 
@@ -35,14 +45,28 @@ module.exports = (state, prev, send) => {
 		`;
 	}
 
-	function playerItem (player) {
+	function playerItem (user) {
 		return html`
 		<li class="player">
-			<div class="player-avatar avatar" onclick=${e => send('randomizeAvatar', player)}><img class="avatar-image" src="${state.baseUrl}/images/${player.avatar}"/></div>
+			<div class="player-avatar avatar" onclick=${e => {
+				send('randomizeAvatar', user)
+				send('saveUser', user)
+			}}><img class="avatar-image" src="${state.baseUrl}/images/${user.avatar}"/></div>
 			<div class="player-credentials">
-				<input class="text-input player-name" placeholder="Name" type="text" value="${player.name}" oninput=${e => send('updateUser', {player:player, data: {name: e.target.value} })}/>
-				<input class="text-input player-email" placeholder="Email" type="email" value="${player.email}" oninput=${e => send('updateUser', {player:player, data: {email: e.target.value} })} onblur=${e => send('saveUser', player)}/>
+				<input class="text-input player-name" placeholder="Name" type="text" value="${user.name}" oninput=${e => send('updateUser', {player:user, data: {name: e.target.value} })} onblur=${e => {
+					setTimeout(() => {
+						if (document.activeElement !== e.target.parentNode.querySelector('.player-email')) {
+							send('saveUser', user)
+						}
+					}, 5)
+				}}/>
+				<input class="text-input player-email" placeholder="Email" type="email" value="${user.email}" oninput=${e => send('updateUser', {player:user, data: {email: e.target.value} })} onblur=${e => send('saveUser', user)}/>
+				<div class="player-status">
+					<i ${ user.error ? '' : 'hidden'} class="material-icons player-status-error">highlight_off</i>
+					<i ${ user.signedIn ? '' : 'hidden'} class="material-icons player-status-success">done</i>
+				</div>
 			</div>
+			<div class="player-message"></div>
 		</li>
 		`;
 	}

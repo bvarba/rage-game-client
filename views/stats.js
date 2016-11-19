@@ -8,18 +8,22 @@ module.exports = (state, prev, send) => html`
 <section class="page page--stats">
 	<h1 class="page-title">${t('Results', state.lang)}</h1>
 
-	<table class="stats-table">
-		<thead>
-			<tr><th>${t('Player', state.lang)}</th><th>${t('Score', state.lang)}</th><th>${t('Clutches', state.lang)}</th></tr>
-		</thead>
-		<tbody>
-			${state.game.players.map(playerStats)}
-		</tbody>
-	</table>
+	<main class="page-main">
+		<table class="stats-table">
+			<thead>
+				<tr><th>${t('Player', state.lang)}</th><th>${t('Score', state.lang)}</th><th>${t('Clutches', state.lang)}</th></tr>
+			</thead>
+			<tbody>
+				${state.game.players.map(playerStats)}
+			</tbody>
+		</table>
+	</main>
 
-	<a href="/" class="button">${t('Exit', state.lang)}</div>
-	<a href="/game" class="button stats-again" onclick=${e => send('game:create', state.users)}>${t('New game', state.lang)}</div>
-	<button class="button stats-save" ${state.game.saved ? 'disabled' : ''} onclick=${e => send('game:save', state)}>${t(state.game.saved ? 'Saved' : 'Save', state.lang)}</button>
+	<footer class="page-footer">
+		<a href="/" class="button">${t('Exit', state.lang)}</div>
+		<a href="/game" class="button stats-again" onclick=${e => send('game:create', state.users)}>${t('New game', state.lang)}</div>
+		<button class="button stats-save" ${state.game.saved ? 'disabled' : ''} onclick=${e => send('game:save', state)}>${t(state.game.saved ? 'Saved' : 'Save', state.lang)}</button>
+	</footer>
 </section>
 `;
 

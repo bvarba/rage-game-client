@@ -203,15 +203,23 @@ app.model({
 					"avatar": config.avatars.indexOf(user.avatar)
 				})
 			}, (err, res, body) => {
-				if (err) {
-					alert('Whoa, some error happened, please show that to administrator');
+				let obj = JSON.parse(body);
+				if (err || res.statusCode.toString()[0] == '4') {
+					if (!err) err = new Error(obj.message);
+					// alert('Whoa, some error happened, please show that to administrator');
 					console.error(err);
-					return done();
+					user.signedIn = false;
+					user.error = err.message;
+					send('update', null, done);
+					return;
 				}
 
-				console.log('Saved as', res)
+				console.log('Saved', res, obj)
+				user.signedIn = true;
+				user.error = null;
+				user.avatar = config.avatars[obj.avatar]
 
-				done();
+				send('update', null, done);
 			})
 		},
 
@@ -249,7 +257,9 @@ app.model({
 					id: i,
 					name: '',
 					email: '',
-					avatar: config.avatars[Math.floor(Math.random() * config.avatars.length)]
+					avatar: config.avatars[Math.floor(Math.random() * config.avatars.length)],
+					signedIn: false,
+					error: false
 				}
 			}
 
@@ -266,6 +276,9 @@ app.model({
 			state.users[player.id] = player;
 
 			return state;
+		},
+		update: (_, state) => {
+			return state
 		}
 	}
 })
