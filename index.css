@@ -186,7 +186,6 @@ h2 {
 	text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 p {
-	padding: 1.5rem 1rem;
 }
 
 * {
@@ -246,7 +245,7 @@ p {
 	min-height: 2rem;
 	line-height: 2rem;
 	color: #393F44;
-	min-width: 8rem;
+	min-width: 5rem;
 	display: inline-block;
 	border-radius: 2rem;
 	text-transform: uppercase;
@@ -368,7 +367,13 @@ p {
     color: rgb(218, 93, 63);
 }
 .player-status-success {
-    color: rgb(130, 226, 130);
+    color: rgb(139, 195, 74);
+}
+.player-message {
+    margin: .75rem 0 1.5rem;
+    color: rgb(255, 235, 59);
+    text-align: left;
+    padding: 0 1.5rem;
 }
 
 .avatars-popup {

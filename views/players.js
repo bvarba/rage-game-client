@@ -16,7 +16,9 @@ module.exports = (state, prev, send) => {
 			</ul>
 
 			<p>
-				${t('Enter unique user name and email to create a profile at rage.')}<br>
+				${t('Enter unique user name and email to create a profile at rage.')}
+			</p>
+			<p>
 				${t('After your session you will get an email with your score and improvements.')}
 			</p>
 
@@ -66,7 +68,7 @@ module.exports = (state, prev, send) => {
 					<i ${ user.signedIn ? '' : 'hidden'} class="material-icons player-status-success">done</i>
 				</div>
 			</div>
-			<div class="player-message"></div>
+			<div class="player-message">${user.error || ''}</div>
 		</li>
 		`;
 	}
