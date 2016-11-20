@@ -20,5 +20,19 @@ iframe + iframe {
 }
 </style>
 
-<iframe src="http://127.0.0.1:9966"></iframe>
-<iframe src="http://127.0.0.1:9967"></iframe>
+<iframe src="./index.html"></iframe>
+<iframe src="./index.html"></iframe>
+
+
+<button id="fullscreen">Fullscreen</button>
+
+<script type="text/javascript">
+var fsBtn = document.querySelector('#fullscreen');
+fsBtn.style.zIndex = 1;
+fsBtn.style.position = 'absolute';
+fsBtn.addEventListener('click', function () {
+	var fs = document.body.requestFullscreen || document.body.webkitRequestFullscreen;
+	fs.call(document.body);
+	fsBtn.style.display = 'none';
+})
+</script>

@@ -210,11 +210,12 @@ p {
 }
 .switch-label {
 	cursor: pointer;
-	min-height: 2rem;
-	padding: 0 1rem;
+	min-height: 3.2rem;
+	padding: 0 1.4rem;
 	margin: 0 2px 2px 0;
-	line-height: 2.4rem;
-	height: 2.4rem;
+	line-height: 3.2rem;
+	height: 3.2rem;
+	font-size: 1.4rem;
 	color: white;
 	display: inline-block;
 	border-radius: 2rem;
