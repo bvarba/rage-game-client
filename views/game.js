@@ -13,7 +13,7 @@ module.exports = (state, prev, send) => {
 	<main class="page-main">
 		<ul class="game-players">
 		${state.game.players.map(playerSpot)}
-		<span class="game-turn">${state.game.turn} / ${state.game.maxTurns}</span>
+		<span class="game-turn">${t('Turn', state.lang)}<br>${state.game.turn} / ${state.game.maxTurns}</span>
 		</ul>
 
 		<div class="aim-container">
@@ -29,8 +29,12 @@ module.exports = (state, prev, send) => {
 	</main>
 
 	<footer class="page-footer">
-		<span class="game-undo button-outline" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>${t('Undo', state.lang)}</span>
-		<a class="button" href="/">${ t('Exit', state.lang)}</a>
+		<span class="game-undo button" title="Undo" ${!state.game.prevState ? 'hidden' : ''} onclick=${(e) => send('game:undoTurn')}>${t('Undo', state.lang)}</span>
+		<button class="button" onclick=${e => {
+			if (window.confirm( t('Sure?', state.lang) )) {
+				send('location:setLocation', {location: '/'});
+			}
+		}}>${ t('Exit', state.lang)}</button>
 	</footer>
 </section>
 
@@ -39,8 +43,8 @@ module.exports = (state, prev, send) => {
 	function playerSpot (player) {
 		return html`
 		<li class="game-player ${state.game.currentPlayerId === player.id ? 'game-player--active' : ''}">
-			<img class="game-player-image" src="${state.baseUrl}/images/${player.user.avatar}"/>
-			<h4 class="game-player-name">${player.user.name}</h4>
+			<img class="game-player-image" src="${state.baseUrl}/images/${state.users[player.id].avatar}"/>
+			<h4 class="game-player-name">${state.users[player.id].name}</h4>
 			<span class="game-player-score">${player.score.reduce((c,p) => c+p, 0) || 0}</span>
 		</li>
 		`

@@ -37,10 +37,15 @@ app.model({
 	subscriptions: [
 		(send, done) => {
 			//fake init players
-			send('game:create', [
-				{name: 'Alex', avatar: config.avatars[0]},
-				{name: 'Yummi', avatar: config.avatars[1]}
-			], done);
+			// send('setUsers', 1, () => {})
+			// send('initUsers', null, () => {})
+			// let players = [
+			// 	{name: 'a', email: 'a', avatar: config.avatars[0]},
+			// 	// {name: 'b', email: 'b', avatar: config.avatars[1]},
+			// 	// {name: 'c', email: 'c', avatar: config.avatars[2]}
+			// ];
+			// // send('updateUser', {player: players[0], data: players[0]}, done)
+			// send('game:create', players, done);
 		}
 	],
 	effects: {
@@ -59,6 +64,10 @@ app.model({
 			send('game:nextTurn', data, (_, state) => {
 				if (state.game.turn > state.game.maxTurns) {
 					//end game
+
+					//upd stats for users
+					send('loadStats', null, done)
+
 					send('location:setLocation', {location: 'stats'}, done);
 				}
 				else {
@@ -75,7 +84,7 @@ app.model({
 			let players = users.map(user => {
 				return {
 					id: user.id,
-					user: user,
+					username: user.name,
 					score: [],
 					clutches: 0
 				};
@@ -102,7 +111,7 @@ app.model({
 					"ts": data.game.ts,
 					"scores": data.game.players.map(player => {
 						return {
-							username: player.user.name,
+							username: player.username,
 							score: player.score.reduce((prev, curr) => prev + curr, 0),
 							clutches: player.clutches
 						}
@@ -112,6 +121,7 @@ app.model({
 				if (err) return alert('Whoa, some error happened, please show that to administrator');
 				console.log('Saved as', body)
 
+				send('loadStats', null, () => {})
 				send('game:update', {saved: true}, () => {
 					done()
 				});
@@ -190,6 +200,9 @@ app.model({
 	effects: {
 		//save user to server
 		saveUser: (user, state, send, done) => {
+			// if (state.users.)
+			//FIXME: check that all name/email pairs are unique here
+
 			http({
 				url: config.url + '/api/users',
 				method: 'POST',
@@ -214,7 +227,7 @@ app.model({
 					return;
 				}
 
-				console.log('Saved', res, obj)
+				console.log('User saved as', obj)
 				user.signedIn = true;
 				user.error = null;
 				user.avatar = config.avatars[obj.avatar]
@@ -230,7 +243,44 @@ app.model({
 			} else {
 				// Ignore or do something else
 			}
+		},
+
+		//load stats for users
+		loadStats: (_, state, send, data) => {
+			state.users.forEach( user => {
+				http({
+					url: config.url + '/api/stats',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*'
+					},
+					body: JSON.stringify({
+						"username": user.name,
+						"email": user.email
+					})
+				}, (err, res, body) => {
+					if (err) {
+						console.error(err)
+					}
+					let stats = JSON.parse(body);
+
+					if (stats.message) {
+						console.error(stats.message);
+						return;
+					}
+					// console.log('upd', user.id, stats)
+					send('updateUser', {
+						id: user.id,
+						numGames: stats.num_games,
+						totalScore: stats.total_points,
+						averageScore: stats.avg_points,
+						bestScore: stats.best_score
+					}, () => {})
+				})
+			})
 		}
+
 
 		//check whether user/email combination is allowable
 		// validateUser: (user, state, send, done) => {
@@ -247,7 +297,7 @@ app.model({
 			return state;
 		},
 		updateUser: (data, state) => {
-			extend(state.users[data.player.id], data.data)
+			extend(state.users[data.id], data)
 			return state;
 		},
 		//create empty users list

@@ -278,6 +278,10 @@ p {
 	color: white;
 	box-shadow: 0 0 0 2px white;
 }
+.number {
+	font-family: Roboto;
+}
+
 
 .text-input {
 	-webkit-appearance: none;
@@ -605,6 +609,8 @@ p {
 
 .game-turn {
 	font-family: Roboto;
+	display: inline-block;
+	text-align: left;
 }
 .game-undo {
 	/*margin-top: 1rem;
@@ -651,8 +657,38 @@ p {
 
 
 /* stats page */
-.stats-table {
-	width: 100%;
-	min-width: 80vmin;
-    max-width: 30rem;
+.page--stats .page-main {
+	left: 0;
+	top: 0;
+	margin-top: 2rem;
+	transform: initial;
+	position: relative;
+}
+
+.player-stats {
+	text-align: left;
+	padding: 0 1.5rem;
+}
+
+.player-stats .player-image {
+	width: 5rem;
+	height: 5rem;
+	margin-right: 1rem;
+	float: left;
+}
+
+.player-clutches {
+	margin-left: 1rem;
+}
+
+.player-scores {
+	list-style: none;
+	column-count: 2;
+	padding: 0;
+	overflow: hidden;
+	margin-top: .66rem;
+}
+
+.player-scores li {
+	margin-bottom: .33rem;
 }

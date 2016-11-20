@@ -55,14 +55,14 @@ module.exports = (state, prev, send) => {
 				send('saveUser', user)
 			}}><img class="avatar-image" src="${state.baseUrl}/images/${user.avatar}"/></div>
 			<div class="player-credentials">
-				<input class="text-input player-name" placeholder="Name" type="text" value="${user.name}" oninput=${e => send('updateUser', {player:user, data: {name: e.target.value} })} onblur=${e => {
+				<input class="text-input player-name" placeholder="Name" type="text" value="${user.name}" oninput=${e => send('updateUser', {id: user.id, name: e.target.value })} onblur=${e => {
 					setTimeout(() => {
 						if (document.activeElement !== e.target.parentNode.querySelector('.player-email')) {
 							send('saveUser', user)
 						}
 					}, 5)
 				}}/>
-				<input class="text-input player-email" placeholder="Email" type="email" value="${user.email}" oninput=${e => send('updateUser', {player:user, data: {email: e.target.value} })} onblur=${e => send('saveUser', user)}/>
+				<input class="text-input player-email" placeholder="Email" type="email" value="${user.email}" oninput=${e => send('updateUser', {id: user.id, email: e.target.value })} onblur=${e => send('saveUser', user)}/>
 				<div class="player-status">
 					<i ${ user.error ? '' : 'hidden'} class="material-icons player-status-error">highlight_off</i>
 					<i ${ user.signedIn ? '' : 'hidden'} class="material-icons player-status-success">done</i>
