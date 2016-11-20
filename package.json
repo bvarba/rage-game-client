@@ -4,7 +4,7 @@
   "description": "Games for rage academy",
   "main": "index.js",
   "scripts": {
-    "test": "budo index.js",
+    "test": "budo index.js -- -g es2020 -g bubleify",
     "build": "browserify index.js -g es2020 -g bubleify -g unassertify | indexhtmlify | metadataify > demo/index.html"
   },
   "browserify": {
